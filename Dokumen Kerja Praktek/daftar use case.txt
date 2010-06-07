@@ -1,0 +1,17 @@
+List Use Case KPTEL-NMS
+# 1
+a) login
+b) menambah group
+c) mengedit group(termasuk move)
+d) menghapus group
+
+# 2
+e) menampilkan daftar device bermasalah
+f) menambah device
+g) mengedit device
+h) menghapus device
+
+# 3 
+i) manajemen zoom peta(zoom level 1 dan zoom level 2)
+j) menampilkan info dari suatu device(baik info per bagian, ataupun info details)
+k) menampilkan list group/device dengan format tree directory
