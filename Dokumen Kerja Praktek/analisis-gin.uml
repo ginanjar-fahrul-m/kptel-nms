@@ -2054,8 +2054,9 @@
 <XPD:REF name="Associations[4]">XBheNMOfU0GqngwZDG/N1QAA</XPD:REF>
 <XPD:REF name="Associations[5]">2XIqJhBWikqCxy706IVPHQAA</XPD:REF>
 <XPD:REF name="Associations[6]">cWYSSZUGeUqe+7qCQ5Do3AAA</XPD:REF>
-<XPD:ATTR name="#Instances" type="integer">1</XPD:ATTR>
+<XPD:ATTR name="#Instances" type="integer">2</XPD:ATTR>
 <XPD:REF name="Instances[0]">/UHgj7HMdEimNNJ3wqEQ9QAA</XPD:REF>
+<XPD:REF name="Instances[1]">+dLaMQgD20eTShS4sbY8qwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[6]" type="UMLActor" guid="cVaXn0V5p0i09iViOrUcpgAA">
 <XPD:ATTR name="Name" type="string">Admin</XPD:ATTR>
@@ -3559,8 +3560,9 @@
 <XPD:ATTR name="Name" type="string">Waktu</XPD:ATTR>
 <XPD:REF name="Owner">h1R9mHOE8kaoDgAXY+nFhQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:ATTR name="#Instances" type="integer">1</XPD:ATTR>
+<XPD:ATTR name="#Instances" type="integer">2</XPD:ATTR>
 <XPD:REF name="Instances[0]">30fJUFLTv0uv6kCYfu8XyQAA</XPD:REF>
+<XPD:REF name="Instances[1]">58cA9ecXzUuW5jabiwcAWQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[3]" type="UMLClass" guid="Mk7cMY6C7k2N6Rgj44gFOQAA">
 <XPD:ATTR name="Name" type="string">Notifikasi</XPD:ATTR>
@@ -3676,6 +3678,8 @@
 <XPD:ATTR name="TypeExpression" type="string">button</XPD:ATTR>
 <XPD:REF name="Owner">ukK1e86cOkKxqdBDnvWD3AAA</XPD:REF>
 </XPD:OBJ>
+<XPD:ATTR name="#Instances" type="integer">1</XPD:ATTR>
+<XPD:REF name="Instances[0]">l2UObalufk27iQOeFtLjBQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[8]" type="UMLClass" guid="mu5txyq63Uirz90lF+ozOAAA">
 <XPD:ATTR name="Name" type="string">Edit Device</XPD:ATTR>
@@ -4436,8 +4440,118 @@ Skenario Alternatif:
 <XPD:REF name="DiagramOwner">j2FvkwI+eUOgLdi5s0vcxwAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLSequenceDiagramView" guid="neeiPA4fzUmFY5uMF05DgQAA">
 <XPD:REF name="Diagram">ajaohnvlnkWBwNPF4L4OMQAA</XPD:REF>
+<XPD:ATTR name="#OwnedViews" type="integer">4</XPD:ATTR>
+<XPD:OBJ name="OwnedViews[0]" type="UMLSeqObjectView" guid="YAV1WzQ19EKu4bq2Z10P6wAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">344</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">28</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">70</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">350</XPD:ATTR>
+<XPD:REF name="Model">+dLaMQgD20eTShS4sbY8qwAA</XPD:REF>
+<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="D2tsZ1k92UqLRN31x33QIAAA">
+<XPD:OBJ name="NameLabel" type="LabelView" guid="vr4z+wsdlk6VLy6FvpRkTgAA">
+<XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
+<XPD:ATTR name="Text" type="string"> : User</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="DNABbkOMVke1Gs3o4haTYwAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="PropertyLabel" type="LabelView" guid="3x68deeD0kCUx3Vrkf/JRAAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
 </XPD:OBJ>
 </XPD:OBJ>
+<XPD:OBJ name="LifeLine" type="UMLLifeLineView" guid="SxkhU7HRCUC1KZ60xqXmPwAA">
+<XPD:REF name="Model">+dLaMQgD20eTShS4sbY8qwAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedViews[1]" type="UMLSeqObjectView" guid="vmrXltA7fkmnFFJoAWT7oAAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">564</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">28</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">93</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">350</XPD:ATTR>
+<XPD:REF name="Model">l2UObalufk27iQOeFtLjBQAA</XPD:REF>
+<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="ARoOe9cTJEm8QRj7X8/MNwAA">
+<XPD:OBJ name="NameLabel" type="LabelView" guid="W2cJGQDoAEiA1ZSTcPgHfAAA">
+<XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
+<XPD:ATTR name="Text" type="string"> : Tambah Device</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="sg1592GRRkueJAOfNdm7OgAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="PropertyLabel" type="LabelView" guid="d+QChOlt7kK1+G2ACO6/AQAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="LifeLine" type="UMLLifeLineView" guid="Ad5y2zPGjk6+zziLnw6/jwAA">
+<XPD:REF name="Model">l2UObalufk27iQOeFtLjBQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedViews[2]" type="UMLSeqObjectView" guid="Pe2LOtvXbESJEJRpLtMchQAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">456</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">28</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">70</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">350</XPD:ATTR>
+<XPD:REF name="Model">58cA9ecXzUuW5jabiwcAWQAA</XPD:REF>
+<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="WIJ9VhzKM0WD7guuYwhc5gAA">
+<XPD:OBJ name="NameLabel" type="LabelView" guid="Gz7Kfq1pR0uIHqAclu68zAAA">
+<XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
+<XPD:ATTR name="Text" type="string"> : Menubar</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="hLqogR7T1kaWvJ42lXP/NgAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+<XPD:OBJ name="PropertyLabel" type="LabelView" guid="lCfTOYwneEuTvWhSGYvDogAA">
+<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="LifeLine" type="UMLLifeLineView" guid="0swHYcttvUuEdPHL5oO/HgAA">
+<XPD:REF name="Model">58cA9ecXzUuW5jabiwcAWQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="OwnedViews[3]" type="UMLTextView" guid="8A+aqT8oMkijfmIZbabhQAAA">
+<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
+<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">136</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">432</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">113</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">1. Mengklik kanan pada peta
+2. Memilih menu add device
+3. Web memunculkan form add device
+4. Memilih parent node untuk device baru
+5. Memilih device terpasang yang akan ditambahkan ke dalam peta
+6. Web mendaftarkan device baru pada struktur tree device, 
+    dan ikon device pada peta
+</XPD:ATTR>
+</XPD:OBJ>
+</XPD:OBJ>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:ATTR name="#ParticipatingInstances" type="integer">3</XPD:ATTR>
+<XPD:OBJ name="ParticipatingInstances[0]" type="UMLObject" guid="+dLaMQgD20eTShS4sbY8qwAA">
+<XPD:REF name="Classifier">Pl0wRfXoUEiXQUgkku/MmwAA</XPD:REF>
+<XPD:REF name="CollaborationInstanceSet">e2L/U2YB80+0OoTO+MwubwAA</XPD:REF>
+<XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
+<XPD:REF name="Views[0]">YAV1WzQ19EKu4bq2Z10P6wAA</XPD:REF>
+<XPD:REF name="Views[1]">SxkhU7HRCUC1KZ60xqXmPwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="ParticipatingInstances[1]" type="UMLObject" guid="l2UObalufk27iQOeFtLjBQAA">
+<XPD:REF name="Classifier">ukK1e86cOkKxqdBDnvWD3AAA</XPD:REF>
+<XPD:REF name="CollaborationInstanceSet">e2L/U2YB80+0OoTO+MwubwAA</XPD:REF>
+<XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
+<XPD:REF name="Views[0]">vmrXltA7fkmnFFJoAWT7oAAA</XPD:REF>
+<XPD:REF name="Views[1]">Ad5y2zPGjk6+zziLnw6/jwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="ParticipatingInstances[2]" type="UMLObject" guid="58cA9ecXzUuW5jabiwcAWQAA">
+<XPD:REF name="Classifier">h1R9mHOE8kaoDgAXY+nFhQAA</XPD:REF>
+<XPD:REF name="CollaborationInstanceSet">e2L/U2YB80+0OoTO+MwubwAA</XPD:REF>
+<XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
+<XPD:REF name="Views[0]">Pe2LOtvXbESJEJRpLtMchQAA</XPD:REF>
+<XPD:REF name="Views[1]">0swHYcttvUuEdPHL5oO/HgAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[2]" type="UMLCollaborationInstanceSet" guid="ExVVNaOVOkWuNOOfG7secwAA">
