@@ -24,9 +24,9 @@ Bab 1 Kebutuhan Perangkat Lunak(OK)
 - Model Use Case(definisi aktor, definisi use case, skenario use case)
 - Glossary
 
-Bab 2 User Experience Model
-- UX per use case(OK)
-- Navigational Path(GIN)
+Bab 2 User Experience Model(OK)
+- UX per use case(Identifikasi screen, screencompartment, form; Storyboard)
+- Navigational Path
 
 Bab 3 Model Analisis
 - Realisasi per use case tahap analisis(identifikasi kelas, sequence diagram, diagram kelas analisis)(RIZKY)
@@ -36,8 +36,6 @@ Bab 3 Model Analisis
 
 +++++ Waiting your effort!! ++++++
 
-Bab 2
-- Navigational Path(JIWO, RIZKY)
 
 Bab 3
 - Realisasi per use case tahap analisis(identifikasi kelas, sequence diagram, diagram kelas analisis)(JIWO,GIN)
