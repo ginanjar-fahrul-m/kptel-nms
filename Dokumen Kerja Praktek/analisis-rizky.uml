@@ -8640,15 +8640,15 @@
 </XPD:OBJ>
 <XPD:ATTR name="#OwnedCollaborationInstanceSets" type="integer">9</XPD:ATTR>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[0]" type="UMLCollaborationInstanceSet" guid="OcpRUrBfEEaIs1sfeUL5LQAA">
-<XPD:ATTR name="Name" type="string">se-menampilkan device bermasalah</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menampilkan device bermasalah</XPD:ATTR>
 <XPD:REF name="RepresentedClassifier">19BbL1Gm3Um1WsKxM/mujwAA</XPD:REF>
 <XPD:ATTR name="#InteractionInstanceSets" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="InteractionInstanceSets[0]" type="UMLInteractionInstanceSet" guid="SdoftEliKUqF63baRmLNlwAA">
-<XPD:ATTR name="Name" type="string">seq-menampilkan device bermasalah</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menampilkan device bermasalah</XPD:ATTR>
 <XPD:REF name="Context">OcpRUrBfEEaIs1sfeUL5LQAA</XPD:REF>
 <XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedDiagrams[0]" type="UMLSequenceDiagram" guid="Y01pgEoxJ0GLcH+T5oilmgAA">
-<XPD:ATTR name="Name" type="string">seq-menampilkan device bermasalah</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menampilkan device bermasalah</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Sequence Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">SdoftEliKUqF63baRmLNlwAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLSequenceDiagramView" guid="36voC43moEaqFeXkaqK0DQAA">
@@ -8802,8 +8802,8 @@ Skenario Alternatif:
 <XPD:REF name="Head">KOku3L3tYka3HH2l94XpoAAA</XPD:REF>
 <XPD:REF name="Tail">4sbXVe/mxkGo2FhSzreMwgAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="/MgY2lg+IE2Xu95nI1SkRwAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">-0,588002090727449</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">10,816653826392</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">1 : navigasi panel</XPD:ATTR>
 <XPD:REF name="Model">nG51kCZXjEaafdQfle/x/AAA</XPD:REF>
 <XPD:REF name="HostEdge">IKWY7s2py0OBO2gWK9ZOjgAA</XPD:REF>
@@ -8839,8 +8839,8 @@ Skenario Alternatif:
 <XPD:REF name="Head">6vpPaZEqhEaPk2d5GNCg3QAA</XPD:REF>
 <XPD:REF name="Tail">KOku3L3tYka3HH2l94XpoAAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="ZAe7FH7bPkaHq8yxWAor4QAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">-0,837980672522477</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">13,4536240470737</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">2 : panel notifikasi tampil</XPD:ATTR>
 <XPD:REF name="Model">HK/FHbpsgUCJ0DDZ/l8VcwAA</XPD:REF>
 <XPD:REF name="HostEdge">TeOONmDjqk2/Gyg1kQ+9JQAA</XPD:REF>
@@ -8876,9 +8876,9 @@ Skenario Alternatif:
 <XPD:REF name="Head">9pml2T9vzk+DK1AvZ64nxAAA</XPD:REF>
 <XPD:REF name="Tail">x/0znhU10UiyhexYyxXZcgAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="+kJiyDZok0Kl0oT/r+w9OQAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">3 : update database host</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">0,837981777494853</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">13,4536240470737</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">3 : retrieve database host</XPD:ATTR>
 <XPD:REF name="Model">W3e3uAzPiU21DD/BRGQIdAAA</XPD:REF>
 <XPD:REF name="HostEdge">Zd/9/5iJ3EaMt1p9OdWf0gAA</XPD:REF>
 </XPD:OBJ>
@@ -8913,7 +8913,7 @@ Skenario Alternatif:
 <XPD:REF name="Head">6vpPaZEqhEaPk2d5GNCg3QAA</XPD:REF>
 <XPD:REF name="Tail">9pml2T9vzk+DK1AvZ64nxAAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="H9huG4mAyka26UuW8WrcMwAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">0,643501708793765</XPD:ATTR>
 <XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">4 : menampilkan daftar host bermasalah</XPD:ATTR>
 <XPD:REF name="Model">6T+dmlDvuEOamPQ/dft7tAAA</XPD:REF>
@@ -8950,8 +8950,8 @@ Skenario Alternatif:
 <XPD:REF name="Head">4sbXVe/mxkGo2FhSzreMwgAA</XPD:REF>
 <XPD:REF name="Tail">6vpPaZEqhEaPk2d5GNCg3QAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="rLDVHMVFyEGNO2DENmTQLwAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">0,726642892406206</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">12,0415945787923</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">5 : user bisa melihat daftar host bermasalah</XPD:ATTR>
 <XPD:REF name="Model">lY0ep9bQlUKyo8zhSct/KQAA</XPD:REF>
 <XPD:REF name="HostEdge">uSYaxJvwKUCnSb92FtXfzAAA</XPD:REF>
@@ -8987,8 +8987,8 @@ Skenario Alternatif:
 <XPD:REF name="Head">9pml2T9vzk+DK1AvZ64nxAAA</XPD:REF>
 <XPD:REF name="Tail">4sbXVe/mxkGo2FhSzreMwgAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="w8KRR8gXRkannKPS4hYeQQAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">-0,745419092887736</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">17,6918060129541</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">6 : manajemen peta</XPD:ATTR>
 <XPD:REF name="Model">TX5w/mLRVEWwRwGJMen6wwAA</XPD:REF>
 <XPD:REF name="HostEdge">uF1perU7OE2ydDTI9krKJQAA</XPD:REF>
@@ -9024,8 +9024,8 @@ Skenario Alternatif:
 <XPD:REF name="Head">4sbXVe/mxkGo2FhSzreMwgAA</XPD:REF>
 <XPD:REF name="Tail">9pml2T9vzk+DK1AvZ64nxAAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="1ngzTbLowUqv3VPya4o7ugAA">
-<XPD:ATTR name="Alpha" type="real">15707963267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">10</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">0,540419941447379</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">11,6619037896906</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">7 : menampilkan secara visual host bermasalah</XPD:ATTR>
 <XPD:REF name="Model">ufL3sDFU80uYgSdDnyB1+AAA</XPD:REF>
 <XPD:REF name="HostEdge">fCET8I51EkW0Ix32UgwrFgAA</XPD:REF>
@@ -9084,7 +9084,7 @@ Skenario Alternatif:
 <XPD:REF name="Views[3]">ZyY1u+PMLEyrtq+4XW1WaAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingStimuli[2]" type="UMLStimulus" guid="W3e3uAzPiU21DD/BRGQIdAAA">
-<XPD:ATTR name="Name" type="string">update database host</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">retrieve database host</XPD:ATTR>
 <XPD:REF name="Sender">htsFtOtdAUCyzjIx3Qp9mgAA</XPD:REF>
 <XPD:REF name="Receiver">dSDhjIYBUU6nyYEm156KzwAA</XPD:REF>
 <XPD:OBJ name="Action" type="UMLReturnAction" guid="ZWoe0NbHGUSlcUeOkSF4cwAA">
@@ -9215,15 +9215,15 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[1]" type="UMLCollaborationInstanceSet" guid="WlwkHZffakCpNimm9R7tqgAA">
-<XPD:ATTR name="Name" type="string">seq-menambah device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menambah device</XPD:ATTR>
 <XPD:REF name="RepresentedClassifier">19BbL1Gm3Um1WsKxM/mujwAA</XPD:REF>
 <XPD:ATTR name="#InteractionInstanceSets" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="InteractionInstanceSets[0]" type="UMLInteractionInstanceSet" guid="uMQtQwuSy0m+BF22E+RW0AAA">
-<XPD:ATTR name="Name" type="string">seq-menambah device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menambah device</XPD:ATTR>
 <XPD:REF name="Context">WlwkHZffakCpNimm9R7tqgAA</XPD:REF>
 <XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedDiagrams[0]" type="UMLSequenceDiagram" guid="xBA9825UZUqqleQcc0XbogAA">
-<XPD:ATTR name="Name" type="string">seq-menambah device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menambah device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Sequence Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">uMQtQwuSy0m+BF22E+RW0AAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLSequenceDiagramView" guid="W0JAPgbSbUyLTiRoJSORGQAA">
@@ -9233,15 +9233,15 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[2]" type="UMLCollaborationInstanceSet" guid="v6a7ow9+RUq0qbbpQb7PxQAA">
-<XPD:ATTR name="Name" type="string">seq-mengedit device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-mengedit device</XPD:ATTR>
 <XPD:REF name="RepresentedClassifier">19BbL1Gm3Um1WsKxM/mujwAA</XPD:REF>
 <XPD:ATTR name="#InteractionInstanceSets" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="InteractionInstanceSets[0]" type="UMLInteractionInstanceSet" guid="O/d+vzyw50SvY5orbHe7KwAA">
-<XPD:ATTR name="Name" type="string">seq-mengedit device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-mengedit device</XPD:ATTR>
 <XPD:REF name="Context">v6a7ow9+RUq0qbbpQb7PxQAA</XPD:REF>
 <XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedDiagrams[0]" type="UMLSequenceDiagram" guid="rrjlfhlbEUmqlnKXcTbf1AAA">
-<XPD:ATTR name="Name" type="string">seq-megnedit device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-megnedit device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Sequence Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">O/d+vzyw50SvY5orbHe7KwAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLSequenceDiagramView" guid="HCBwSAixQEmEOvDL4w5CsQAA">
@@ -9251,15 +9251,15 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[3]" type="UMLCollaborationInstanceSet" guid="L1WbgDfX80+uCqNzlkLEhAAA">
-<XPD:ATTR name="Name" type="string">seq-mengehapus device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-mengehapus device</XPD:ATTR>
 <XPD:REF name="RepresentedClassifier">19BbL1Gm3Um1WsKxM/mujwAA</XPD:REF>
 <XPD:ATTR name="#InteractionInstanceSets" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="InteractionInstanceSets[0]" type="UMLInteractionInstanceSet" guid="Tx+1WvqhlkupgdHi/lWTnQAA">
-<XPD:ATTR name="Name" type="string">seq-menghapus device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menghapus device</XPD:ATTR>
 <XPD:REF name="Context">L1WbgDfX80+uCqNzlkLEhAAA</XPD:REF>
 <XPD:ATTR name="#OwnedDiagrams" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedDiagrams[0]" type="UMLSequenceDiagram" guid="cTXKtmpWQkuqHGkDHbXSWgAA">
-<XPD:ATTR name="Name" type="string">seq-menghapus device</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">storyboard-menghapus device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Sequence Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">Tx+1WvqhlkupgdHi/lWTnQAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLSequenceDiagramView" guid="6saqam2V40u8zFN/YziOjQAA">
