@@ -14825,7 +14825,7 @@ Skenario Alternatif:
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="rLDVHMVFyEGNO2DENmTQLwAA">
 <XPD:ATTR name="Alpha" type="real">0,726642892406206</XPD:ATTR>
 <XPD:ATTR name="Distance" type="real">12,0415945787923</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">5 : user bisa melihat daftar host bermasalah</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">5 : user melihat daftar host bermasalah</XPD:ATTR>
 <XPD:REF name="Model">lY0ep9bQlUKyo8zhSct/KQAA</XPD:REF>
 <XPD:REF name="HostEdge">uSYaxJvwKUCnSb92FtXfzAAA</XPD:REF>
 </XPD:OBJ>
@@ -14984,7 +14984,7 @@ Skenario Alternatif:
 <XPD:REF name="Views[3]">UrlsQgSQ7kOymvqKGMLqOAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingStimuli[4]" type="UMLStimulus" guid="lY0ep9bQlUKyo8zhSct/KQAA">
-<XPD:ATTR name="Name" type="string">user bisa melihat daftar host bermasalah</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">user melihat daftar host bermasalah</XPD:ATTR>
 <XPD:REF name="Sender">dPWIT+oXZ0qkz6s5Tc3jKwAA</XPD:REF>
 <XPD:REF name="Receiver">nl6Ddi2MVEi9y5N0PJ+jgwAA</XPD:REF>
 <XPD:OBJ name="Action" type="UMLReturnAction" guid="IDbef6bGjUOWHexoMXcZCwAA">
