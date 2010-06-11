@@ -1,0 +1,20 @@
+Client Page
+-------
+MapView
+
+
+Server Page
+---------
+AuthController
+GroupController
+DeviceController
+MapController
+NotifController
+
+HTML Form
+--------
+Login
+AddGroup
+EditGroup
+AddDevice
+EditDevice

@@ -28,19 +28,13 @@ Bab 2 User Experience Model(OK)
 - UX per use case(Identifikasi screen, screencompartment, form; Storyboard)
 - Navigational Path
 
-Bab 3 Model Analisis
-- Realisasi per use case tahap analisis(identifikasi kelas, sequence diagram, diagram kelas analisis)(RIZKY)
-
-
+Bab 3 Model Analisis(OK)
+- Realisasi per use case tahap analisis(identifikasi kelas, sequence diagram, diagram kelas analisis)
+- Diagram kelas keseluruhan
+- Pemetaan model analisis dan model UX
 
 
 +++++ Waiting your effort!! ++++++
-
-
-Bab 3
-- Realisasi per use case tahap analisis(identifikasi kelas, sequence diagram, diagram kelas analisis)(JIWO,GIN)
-- Diagram kelas keseluruhan
-- Pemetaan model analisis dan model UX
 
 #Dokumen Perancangan
 Bab 4 Model Perancangan
