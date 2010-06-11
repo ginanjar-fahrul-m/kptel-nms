@@ -13225,7 +13225,6 @@
 <XPD:REF name="Views[15]">NsEMO7XCUEOusl56fxIo2gAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="JnrC1P0/b026HLQjE7w59wAA">
-<XPD:ATTR name="IsNavigable" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="Aggregation" type="UMLAggregationKind">akAggregate</XPD:ATTR>
 <XPD:REF name="Association">2bQrF8AAk0qC3Cja8MlVrwAA</XPD:REF>
 <XPD:REF name="Participant">tdcfRDETsEipS4PorM8ycAAA</XPD:REF>
@@ -13798,7 +13797,6 @@
 <XPD:REF name="Views[15]">MgyvrUR8rkSzEhzY8W1p0wAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="Q6KkYZoz50q0DvjBQUsMRQAA">
-<XPD:ATTR name="IsNavigable" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="Aggregation" type="UMLAggregationKind">akAggregate</XPD:ATTR>
 <XPD:REF name="Association">+CRxuSTVP0u54NHM9sKkoAAA</XPD:REF>
 <XPD:REF name="Participant">Kkh7avtm/0SDv18KmLoRtgAA</XPD:REF>
