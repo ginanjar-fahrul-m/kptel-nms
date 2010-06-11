@@ -9,7 +9,7 @@ AuthController
 GroupController
 DeviceController
 MapController
-NotifController
+NotificationController
 
 HTML Form
 --------
