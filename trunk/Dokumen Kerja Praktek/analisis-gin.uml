@@ -27096,13 +27096,13 @@ Skenario Alternatif:
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">435,188;212,188</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">301,184;212,184</XPD:ATTR>
 <XPD:REF name="Model">sZ9PbfqdCUOpo0xGKosUXAAA</XPD:REF>
 <XPD:REF name="Head">EyjVPUCkOEOj+qh1cUbtYgAA</XPD:REF>
-<XPD:REF name="Tail">2Dt7VG8T4UOrAB7wpkSCBwAA</XPD:REF>
+<XPD:REF name="Tail">8AFXolb6v0mAm0EnyJ0EzgAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="Ka9ReEleyEOeMDD+aOmIDgAA">
-<XPD:ATTR name="Alpha" type="real">0,15037145044879</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">66,7532770731145</XPD:ATTR>
+<XPD:ATTR name="Alpha" type="real">-1,16590514395824</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">15,2315462117278</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">7 : showDevicePanel()</XPD:ATTR>
 <XPD:REF name="Model">sZ9PbfqdCUOpo0xGKosUXAAA</XPD:REF>
 <XPD:REF name="HostEdge">Tm8uWcqg3EyCWr6XqdStrwAA</XPD:REF>
@@ -27123,7 +27123,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 <XPD:OBJ name="Activation" type="UMLActivationView" guid="TMcr5h7fbkS6x5H7kD20UwAA">
 <XPD:ATTR name="Left" type="integer">199</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">188</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">184</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">14</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">29</XPD:ATTR>
 </XPD:OBJ>
@@ -27471,7 +27471,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingStimuli[6]" type="UMLStimulus" guid="sZ9PbfqdCUOpo0xGKosUXAAA">
 <XPD:ATTR name="Name" type="string">showDevicePanel</XPD:ATTR>
-<XPD:REF name="Sender">4r6G+zzCsUuGzardh8YBlAAA</XPD:REF>
+<XPD:REF name="Sender">N9owM0WTx0WKnCBVZp3lyAAA</XPD:REF>
 <XPD:REF name="Receiver">S2bMYNou2UOyBICUty/yEAAA</XPD:REF>
 <XPD:OBJ name="Action" type="UMLCallAction" guid="WxPEkV9T0Uua4GUaf/OePgAA">
 <XPD:REF name="Stimulus">sZ9PbfqdCUOpo0xGKosUXAAA</XPD:REF>
@@ -27622,10 +27622,11 @@ Skenario Alternatif:
 <XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
 <XPD:REF name="Views[0]">iHRC+qdlukqzo6yFLg6cKQAA</XPD:REF>
 <XPD:REF name="Views[1]">8AFXolb6v0mAm0EnyJ0EzgAA</XPD:REF>
-<XPD:ATTR name="#SendingStimuli" type="integer">3</XPD:ATTR>
+<XPD:ATTR name="#SendingStimuli" type="integer">4</XPD:ATTR>
 <XPD:REF name="SendingStimuli[0]">vPZJCEMaAUKJQNSYboiJyQAA</XPD:REF>
 <XPD:REF name="SendingStimuli[1]">aUZFPi3QIUmoIXu50T5C5AAA</XPD:REF>
 <XPD:REF name="SendingStimuli[2]">TOOIW4Q9CUOhlwvZmP3ljQAA</XPD:REF>
+<XPD:REF name="SendingStimuli[3]">sZ9PbfqdCUOpo0xGKosUXAAA</XPD:REF>
 <XPD:ATTR name="#ReceivingStimuli" type="integer">3</XPD:ATTR>
 <XPD:REF name="ReceivingStimuli[0]">RevX49NB6EWLT6d9F1OyugAA</XPD:REF>
 <XPD:REF name="ReceivingStimuli[1]">BPNOtJZrEkSGzAueoga8/wAA</XPD:REF>
@@ -27639,10 +27640,9 @@ Skenario Alternatif:
 <XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
 <XPD:REF name="Views[0]">iHWSw4Es4kOC2AA/GOabewAA</XPD:REF>
 <XPD:REF name="Views[1]">2Dt7VG8T4UOrAB7wpkSCBwAA</XPD:REF>
-<XPD:ATTR name="#SendingStimuli" type="integer">3</XPD:ATTR>
+<XPD:ATTR name="#SendingStimuli" type="integer">2</XPD:ATTR>
 <XPD:REF name="SendingStimuli[0]">BPNOtJZrEkSGzAueoga8/wAA</XPD:REF>
-<XPD:REF name="SendingStimuli[1]">sZ9PbfqdCUOpo0xGKosUXAAA</XPD:REF>
-<XPD:REF name="SendingStimuli[2]">hn50cg/GqUekpAHP6J540QAA</XPD:REF>
+<XPD:REF name="SendingStimuli[1]">hn50cg/GqUekpAHP6J540QAA</XPD:REF>
 <XPD:ATTR name="#ReceivingStimuli" type="integer">2</XPD:ATTR>
 <XPD:REF name="ReceivingStimuli[0]">vPZJCEMaAUKJQNSYboiJyQAA</XPD:REF>
 <XPD:REF name="ReceivingStimuli[1]">ztAhmsVfbUufQUkdCmCfKQAA</XPD:REF>
