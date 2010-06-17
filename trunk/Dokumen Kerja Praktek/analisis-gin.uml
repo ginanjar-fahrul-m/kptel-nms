@@ -20268,16 +20268,8 @@ Skenario Alternatif:
 <XPD:ATTR name="StereotypeProfile" type="string">UMLStandard</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">designModel</XPD:ATTR>
 <XPD:REF name="Namespace">qnINIqyEJEmNuG6/hmc+bQAA</XPD:REF>
-<XPD:ATTR name="#OwnedDiagrams" type="integer">10</XPD:ATTR>
-<XPD:OBJ name="OwnedDiagrams[0]" type="UMLClassDiagram" guid="Yvw1tWIXfU++VBsN5652mgAA">
-<XPD:ATTR name="Name" type="string">Main</XPD:ATTR>
-<XPD:ATTR name="DefaultDiagram" type="boolean">True</XPD:ATTR>
-<XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
-<XPD:OBJ name="DiagramView" type="UMLClassDiagramView" guid="D/MEHo1bykua5nS7usDy3wAA">
-<XPD:REF name="Diagram">Yvw1tWIXfU++VBsN5652mgAA</XPD:REF>
-</XPD:OBJ>
-</XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[1]" type="UMLClassDiagram" guid="ES91XpKghEu184Cx+jBMjgAA">
+<XPD:ATTR name="#OwnedDiagrams" type="integer">9</XPD:ATTR>
+<XPD:OBJ name="OwnedDiagrams[0]" type="UMLClassDiagram" guid="ES91XpKghEu184Cx+jBMjgAA">
 <XPD:ATTR name="Name" type="string">Diagram Kelas Perancangan</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -22522,7 +22514,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[2]" type="UMLClassDiagram" guid="hGXFvrJwAECuNeKGeAiqdQAA">
+<XPD:OBJ name="OwnedDiagrams[1]" type="UMLClassDiagram" guid="hGXFvrJwAECuNeKGeAiqdQAA">
 <XPD:ATTR name="Name" type="string">design-Menampilkan Daftar Device Bermasalah</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -23199,7 +23191,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[3]" type="UMLClassDiagram" guid="R0G4MlLQ4kiOWJAqeWgUwwAA">
+<XPD:OBJ name="OwnedDiagrams[2]" type="UMLClassDiagram" guid="R0G4MlLQ4kiOWJAqeWgUwwAA">
 <XPD:ATTR name="Name" type="string">design-Menambah Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -23940,7 +23932,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[4]" type="UMLClassDiagram" guid="l8mW7klCx0qr6yt7+EsnTwAA">
+<XPD:OBJ name="OwnedDiagrams[3]" type="UMLClassDiagram" guid="l8mW7klCx0qr6yt7+EsnTwAA">
 <XPD:ATTR name="Name" type="string">design-Mengedit Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -24681,7 +24673,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[5]" type="UMLClassDiagram" guid="d2CT3j9kZUqALQwMU1x7SAAA">
+<XPD:OBJ name="OwnedDiagrams[4]" type="UMLClassDiagram" guid="d2CT3j9kZUqALQwMU1x7SAAA">
 <XPD:ATTR name="Name" type="string">design-Menghapus Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -25305,7 +25297,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[6]" type="UMLClassDiagram" guid="e58UA/YlwESoNM1+hEZMrAAA">
+<XPD:OBJ name="OwnedDiagrams[5]" type="UMLClassDiagram" guid="e58UA/YlwESoNM1+hEZMrAAA">
 <XPD:ATTR name="Name" type="string">component-Menampilkan Daftar Device Bermasalah</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -26267,7 +26259,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[7]" type="UMLClassDiagram" guid="hJuWUaBTtkemojTe0FSRlwAA">
+<XPD:OBJ name="OwnedDiagrams[6]" type="UMLClassDiagram" guid="hJuWUaBTtkemojTe0FSRlwAA">
 <XPD:ATTR name="Name" type="string">component-Menambah Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -27399,7 +27391,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[8]" type="UMLClassDiagram" guid="BVMpxyifMUuWXhbnS9C9oAAA">
+<XPD:OBJ name="OwnedDiagrams[7]" type="UMLClassDiagram" guid="BVMpxyifMUuWXhbnS9C9oAAA">
 <XPD:ATTR name="Name" type="string">component-Mengedit Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
@@ -28531,7 +28523,7 @@ Skenario Alternatif:
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedDiagrams[9]" type="UMLClassDiagram" guid="0DUQcQ7Cj0uD1aPvFY/XIAAA">
+<XPD:OBJ name="OwnedDiagrams[8]" type="UMLClassDiagram" guid="0DUQcQ7Cj0uD1aPvFY/XIAAA">
 <XPD:ATTR name="Name" type="string">component-Menghapus Device</XPD:ATTR>
 <XPD:ATTR name="DiagramType" type="string">WAE Diagram</XPD:ATTR>
 <XPD:REF name="DiagramOwner">BED0vyoHQEm2vxquC85eOwAA</XPD:REF>
