@@ -1,3 +1,3 @@
 <?php
-require('./Project/src/index.php');
+header('Location: ./Project/src/index.php');
 ?>
