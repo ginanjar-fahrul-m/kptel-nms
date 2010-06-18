@@ -1,25 +1,34 @@
-<html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript">
-  function initialize() {
-    var latlng = new google.maps.LatLng(-1, 118);
-    var myOptions = {
-      zoom: 5,
-      center: latlng,
-	  mapTypeControl: true,
-	  mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
-	  navigationControl: true,
-	  navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-      mapTypeId: google.maps.MapTypeId.SATELLITE
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  }
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-</script>
-</head>
-<body onload="initialize()">
-  <div id="map_canvas" style="width:100%; height:100%"></div>
-</body>
+		<link rel="stylesheet" type="text/css" href="css/map.css" media="screen" />
+		
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script type="text/javascript" src="js/map.js"></script>
+		
+		<title>KPTEL-NMS</title>
+	</head>
+
+	<body onload="kptel_init()">
+		<div id="menubar"></div>
+		
+		<div id="menu">
+			<div class="floatleft">
+				<ul>
+					<li><a>Group and Device Tree</a></li>
+				</ul>
+			</div>
+			<div class="floatright">
+				<ul>
+					<li><a>Notifications</a></li>
+					<li><a>Login</a></li>
+					<li><a>Help</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div id="map_canvas"></div>
+	</body>
 </html>
