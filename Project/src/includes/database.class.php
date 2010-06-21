@@ -30,7 +30,7 @@ class Connection {
 		if($this->is_connected) {
 			echo "$this->log_prefix Error: Already connected. Cannot open new connection.\n";
 		} else {
-			$this->db_connection = mysql_connect(
+			$this->db_connection = mysql_pconnect(
 										$this->db_hostname,
 										$this->db_username,
 										$this->db_password,
