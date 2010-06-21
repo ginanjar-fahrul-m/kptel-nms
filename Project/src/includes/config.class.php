@@ -16,11 +16,17 @@ class Configuration {
 		return $this->db_username;
 	}
 	
-	public function get_cacti_database() {
-		return $this->$db_cacti;
+	public function get_db_password() {
+		return $this->db_password;
 	}
 	
-	public function get_app_database() {
-		return $this->$db_app;
+	public function get_cacti_db() {
+		return $this->db_cacti;
+	}
+	
+	public function get_app_db() {
+		return $this->db_app;
 	}
 }
+
+?>
