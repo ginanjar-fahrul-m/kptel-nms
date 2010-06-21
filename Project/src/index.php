@@ -17,19 +17,19 @@
 				<div id="top"> 
 					<div id="topleft" class="floatleft"> 
 						<ul> 
-							<li><a href="" title="Show all device and group tree"> 
-							<img src="images/menu-tree.png"/>Group and Device Tree</a></li> 
+							<li><a href="" title="Show all device and group tree">
+							<img border="0" src="images/menu-tree.png"/> Group and Device Tree</a></li> 
 						</ul> 
 					</div> 
 					<div id = "topright" class="floatright"> 
 						<ul> 
 							<li><a href="" title="Show device status"> 
-							<img src="images/menu-notif.png"/>Notifications</a></li> 
+							<img border="0" src="images/menu-notif.png"/> Notifications</a></li> 
 							<li><a> | </a></li> 
 							<li><a href="" title="Login as admin"> 
-							<img src="images/menu-login.png"/>Login</a></li> 
+							<img border="0" src="images/menu-login.png"/> Login</a></li> 
 							<li><a href="" title="Help and support"> 
-							<img src="images/menu-help.png"/>Help</a></li> 
+							<img border="0" src="images/menu-help.png"/> Help</a></li> 
 							<li><a> | </a></li> 
 							<li><a id="time"></a></li> 
 						</ul> 
