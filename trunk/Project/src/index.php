@@ -12,23 +12,26 @@
 	</head>
 
 	<body onload="kptel_init()">
-		<div id="menubar"></div>
-		
-		<div id="menu">
-			<div class="floatleft">
-				<ul>
-					<li><a>Group and Device Tree</a></li>
-				</ul>
-			</div>
-			<div class="floatright">
-				<ul>
-					<li><a>Notifications</a></li>
-					<li><a>Login</a></li>
-					<li><a>Help</a></li>
-				</ul>
+		<div class="fluid fluidtop">
+			<div class="wrap">
+				<div id="top">
+					<div id="topleft" class="floatleft">
+						<ul>
+							<li><a href="" title="Show all device and group tree">Group and Device Tree</a></li>
+						</ul>
+					</div>
+					<div id = "topright" class="floatright">
+						<ul>
+							<li><a href="" title="Show device status">Notifications</a></li>
+							<li><a href="" title="Login as admin">Login</a></li>
+							<li><a href="" title="Help and support">Help</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="clearboth"></div>
 			</div>
 		</div>
-		
+		<hr>
 		<div id="map_canvas"></div>
 	</body>
 </html>
