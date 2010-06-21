@@ -48,6 +48,7 @@ a:hover {
 	padding: 7px 0;
 }
 #topleft li a {
+	margin: 0;
     font-weight: bold;
 }
 #top ul {
@@ -56,22 +57,24 @@ a:hover {
 }
 #top li {
     display: inline;
-    margin-left: -4px;
+    margin-left: -5px;
     padding: 0;
     list-style: none;
 }
 #top li a, #topright li.current a:hover {
+    margin: 0;
     color: #eee;
     background: #555;
-    margin: 0;
     padding: 7px 9px 7px 9px;
     text-decoration: none;
 }
 #top li a:hover, #topleft li.current a:hover {
+	margin: 0;
     color: #99f;
     background: #000;
 }
 #topleft li.current a {
+	margin: 0;
     color: #fff;
     background: #333;
 }
