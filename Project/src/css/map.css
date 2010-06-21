@@ -14,17 +14,22 @@ hr {
 }
 a:link {
     text-decoration: none;
+	opacity: 100%;
 }
 a:visited {
     text-decoration: none;
+	opacity: 100%;
 }
 a:hover {
     text-decoration: underline;
+	opacity: 100%;
 }
 .fluid {
+	position: absolute;
+	opacity: 0.8;
 	margin: 0;
 	padding: 0;
-	text-align: center;
+	width: 100%;
 	z-index: 101;
 }
 .fluidtop {
@@ -87,6 +92,7 @@ a:hover {
     clear: both;
 }
 #map_canvas {
+	position: absolute;
 	top: 0px;
 	left: 0px;
 	
