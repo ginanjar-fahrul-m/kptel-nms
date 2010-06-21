@@ -12,8 +12,6 @@
 	</head>
 
 	<body onload="kptel_init()">
-		<div class="fluid fluidtop">
-			<div class="wrap">
 				<div id="top">
 					<div id="topleft" class="floatleft">
 						<ul>
@@ -28,8 +26,6 @@
 						</ul>
 					</div>
 				</div>
-				<div class="clearboth"></div>
-			</div>
 		</div>
 		<hr>
 		<div id="map_canvas"></div>
