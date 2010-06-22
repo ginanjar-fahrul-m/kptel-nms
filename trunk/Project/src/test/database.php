@@ -2,6 +2,7 @@
 
 require_once('../includes/config.class.php');
 require_once('../includes/database.class.php');
+require_once('../includes/security.php');
 
 $config = new Configuration();
 
@@ -16,5 +17,6 @@ while($data = mysql_fetch_assoc($res)) {
 
 $conn_a->close();
 
+echo get_hash('jiwandono');
 
 ?>

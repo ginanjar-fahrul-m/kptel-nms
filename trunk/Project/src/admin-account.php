@@ -1,8 +1,8 @@
 <?php
 
-require("./includes/connect.php");
+require("./includes/database.class.php");
 
-class User {
+class Account {
 	public $user_id;
 	public $username;
 	public $fullname;
@@ -14,17 +14,24 @@ class User {
 		$this->password = $_password;
 	}
 	
-	public function addUser() {
-		$sql = "INSERT INTO user (user_id, username, fullname, email, password)
-				VALUES (".$this->user_id.", '".$this->username."', '".$this->fullname."', 
-						'".$this->email."', '".sha1($this->password)."')";
+	public function add() {
+		$sql = "INSERT INTO `user` (
+									username, 
+									fullname, 
+									email, 
+									password)
+				VALUES (
+						'".$this->username."',
+						'".$this->fullname."', 
+						'".$this->email."',
+						'".sha1($this->password)."')";
 		if (!mysql_query($sql))
 		{
 			die('Error: ' . mysql_error());
 		}
 	}
 	
-	public function updateUser() {
+	public function update() {
 		$sql = "UPDATE user 
 				SET username = '".$this->username."', fullname = '".$this->fullname."', 
 								email = '".$this->email."', password = '".sha1($this->password)."' 
@@ -35,7 +42,7 @@ class User {
 		}
 	}
 	
-	public function deleteUser() {
+	public function delete() {
 		$sql = "DELETE from user
 				WHERE user_id = ".$this->user_id;
 		if (!mysql_query($sql))
@@ -44,7 +51,7 @@ class User {
 		}
 	}
 	
-	public function getUser() {
+	public function get() {
 		$sql = "SELECT * FROM user WHERE group_id = ".$this->user_id;
 		$result = mysql_query($sql);
 		$row = mysql_fetch_array($result);
