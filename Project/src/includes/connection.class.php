@@ -30,14 +30,15 @@ class Connection {
 		if($this->is_connected) {
 			echo "$this->log_prefix Error: Already connected. Cannot open new connection.\n";
 		} else {
-			$this->db_connection = @mysql_pconnect(
+			$this->db_connection = @mysql_connect(
 										$this->db_hostname,
 										$this->db_username,
 										$this->db_password,
+										true
 									);
 			
 			if(!$this->db_connection) {
-				echo "$this->log_prefix Error: ".mysql_error()."\n";
+				echo "$this->log_prefix Error: Cannot connect to MySQL server on '$this->db_hostname'\n";
 				die();
 			} else {
 				@mysql_select_db($this->db_database, $this->db_connection);
@@ -54,18 +55,22 @@ class Connection {
 			die();
 		} else {
 			@mysql_close($this->db_connection);
-			$is_connected = false;
+			$this->is_connected = false;
 		}
 	}
 	
 	public function query($query_string) {
-		$res = @mysql_query($query_string);
+		$res = @mysql_query($query_string, $this->db_connection);
 		if(!$res) {
 			echo "$this->log_prefix Error: ".mysql_error()."\n";
 			die();
 		}
 		
 		return $res;
+	}
+	
+	public function fetch_array($res) {
+		return mysql_fetch_array($res);
 	}
 }
 
