@@ -16,7 +16,10 @@
 			<div class="wrap"> 
 				<div id="top"> 
 					<div id="topleft" class="floatleft"> 
-						<ul> 
+						<ul>
+							<li><a href="" title="Return to home">
+							<img border="0" src="images/menu-home.png"/> Home</a></li> 
+							<li><a> | </a></li> 
 							<li><a href="" title="Show all device and group tree">
 							<img border="0" src="images/menu-tree.png"/> Group and Device Tree</a></li> 
 						</ul> 
