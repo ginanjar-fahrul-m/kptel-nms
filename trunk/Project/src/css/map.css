@@ -26,6 +26,7 @@ a:hover {
 }
 .fluid {
 	position: absolute;
+    min-width: 940px;
 	opacity: 0.8;
 	margin: 0;
 	padding: 0;
