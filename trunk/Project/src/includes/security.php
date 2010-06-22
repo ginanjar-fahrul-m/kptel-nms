@@ -1,14 +1,13 @@
 <?php
 
-$key_salt = '7mcFSTfhSez6Dn53MYBLd44s';
-$key_iter = 16384;
+require_once('config.php');
 
 function get_hash($plaintext) {
-	global $key_salt, $key_iter;
+	global $config;
 	
-	$key = sha1($plaintext.$key_salt);
-	for($i = 0; $i < $key_iter; $i++) {
-		$key = sha1($key.$key_salt);
+	$key = sha1($plaintext.$config['security']['salt']);
+	for($i = 0; $i < $config['security']['loop']; $i++) {
+		$key = sha1($key.$config['security']['salt']);
 	}
 	
 	return $key;
