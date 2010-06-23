@@ -23,7 +23,7 @@ session_db_init();
 		<script type="text/javascript" src="js/map.js"></script>
 		<script type="text/javascript" src="js/navigation.js"></script>
 	</head>
-	<body onload="kptel_init()">
+	<body>
 		<?php 
 			require("includes/navigation.html");
 		?>

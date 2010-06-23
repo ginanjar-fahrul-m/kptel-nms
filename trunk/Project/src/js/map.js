@@ -8,7 +8,19 @@ var placeMarkers = [];
 var flagMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
-var n;
+
+$(function(){
+		// initialize map (create markers, infowindows and list)
+		kptel_init();
+		// "live" bind click event
+		/*$("#markers a").live("click", function(){
+			var i = $(this).attr("rel");
+			// this next line closes all open infowindows before opening the selected one
+			//for(x=0; x < arrInfoWindows.length; x++){ arrInfoWindows[x].close(); }
+			arrInfoWindows[i].open(map, arrMarkers[i]);
+		});*/
+	});
+
 function kptel_init() {
 	var latlng = new google.maps.LatLng(-1, 118);
 	var myOptions = {
@@ -20,7 +32,6 @@ function kptel_init() {
 	};
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	dateTime();
-	n=0;
 	
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < 5) { 
@@ -43,7 +54,7 @@ function kptel_init() {
     });*/
 	
 	init_device();
-	init_group();
+	//init_group();
 }
 
 function init_device(){
@@ -56,9 +67,8 @@ function init_device(){
 
 function render_init_device(data){
 	$.each(data, function(index,datum){
-		//alert(datum['latitude']+" "+datum['longitude']);
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		addDevice(newPos);
+		addDevice(newPos,datum['name']);
 	});
 }
 
@@ -70,30 +80,36 @@ function init_group(){
 	$.getJSON("group-controller.php", getparam, render_init_group);*/
 }
 
-function addDevice(location) {
+/*function render_init_device(data){
+	$.each(data, function(index,datum){
+		//alert(datum['latitude']+" "+datum['longitude']);
+		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+		addDevice(newPos);
+	});
+}*/
+
+function addDevice(location,devname) {
     marker = new google.maps.Marker({
       position: location,
 	  icon : iconDevice,
       map: map,
-	  title : ''+n+''
+	  title : devname
     });
     placeMarkers.push(marker);
-	n=n+1;
 }
 
-function addGroup(location){
+function addGroup(location,groupname){
 marker = new google.maps.Marker({
       position: location,
 	  icon : iconGroup,
       map: map,
-	  title : ''+n+''
+	  title : groupname
     });
     placeMarkers.push(marker);
-	n=n+1;
 }
 
 function check_point(position){
-	alert("lat : " + position.lat() + " lng : " + position.lng());
+	alert("lat : " + position.lat() + ", lng : " + position.lng());
 }
 
 function dateTime() {
