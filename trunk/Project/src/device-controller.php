@@ -9,13 +9,13 @@ session_init();
 
 if($_GET) {
 	$action = $_GET['action'];
-	$data = $_GET['data'];
+	$data = json_decode($_GET['data'], true);
 	
 	session_db_open();
 	
 	switch($action) {
 		case 'getdevice':
-			echo json_encode(device_get($data));
+			echo json_encode(device_get($data['device_id']));
 			break;
 		
 		case 'getdevicelist':
