@@ -1,6 +1,6 @@
 <?php
 
-$config['db']['hostname'] = '127.0.0.1';
+$config['db']['hostname'] = '10.37.21.245';
 $config['db']['username'] = 'kptel';
 $config['db']['password'] = 'kptel';
 $config['db']['app_db'] = 'appsMonitor';
