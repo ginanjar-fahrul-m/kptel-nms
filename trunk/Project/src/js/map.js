@@ -1,3 +1,5 @@
+var map;
+var placeMarkers[];
 function kptel_init() {
 	var latlng = new google.maps.LatLng(-1, 118);
 	var myOptions = {
@@ -7,8 +9,36 @@ function kptel_init() {
 		navigationControl: false,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	dateTime();
+	
+	google.maps.event.addListener(map, 'zoom_changed', function() { 
+		if (map.getZoom() < 5) { 
+			map.setZoom(5); 
+		};
+    }); 
+}
+
+function addDevice(location) {
+    marker = new google.maps.Marker({
+      position: location,
+	  icon : iconDevice,
+      map: map,
+	  title : ''+n+''
+    });
+    placeMarkers.push(marker);
+	n=n+1;
+}
+
+function addGroup(location){
+marker = new google.maps.Marker({
+      position: location,
+	  icon : iconGroup,
+      map: map,
+	  title : ''+n+''
+    });
+    placeMarkers.push(marker);
+	n=n+1;
 }
 
 function dateTime() {
