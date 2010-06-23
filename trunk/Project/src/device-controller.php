@@ -7,9 +7,9 @@ require_once('device.php');
 
 session_init();
 
-if($_POST) {
-	$action = $_POST['action'];
-	$data = $_POST['data'];
+if($_GET) {
+	$action = $_GET['action'];
+	$data = $_GET['data'];
 	
 	session_db_open();
 	
