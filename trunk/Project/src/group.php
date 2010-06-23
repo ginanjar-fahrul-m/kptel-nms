@@ -1,56 +1,92 @@
 <?php
-	require("./includes/connect.php");
-	class Group{
-		public $group_id;
-		public $parent_id;
-		public $name;
-		public $description;
-		public $longitude;
-		public $latitude;
-		public function __construct($_group_id, $_parent_id, $_name, $_description, $_longitude, $_latitude){
-			$this->group_id = $_group_id;
-			$this->parent_id = $_parent_id;
-			$this->name = $_name;
-			$this->description = $_description;
-			$this->longitude = $_longitude;
-			$this->latitude = $_latitude;
-		}
-		public function addGroup(){
-			$sql = "INSERT INTO group (group_id, parent_id, name, description, longitude, latitude)
-					VALUES (".$this->group_id.", ".$this->parent_id.", '".$this->name."', '".$this->description."', 
-							".$this->longitude.", ".$this->latitude.")";
-			if (!mysql_query($sql))
-			{
-				die('Error: ' . mysql_error());
-			}
-		}
-		public function updateGroup(){
-			$sql = "UPDATE group 
-					SET group_id = ".$this->group_id.", parent_id = ".$this->parent_id.", name = '".$this->name."', 
-									description = '".$this->description."', longitude = ".$this->longitude.", latitude = ".$this->latitude." 
-					WHERE group_id = ".$this->group_id;
-			if (!mysql_query($sql))
-			{
-				die('Error: ' . mysql_error());
-			}
-		}
-		public function deleteGroup(){
-			$sql = "DELETE from group
-					WHERE group_id = ".$this->group_id;
-			if (!mysql_query($sql))
-			{
-				die('Error: ' . mysql_error());
-			}
-		}
-		public function getGroup(){
-			$sql = "SELECT * FROM group WHERE group_id = ".$this->group_id;
-			$result = mysql_query($sql);
-			$row = mysql_fetch_array($result);
-			$this->parent_id = $row['parent_id'];
-			$this->name = $row['name'];
-			$this->description = $row['description'];
-			$this->longitude = $row['longitude'];
-			$this->latitude = $row['latitude'];
-		}
+
+require_once('includes/config.php');
+require_once('includes/connection.class.php');
+require_once('includes/session.php');
+
+function group_add($parent_id, $name, $description, $longitude, $latitude) {
+	global $config;
+	
+	$parent_id = mysql_real_escape_string($parent_id);
+	$name = mysql_real_escape_string($name);
+	$description = mysql_real_escape_string($description);
+	$longitude = mysql_real_escape_string($longitude);
+	$latitude = mysql_real_escape_string($latitude);
+	
+	$sql = "INSERT INTO `group` (
+				`parent_id`,
+				`name`,
+				`description`,
+				`longitude`,
+				`latitude`)
+			VALUES (
+				".$parent_id.",
+				'".$name."',
+				'".$description."', 
+				".$longitude.",
+				".$latitude.")";
+	
+	session_get($config['session']['app_db_sess'])->query($sql);
+}
+
+function group_update($group_id, $parent_id, $name, $description, $longitude, $latitude) {
+	global $config;
+	
+	$group_id = mysql_real_escape_string($group_id);
+	$parent_id = mysql_real_escape_string($parent_id);
+	$name = mysql_real_escape_string($name);
+	$description = mysql_real_escape_string($description);
+	$longitude = mysql_real_escape_string($longitude);
+	$latitude = mysql_real_escape_string($latitude);
+	
+	$sql = "UPDATE `group` 
+			SET
+				`group_id` = ".$group_id.",
+				`parent_id` = ".$device_type_id.",
+				`name` = '".$name."',
+				`description` = '".$description."',
+				`longitude` = ".$longitude.",
+				`latitude` = ".$latitude." 
+			WHERE `group_id` = ".$group_id;
+	
+	session_get($config['session']['app_db_sess'])->query($sql);
+}
+
+function group_delete($group_id) {
+	global $config;
+	
+	$group_id = mysql_real_escape_string($group_id);
+	
+	$sql = "DELETE FROM `group`
+			WHERE `group_id` = ".$group_id;
+	
+	session_get($config['session']['app_db_sess'])->query($sql);
+}
+
+function group_get($group_id) {
+	global $config;
+	
+	$group_id = mysql_real_escape_string($group_id);
+	
+	$sql = "SELECT * FROM `group` WHERE `group_id` = ".$group_id;
+	$result = session_get($config['session']['app_db_sess'])->query($sql);
+	
+	return mysql_fetch_assoc($result);
+}
+
+function group_get_all() {
+	global $config;
+	
+	$sql = "SELECT * FROM `group` ORDER BY `name` ASC";
+	$result = session_get($config['session']['app_db_sess'])->query($sql);
+	
+	$i = 0;
+	while($row = mysql_fetch_assoc($result)) {
+		$group_list[$i] = $row;
+		$i++;
 	}
+	
+	return $group_list;
+}
+
 ?>

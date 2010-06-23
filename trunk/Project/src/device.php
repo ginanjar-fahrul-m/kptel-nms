@@ -54,7 +54,8 @@ function device_update($device_id, $group_id, $device_type, $name, $description,
 				`name` = '".$name."',
 				`description` = '".$description."',
 				`longitude` = ".$longitude.",
-				`latitude` = ".$latitude." 
+				`latitude` = ".$latitude.",
+				`cacti_id` = ".$cacti_id."
 			WHERE `device_id` = ".$device_id;
 	
 	session_get($config['session']['app_db_sess'])->query($sql);
