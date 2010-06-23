@@ -9,7 +9,7 @@ session_init();
 
 if($_GET) {
 	$action = $_GET['action'];
-	$data = json_decode($_GET['data'], true);
+	@$data = $_GET['data'];
 	
 	session_db_open();
 	
