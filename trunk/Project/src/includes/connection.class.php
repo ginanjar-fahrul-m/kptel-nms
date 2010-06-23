@@ -28,7 +28,7 @@ class Connection {
 	// Membuka koneksi menuju ke database server
 	public function open() {
 		if($this->is_connected) {
-			echo "$this->log_prefix Error: Already connected. Cannot open new connection.\n";
+			//echo "$this->log_prefix Error: Already connected. Cannot open new connection.\n";
 		} else {
 			$this->db_connection = @mysql_connect(
 										$this->db_hostname,
@@ -51,8 +51,7 @@ class Connection {
 	// Menutup koneksi ke database server
 	public function close() {
 		if(!$this->is_connected) {
-			echo "$this->log_prefix Error: No connection has been established to the database. Cannot close connection.\n";
-			die();
+			//echo "$this->log_prefix Error: No connection has been established to the database. Cannot close connection.\n";
 		} else {
 			@mysql_close($this->db_connection);
 			$this->is_connected = false;
@@ -60,11 +59,9 @@ class Connection {
 	}
 	
 	public function query($query_string) {
+		//echo $query_string."\n";
 		$res = @mysql_query($query_string, $this->db_connection);
-		if(!$res) {
-			echo "$this->log_prefix Error: ".mysql_error()."\n";
-			die();
-		}
+		mysql_error();
 		
 		return $res;
 	}
