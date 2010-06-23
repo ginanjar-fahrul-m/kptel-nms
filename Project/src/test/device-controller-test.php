@@ -9,7 +9,7 @@ session_db_init();
 
 ?>
 
-<form action="../device-controller.php" method="post">
+<form action="../device-controller.php" method="get">
 	ACTION: <input type="text" name="action"><br />
 	DATA: <input type="text" name="data"><br />
 	<input type="submit" value="SUBMIT">
