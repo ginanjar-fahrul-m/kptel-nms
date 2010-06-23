@@ -19,6 +19,7 @@ session_db_init();
 		<input type="text" id="device_id" />
 		<a onclick="get_device_list_JSON()">klik di sini untuk mendapatkan device dengan id disamping</a><br />
 		<div id="hasilJSON"></div><br />
-		<div id="hasilprosesJSON"></div>
+		<div id="hasilprosesJSON"></div><br />
+		<a onclick="add_device_JSON()">klik untuk add device</a>
 	</body>
 </html>

@@ -4,11 +4,11 @@ require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
-function device_add($group_id, $device_type, $name, $description, $longitude, $latitude, $cacti_id) {
+function device_add($group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
 	
 	$group_id = mysql_real_escape_string($group_id);
-	$device_type = mysql_real_escape_string($device_type);
+	$device_type_id = mysql_real_escape_string($device_type_id);
 	$name = mysql_real_escape_string($name);
 	$description = mysql_real_escape_string($description);
 	$longitude = mysql_real_escape_string($longitude);
@@ -35,12 +35,12 @@ function device_add($group_id, $device_type, $name, $description, $longitude, $l
 	session_get($config['session']['app_db_sess'])->query($sql);
 }
 
-function device_update($device_id, $group_id, $device_type, $name, $description, $longitude, $latitude, $cacti_id) {
+function device_update($device_id, $group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
 	
 	$device_id = mysql_real_escape_string($device_id);
 	$group_id = mysql_real_escape_string($group_id);
-	$device_type = mysql_real_escape_string($device_type);
+	$device_type_id = mysql_real_escape_string($device_type_id);
 	$name = mysql_real_escape_string($name);
 	$description = mysql_real_escape_string($description);
 	$longitude = mysql_real_escape_string($longitude);
