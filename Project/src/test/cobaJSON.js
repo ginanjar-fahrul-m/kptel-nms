@@ -16,8 +16,7 @@ function process_device(data) {
 function add_device_JSON() {
 	var getparam = {
 		action: 'adddevice',
-		data:
-			{
+		data: {
 			group_id: 4,
 			device_type_id: 0,
 			name: 'EMS D2 JAKARTA',
@@ -29,4 +28,34 @@ function add_device_JSON() {
 	}
 	
 	$.getJSON("../device-controller.php", getparam);
+}
+
+function get_cacti_device_JSON() {
+	var getparam = {
+		action: 'getcactidevice',
+		data: {
+			cacti_id: 27
+		}
+	}
+	
+	$.getJSON("../device-controller.php", getparam, cacti);
+}
+
+function cacti(data) {
+	alert(data['hostname'] + " " + data['description']);
+}
+
+function get_cacti_device_all_JSON() {
+	var getparam = {
+		action: 'getcactidevicelist',
+		data: {
+			
+		}
+	}
+	
+	$.getJSON("../device-controller.php", getparam, cactiall);
+}
+
+function cactiall(data) {
+	alert(data[1]['hostname']);
 }

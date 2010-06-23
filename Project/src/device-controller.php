@@ -22,8 +22,15 @@ if($_GET) {
 			echo json_encode(device_get_all());
 			break;
 		
+		case 'getcactidevice':
+			echo json_encode(device_cacti_get($data['cacti_id']));
+			break;
+		
+		case 'getcactidevicelist':
+			echo json_encode(device_cacti_get_all());
+			break;
+		
 		case 'adddevice':
-			print_r($data);
 			device_add(
 				$data['group_id'],
 				$data['device_type_id'],

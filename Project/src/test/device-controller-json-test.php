@@ -20,6 +20,8 @@ session_db_init();
 		<a onclick="get_device_list_JSON()">klik di sini untuk mendapatkan device dengan id disamping</a><br />
 		<div id="hasilJSON"></div><br />
 		<div id="hasilprosesJSON"></div><br />
-		<a onclick="add_device_JSON()">klik untuk add device</a>
+		<a onclick="add_device_JSON()">klik untuk add device</a><br />
+		<a onclick="get_cacti_device_JSON()">klik untuk ambil host dari cacti</a><br />
+		<a onclick="get_cacti_device_all_JSON()">klik untuk ambil SEMUA host dari cacti</a><br />
 	</body>
 </html>
