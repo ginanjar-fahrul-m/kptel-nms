@@ -13,7 +13,7 @@ session_db_init();
 	<head> 
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>KPTEL-NMS</title> 
-		<link type="text/css" href="css/pepper-grinder/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
 		<link type="text/css" href="css/navigation.css" media="screen" rel="stylesheet" />
 		<link type="text/css" href="css/map.css" media="screen" rel="stylesheet" />
 		
