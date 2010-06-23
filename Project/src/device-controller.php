@@ -21,6 +21,19 @@ if($_GET) {
 		case 'getdevicelist':
 			echo json_encode(device_get_all());
 			break;
+		
+		case 'adddevice':
+			print_r($data);
+			device_add(
+				$data['group_id'],
+				$data['device_type_id'],
+				$data['name'],
+				$data['description'],
+				$data['longitude'],
+				$data['latitude'],
+				$data['cacti_id']
+			);
+			break;
 	}
 	
 	session_db_close();
