@@ -47,13 +47,14 @@ function kptel_init() {
 		};
 		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
-google.maps.event.addListener(map, 'drag', function(event) {
+	
+	google.maps.event.addListener(map, 'drag', function(event) {
 		if(map.getZoom() == 5){
 			map.setCenter(indonesiaCenter);
 		}
     });
 
-google.maps.event.addListener(map, 'rightclick', function(event) {	
+	google.maps.event.addListener(map, 'rightclick', function(event) {	
 	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
       check_point(event.latLng);
 
@@ -144,9 +145,6 @@ function addDevice(location,devname) {
     placeMarkers.push(marker);
 }
 
-function x(){
-
-}
 function addGroup(location,groupname){
 	marker = new google.maps.Marker({
       position: location,

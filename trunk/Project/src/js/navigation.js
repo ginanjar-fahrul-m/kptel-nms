@@ -119,6 +119,18 @@ $(function() {
 			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
 		}
 	});
+	$("#detail").dialog({
+		autoOpen: false,
+		modal: false,
+		draggable: true,
+		resizable: true,
+		close: function() {
+			
+		},
+		open: function() {
+			alert($(this));
+		}
+	});
 	$("#deviceform").dialog({
 		autoOpen: false,
 		height: 300,
@@ -159,6 +171,9 @@ $(function() {
 			$('#lat').val(currentLat);
 			$('#contextmenu').dialog('close');
 		}
+	});
+	$('#help').click(function() {
+		$('#detail').dialog('open');
 	});
 	$('#login').click(function() {
 		$('#dialogform').dialog('open');
