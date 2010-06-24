@@ -8,13 +8,12 @@ a:hover {
 .fluid {
 	position: absolute;
     min-width: 940px;
-	opacity: 0.8;
+	opacity: 0.9;
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	z-index: 102;
 	color: #999;
-	background: #555;
 	border-top: 2px solid #444;
 	border-bottom: 2px solid #444;
 	text-align: left;
@@ -69,14 +68,22 @@ a:hover {
     margin: 0;
     padding: 15px 11px 7px 9px;
     color: #eee;
-    background: #555;
     text-decoration: none;
+	border: none;
 }
 #top li a:hover {
 	margin: 0;
     padding: 15px 11px 7px 9px;
-    color: #555;
-    background: #f6f5f4;
+    color: #ffffff;
+	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	border: none;
+}
+#top li a:active{
+	margin: 0;
+    padding: 15px 11px 7px 9px;
+    color: #222222;
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	border: none;
 }
 //dialog
 #effectleft, #effectright { 
@@ -129,4 +136,70 @@ a:hover {
 #dialogform .validateTips { 
 	border: 1px solid transparent; 
 	padding: 0.3em; 
+}
+//context-menu
+#contextmenu{
+	//text-align: center;
+}
+#contextmenu label{
+	margin: 0 auto;
+	padding: 8px;
+	display: block;
+	color: #eeeeee;
+}
+
+#contextmenu label:hover{
+	margin: 0;
+	padding: 8px;
+	display: block;
+	color: #ffffff;
+	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	cursor: hand;
+}
+
+#contextmenu label:active{
+	margin: 0;
+	padding: 8px;
+	display: block;
+    color: #222222;
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	cursor: hand;
+}
+
+//deviceform
+#deviceform label, #login input { 
+	display:block; 
+}
+#deviceform input.text, #deviceform select {
+	margin-bottom:12px;
+	padding: .4em; 
+}
+#lng, #lat {
+	width:30%; 
+}
+#name, #parent {
+	width:100%; 
+}
+#deviceform fieldset { 
+	padding:0; 
+	border:0; 
+	margin-top:25px;
+}
+#deviceform h1 { 
+	font-size: 1.2em; 
+	margin: .6em 0; 
+}
+#deviceform div#users-contain { 
+	width: 350px; 
+	margin: 20px 0; 
+}
+#deviceform div#users-contain table { 
+	margin: 1em 0; 
+	border-collapse: collapse; 
+	width: 100%; 
+}
+#deviceform div#users-contain table td, #deviceform div#users-contain table th { 
+	border: 1px solid #eee; 
+	padding: .6em 10px; 
+	text-align: left; 
 }
