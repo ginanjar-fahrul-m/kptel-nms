@@ -84,7 +84,7 @@ function render_init_device(data){
 	});
 }
 
-//function init_group(){
+function init_group(){
 	/*var getparam = {
 		action: 'getgrouplist',
 		data: {}
