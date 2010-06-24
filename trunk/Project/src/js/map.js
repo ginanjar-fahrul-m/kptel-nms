@@ -9,17 +9,24 @@ var flagMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 
+var tempX = 0;
+var tempY = 0;
+var currentMouseX;
+var currentMouseY;
+var currentLng;
+var currentLat;
+
 $(function(){
-		// initialize map (create markers, infowindows and list)
-		kptel_init();
-		// "live" bind click event
-		/*$("#markers a").live("click", function(){
-			var i = $(this).attr("rel");
-			// this next line closes all open infowindows before opening the selected one
-			//for(x=0; x < arrInfoWindows.length; x++){ arrInfoWindows[x].close(); }
-			arrInfoWindows[i].open(map, arrMarkers[i]);
-		});*/
-	});
+	// initialize map (create markers, infowindows and list)
+	kptel_init();
+	// "live" bind click event
+	/*$("#markers a").live("click", function(){
+		var i = $(this).attr("rel");
+		// this next line closes all open infowindows before opening the selected one
+		//for(x=0; x < arrInfoWindows.length; x++){ arrInfoWindows[x].close(); }
+		arrInfoWindows[i].open(map, arrMarkers[i]);
+	});*/
+});
 
 function kptel_init() {
 	var latlng = new google.maps.LatLng(-1, 118);
@@ -39,8 +46,13 @@ function kptel_init() {
 		};
     });
 	
-	google.maps.event.addListener(map, 'rightclick', function(event) {
+google.maps.event.addListener(map, 'rightclick', function(event) {	
+	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
       check_point(event.latLng);
+    });
+	
+	google.maps.event.addListener(map, 'click', function(event) {
+      $('#contextmenu').dialog('close');
     });
 	
 	/*
@@ -72,9 +84,10 @@ function render_init_device(data){
 	});
 }
 
-function init_group(){
+//function init_group(){
 	/*var getparam = {
 		action: 'getgrouplist',
+		data: {}
 		data: {}
 	}
 	$.getJSON("group-controller.php", getparam, render_init_group);*/
@@ -109,7 +122,12 @@ marker = new google.maps.Marker({
 }
 
 function check_point(position){
-	alert("lat : " + position.lat() + ", lng : " + position.lng());
+	currentMouseX = tempX;
+	currentMouseY = tempY;
+	currentLng = position.lng();
+	currentLat = position.lat();
+	$("#contextmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+	$('#contextmenu').dialog('open');
 }
 
 function dateTime() {
@@ -126,4 +144,27 @@ function dateTime() {
    var content = day[d] + ", " + month[m] + " " + date + ", " + year + " " + hh + ":" + mm + ":" + ss;
    document.getElementById("time").innerHTML = content;
    setTimeout("dateTime()",1000);
+}
+
+// Detect if the browser is IE or not.
+// If it is not IE, we assume that the browser is NS.
+var IE = document.all?true:false
+// If NS -- that is, !IE -- then set up for mouse capture
+if (!IE) document.captureEvents(Event.MOUSEMOVE)
+// Set-up to use getMouseXY function onMouseMove
+document.onmousedown = getMouseXY;
+function getMouseXY(e) {
+  if (IE) { // grab the x-y pos.s if browser is IE
+    tempX = event.clientX + document.body.scrollLeft
+    tempY = event.clientY + document.body.scrollTop
+  } else {  // grab the x-y pos.s if browser is NS
+    tempX = e.pageX
+    tempY = e.pageY
+  }  
+  // catch possible negative values in NS4
+  if (tempX < 0){tempX = 0}
+  if (tempY < 0){tempY = 0}  
+  // show the position values in the form named Show
+  // in the text fields named MouseX and MouseY
+  return true
 }

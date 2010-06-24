@@ -26,7 +26,6 @@ $(function() {
 		runEffect("#effectright");
 		return false;
 	});
-	
 	//login-dialog-form
 	$("#dialog").dialog("destroy");
 	
@@ -74,6 +73,8 @@ $(function() {
 		modal: true,
 		draggable: false,
 		resizable: false,
+		show: "clip",
+		hide: "clip",
 		buttons: {
 			'Login': function() {
 				var bValid = true;
@@ -104,7 +105,66 @@ $(function() {
 			$('#name').focus();
 		}
 	});
+	$("#contextmenu").dialog({
+		autoOpen: false,
+		height: 70,
+		width: 120,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
+		}
+	});
+	$("#deviceform").dialog({
+		autoOpen: false,
+		height: 300,
+		width: 350,
+		modal: true,
+		draggable: false,
+		resizable: false,
+		show: "clip",
+		hide: "clip",
+		buttons: {
+			'Login': function() {
+				var bValid = true;
+				allFields.removeClass('ui-state-error');
+
+				bValid = bValid && checkLength(name,"username",3,16);
+				bValid = bValid && checkLength(password,"password",5,16);
+
+				bValid = bValid && checkRegexp(name,/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkRegexp(password,/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
+				
+				if (bValid) {
+					alert('<tr>' +
+						'<td>' + name.val() + '</td>' + 
+						'<td>' + password.val() + '</td>' +
+						'</tr>'); 
+					$(this).dialog('close');
+				}
+			},
+			Cancel: function() {
+				$(this).dialog('close');
+			}
+		},
+		close: function() {
+			allFields.val('').removeClass('ui-state-error');
+		},
+		open: function() {
+			$('#lng').val(currentLng);
+			$('#lat').val(currentLat);
+			$('#contextmenu').dialog('close');
+		}
+	});
 	$('#login').click(function() {
 		$('#dialogform').dialog('open');
+	});
+	$('#adddevice').click(function() {
+		$('#deviceform').dialog('open');
+		$('#contextmenu').dialog('close');
 	});
 });
