@@ -17,6 +17,24 @@ body {
     min-width: 940px;
     color: #666;
 }
+#zoom_control{
+ z-index: 10;
+ position: absolute;
+ margin-top: 50px;
+ margin-left: 10px;
+ text-align: center;
+ opacity: 0.8;
+ background: black;
+}
+
+#zoom_control button{
+ margin-top: 10px;
+ margin-bottom: 10px;
+}
+
+#slider{
+ margin-left: 10px;
+}
 hr {
 	display: none;
 }
