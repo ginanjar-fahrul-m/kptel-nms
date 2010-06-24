@@ -8,7 +8,11 @@ var placeMarkers = [];
 var flagMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
+var indonesiaCenter = new google.maps.LatLng(-1, 118);
+var indonesiaBound;
 
+var url_device = "device-controller.php";
+var url_group = "group-controller.php";
 var tempX = 0;
 var tempY = 0;
 var currentMouseX;
@@ -17,22 +21,13 @@ var currentLng;
 var currentLat;
 
 $(function(){
-	// initialize map (create markers, infowindows and list)
 	kptel_init();
-	// "live" bind click event
-	/*$("#markers a").live("click", function(){
-		var i = $(this).attr("rel");
-		// this next line closes all open infowindows before opening the selected one
-		//for(x=0; x < arrInfoWindows.length; x++){ arrInfoWindows[x].close(); }
-		arrInfoWindows[i].open(map, arrMarkers[i]);
-	});*/
 });
 
 function kptel_init() {
-	var latlng = new google.maps.LatLng(-1, 118);
 	var myOptions = {
 		zoom: 5,
-		center: latlng,
+		center: indonesiaCenter,
 		mapTypeControl: false,
 		navigationControl: false,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -40,33 +35,72 @@ function kptel_init() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	dateTime();
 	
+	//var indonesiaBound = map.getBounds();
+	//alert(map.getBounds().getSouthWest()+ " , ne: "+map.getBounds().getNorthEast());
+	//indonesiaBound = new google.maps.LatLngBounds(getSouthWest(),getNorthEast());
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < 5) { 
 			map.setZoom(5); 
 		};
+		if (map.getZoom() == 5) { 
+			map.setCenter(indonesiaCenter);
+		};
+		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
-	
+google.maps.event.addListener(map, 'drag', function(event) {
+		if(map.getZoom() == 5){
+			map.setCenter(indonesiaCenter);
+		}
+    });
+
 google.maps.event.addListener(map, 'rightclick', function(event) {	
 	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
       check_point(event.latLng);
+
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
       $('#contextmenu').dialog('close');
     });
-	
-	/*
-	//ADD DEVICE LOGO
-	google.maps.event.addListener(map, 'click', function(event) {
-      addDevice(event.latLng);
+
+	//set map limited only for zoom 5 until 15
+	google.maps.event.addListenerOnce(map, 'idle', function() {
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = 5;
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = 15;
     });
-	//ADD GROUP LOGO
-	google.maps.event.addListener(map, 'rightclick', function(event) {
-      addGroup(event.latLng);
-    });*/
 	
 	init_device();
-	//init_group();
+	init_group();
+	
+	//jQuery Addition
+	$(function() {
+	//Add Zoom Slider
+		$("#slider").slider({
+			orientation: "vertical",
+			value:5,
+			min: 5,
+			max: 15,
+			step: 1,
+			slide: function(event, ui) {
+				$("#amount").val('$' + ui.value);
+				map.setZoom(ui.value);
+			}
+		});
+		$("#amount").val('$' + $("#slider").slider("value"));
+		
+		//Add Zoom Button
+		$(".demo button:first").button({
+            icons: {
+                primary: 'ui-icon-plushthick'
+            },
+            text: false
+        }).next().button({
+            icons: {
+                primary: 'ui-icon-minusthick'
+            },
+            text: false
+        });
+	});	
 }
 
 function init_device(){
@@ -74,7 +108,7 @@ function init_device(){
 		action: 'getdevicelist',
 		data: {}
 	}
-	$.getJSON("device-controller.php", getparam, render_init_device);
+	$.getJSON(url_device, getparam, render_init_device);
 }
 
 function render_init_device(data){
@@ -85,34 +119,36 @@ function render_init_device(data){
 }
 
 function init_group(){
-	/*var getparam = {
+	var getparam = {
 		action: 'getgrouplist',
 		data: {}
-		data: {}
 	}
-	$.getJSON("group-controller.php", getparam, render_init_group);*/
+	$.getJSON(url_group, getparam, render_init_group);
 }
 
-/*function render_init_device(data){
+function render_init_group(data){
 	$.each(data, function(index,datum){
-		//alert(datum['latitude']+" "+datum['longitude']);
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		addDevice(newPos);
+		addGroup(newPos,datum['name']);
 	});
-}*/
+}
 
 function addDevice(location,devname) {
     marker = new google.maps.Marker({
       position: location,
 	  icon : iconDevice,
       map: map,
-	  title : devname
+	  title : devname,
+	  zIndex : 10
     });
     placeMarkers.push(marker);
 }
 
+function x(){
+
+}
 function addGroup(location,groupname){
-marker = new google.maps.Marker({
+	marker = new google.maps.Marker({
       position: location,
 	  icon : iconGroup,
       map: map,
@@ -122,12 +158,28 @@ marker = new google.maps.Marker({
 }
 
 function check_point(position){
+	//alert("lat : " + position.lat() + ", lng : " + position.lng());
 	currentMouseX = tempX;
 	currentMouseY = tempY;
 	currentLng = position.lng();
 	currentLat = position.lat();
 	$("#contextmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
 	$('#contextmenu').dialog('open');
+}
+
+function zoom_in_btn(){
+	if(map.getZoom() < 15) {
+		var val = map.getZoom()+1;
+		map.setZoom(val);
+		$( "#slider" ).slider( "option", "value", val);
+	}
+}
+function zoom_out_btn(){
+	if(map.getZoom() > 5) {
+		var val = map.getZoom()-1;
+		map.setZoom(val);
+		$( "#slider" ).slider( "option", "value", val);
+	}
 }
 
 function dateTime() {
