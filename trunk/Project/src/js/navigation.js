@@ -129,7 +129,7 @@ $(function() {
 		show: "clip",
 		hide: "clip",
 		buttons: {
-			'Login': function() {
+			'Add': function() {
 				var bValid = true;
 				allFields.removeClass('ui-state-error');
 
