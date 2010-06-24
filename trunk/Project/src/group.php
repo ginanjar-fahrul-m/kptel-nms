@@ -4,6 +4,9 @@ require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
+/* status: ok
+ * tester: jiwo
+ */
 function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
 	
@@ -26,9 +29,16 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 				".$longitude.",
 				".$latitude.")";
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function group_update($group_id, $parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
 	
@@ -42,27 +52,61 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 	$sql = "UPDATE `group` 
 			SET
 				`group_id` = ".$group_id.",
-				`parent_id` = ".$device_type_id.",
+				`parent_id` = ".$parent_id.",
 				`name` = '".$name."',
 				`description` = '".$description."',
 				`longitude` = ".$longitude.",
 				`latitude` = ".$latitude." 
 			WHERE `group_id` = ".$group_id;
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function group_delete($group_id) {
 	global $config;
 	
 	$group_id = mysql_real_escape_string($group_id);
 	
+	// Delete children devices
+	$sql = "DELETE FROM `device`
+			WHERE `group_id` = ".$group_id;
+	if(!session_get($config['session']['app_db_sess'])->query($sql)) {
+		return false;
+	}
+	
+	// Recursively delete children groups
+	$sql = "SELECT `group_id`
+			FROM `group`
+			WHERE `parent_id` = ".$group_id;
+	if(!$result = session_get($config['session']['app_db_sess'])->query($sql)) {
+		return false;
+	}
+	
+	while($data = mysql_fetch_assoc($result)) {
+		group_delete($data['group_id']);
+	}
+	
+	// Finally, delete parent group
 	$sql = "DELETE FROM `group`
 			WHERE `group_id` = ".$group_id;
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function group_get($group_id) {
 	global $config;
 	
@@ -74,6 +118,9 @@ function group_get($group_id) {
 	return mysql_fetch_assoc($result);
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function group_get_all() {
 	global $config;
 	
