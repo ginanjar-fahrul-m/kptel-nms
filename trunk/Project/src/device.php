@@ -179,4 +179,8 @@ function device_cacti_get_all() {
 	return $device_list;
 }
 
+function device_cacti_get_monitoring_data($cacti_id) {
+	return true;
+}
+
 ?>
