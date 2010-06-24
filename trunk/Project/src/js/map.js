@@ -63,7 +63,7 @@ function kptel_init() {
 	google.maps.event.addListener(map, 'click', function(event) {
       $('#contextmenu').dialog('close');
     });
-
+	
 	//set map limited only for zoom 5 until 15
 	google.maps.event.addListenerOnce(map, 'idle', function() {
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = 5;
@@ -143,6 +143,10 @@ function addDevice(location,devname) {
 	  zIndex : 10
     });
     placeMarkers.push(marker);
+	
+	google.maps.event.addListener(marker, 'rightclick', function(event) {
+      alert(devname);
+    });
 }
 
 function addGroup(location,groupname){
@@ -153,6 +157,10 @@ function addGroup(location,groupname){
 	  title : groupname
     });
     placeMarkers.push(marker);
+	
+	google.maps.event.addListener(marker, 'rightclick', function(event) {
+      alert(groupname);
+    });
 }
 
 function check_point(position){
