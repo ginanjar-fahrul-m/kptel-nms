@@ -35,9 +35,16 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 				".$latitude.",
 				".$cacti_id.")";
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function device_update($device_id, $group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
 	
@@ -61,9 +68,16 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 				`cacti_id` = ".$cacti_id."
 			WHERE `device_id` = ".$device_id;
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function device_delete($device_id) {
 	global $config;
 	
@@ -72,7 +86,11 @@ function device_delete($device_id) {
 	$sql = "DELETE FROM `device`
 			WHERE `device_id` = ".$device_id;
 	
-	session_get($config['session']['app_db_sess'])->query($sql);
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /* status: ok

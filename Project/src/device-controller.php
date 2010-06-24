@@ -31,7 +31,7 @@ if($_GET) {
 			break;
 		
 		case 'adddevice':
-			device_add(
+			echo device_add(
 				$data['group_id'],
 				$data['device_type_id'],
 				$data['name'],
@@ -40,6 +40,23 @@ if($_GET) {
 				$data['latitude'],
 				$data['cacti_id']
 			);
+			break;
+		
+		case 'updatedevice':
+			echo device_update(
+				$data['device_id'],
+				$data['group_id'],
+				$data['device_type_id'],
+				$data['name'],
+				$data['description'],
+				$data['longitude'],
+				$data['latitude'],
+				$data['cacti_id']
+			);
+			break;
+		
+		case 'deletedevice':
+			echo device_delete($data['device_id']);
 			break;
 	}
 	

@@ -10,6 +10,7 @@ require_once('includes/session.php');
 function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
 	
+	/* Never trust user input :P */
 	$parent_id = mysql_real_escape_string($parent_id);
 	$name = mysql_real_escape_string($name);
 	$description = mysql_real_escape_string($description);
