@@ -137,6 +137,11 @@ session_db_init();
 			</fieldset>
 			</form>
 		</div>
+		<div id="zoom_control">
+			<button onclick="zoom_in_btn()">+</button>
+			<div id="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"></div>
+			<button onclick="zoom_out_btn()">-</button>
+		</div>
 		<div id="map_canvas"></div>
 	</body>
 </html>
