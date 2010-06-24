@@ -139,7 +139,7 @@ a:hover {
 }
 //context-menu
 #contextmenu{
-	//text-align: center;
+	
 }
 #contextmenu label{
 	margin: 0 auto;
@@ -147,7 +147,6 @@ a:hover {
 	display: block;
 	color: #eeeeee;
 }
-
 #contextmenu label:hover{
 	margin: 0;
 	padding: 8px;
@@ -156,7 +155,6 @@ a:hover {
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	cursor: hand;
 }
-
 #contextmenu label:active{
 	margin: 0;
 	padding: 8px;
@@ -165,7 +163,6 @@ a:hover {
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
 	cursor: hand;
 }
-
 //deviceform
 #deviceform label, #login input { 
 	display:block; 

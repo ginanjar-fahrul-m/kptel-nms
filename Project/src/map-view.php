@@ -22,6 +22,7 @@ session_db_init();
 		<script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="js/map.js"></script>
 		<script type="text/javascript" src="js/navigation.js"></script>
+		<script type="text/javascript" src="js/top_up-min.js"></script>
 	</head>	
 	<body>
 		<div id="top" class="fluid ui-widget-header">
@@ -38,6 +39,9 @@ session_db_init();
 				<ul> 
 					<li><a class="ui-widget-header" id="login" href="#" title="Login as admin"> 
 					<img border="0" src="images/menu-login.png"/> Login </a></li> 
+					<li><a href="http://10.32.18.200/plugins/realtime/graph_popup_rt.php?local_graph_id=300" class="tu_iframe_750x350">
+					<img alt="Google" src="/images/thumbnails/google.jpg?1269382362" id="element_18"></a>
+					</li>
 					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
 					<img border="0" src="images/menu-help.png"/> Help </a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
@@ -142,7 +146,6 @@ session_db_init();
 			</fieldset>
 			</form>
 		</div>
-		<div id="detail" title="detail"></div>
 		<div id="map_canvas"></div>
 	</body>
 </html>
