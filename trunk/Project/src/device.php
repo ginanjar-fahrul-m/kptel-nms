@@ -179,8 +179,26 @@ function device_cacti_get_all() {
 	return $device_list;
 }
 
-function device_cacti_get_monitoring_data($cacti_id) {
-	return true;
+function device_cacti_get_monitoring_data_simple($cacti_id) {
+	global $config;
+	
+	$cacti_id = mysql_real_escape_string($cacti_id);
+	
+	$sql = "SELECT 
+				`id`,
+				`description`,
+				`hostname`,
+				`monitor`,
+				`status`,
+				`status_fail_date`,
+				`status_rec_date`,
+				`status_last_error`,
+				`availability`
+			FROM `host`
+			WHERE `id` = ".$cacti_id;
+	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
+	
+	return mysql_fetch_assoc($result);
 }
 
 ?>
