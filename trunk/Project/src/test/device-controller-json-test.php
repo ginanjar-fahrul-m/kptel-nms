@@ -12,16 +12,17 @@ session_db_init();
 <html>
 	<head>
 		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="cobaJSON.js"></script>
+		<script type="text/javascript" src="vardump.js"></script>
+		<script type="text/javascript" src="device-test.js"></script>
 	</head>
 	
 	<body>
-		<input type="text" id="device_id" />
-		<a onclick="get_device_list_JSON()">klik di sini untuk mendapatkan device dengan id disamping</a><br />
-		<div id="hasilJSON"></div><br />
-		<div id="hasilprosesJSON"></div><br />
-		<a onclick="add_device_JSON()">klik untuk add device</a><br />
-		<a onclick="get_cacti_device_JSON()">klik untuk ambil host dari cacti</a><br />
-		<a onclick="get_cacti_device_all_JSON()">klik untuk ambil SEMUA host dari cacti</a><br />
+		Device ID: <input type="text" id="device_id" /><button onclick="get_device()">Get Device</button><br />
+		<button onclick="get_device_list()">Get Device List</button><br />
+		Cacti ID: <input type="text" id="cacti_id" /><button onclick="get_cacti_device()">Get Cacti Host</button><br />
+		<button onclick="get_cacti_device_list()">Get Cacti Host List</button><br />
+		<button onclick="add_device()">Add Device</button><br />
+		<button onclick="update_device()">Update Device</button><br />
+		<button onclick="delete_device()">Delete Device</button><br />
 	</body>
 </html>
