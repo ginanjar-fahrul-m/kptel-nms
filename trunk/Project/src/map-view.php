@@ -122,9 +122,9 @@ session_db_init();
 			<form>
 			<fieldset>
 				<label for="name">Username</label>
-				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+				<input type="text" name="name" id="loginname" class="text ui-widget-content ui-corner-all" />
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+				<input type="password" name="password" id="loginpassword" value="" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 			</form>
 		</div>
@@ -133,20 +133,22 @@ session_db_init();
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
 		<div id="deviceform" title="device form">
-			<p class="logintips">All form fields are required.</p>
+			<p class="devicetips">All form fields are required.</p>
 			<form>
 			<fieldset>
 				<label for="devicename">Name: </label>
 				<input type="text" name="name" id="devicename" class="text ui-widget-content ui-corner-all" />
 				<label for="parent">Parent: </label>
-				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all" />
+				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all">
+					<option value="default"></option>
 					<option value="g1">group_1</option>
 					<option value="g2">group_2</option>
 					<option value="g3">group_3</option>
 					<option value="g4">group_4</option>
 				</select>
 				<label for="cacti">Device: </label>
-				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all" />
+				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
+					<option value="default"></option>
 					<option value="id1">d1_aa</option>
 					<option value="id2">d2_bb</option>
 					<option value="id3">d3_cc</option>
@@ -159,13 +161,14 @@ session_db_init();
 			</form>
 		</div>
 		<div id="groupform" title="group form">
-			<p class="logintips">All form fields are required.</p>
+			<p class="grouptips">All form fields are required.</p>
 			<form>
 			<fieldset>
 				<label for="groupname">Name: </label>
 				<input type="text" name="name" id="groupname" class="text ui-widget-content ui-corner-all" />
 				<label for="groupparent">Parent: </label>
-				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all" />
+				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all">
+					<option value="default"></option>
 					<option value="g1">group_1</option>
 					<option value="g2">group_2</option>
 					<option value="g3">group_3</option>
