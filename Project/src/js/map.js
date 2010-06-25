@@ -1,4 +1,4 @@
-var map;
+var map= null;
 var mapmode = 0;
 /*
 	Mode 0 : mode peta biasa
@@ -131,7 +131,7 @@ function init_group(){
 function render_init_group(data){
 	$.each(data, function(index,datum){
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		addGroup(newPos,datum['name']);
+		render_group(newPos,datum['name']);
 	});
 }
 //DEVICE MODEL-CONTROL
@@ -281,19 +281,27 @@ function render_group(location,groupname){
     });
 }
 
-function add_group() {
+function add_group(parentid,grpname,grplng,grplat,grpdesc) {
 	var getparam = {
 		action: 'addgroup',
 		data: {
-			parent_id: 1,
-			name: 'Mencoba',
-			description: 'ini adalah grup coba-coba',
-			longitude: 110,
-			latitude: 7.4
+			parent_id: parentid,
+			name: grpname,
+			description: grpdesc,
+			longitude: grplng,
+			latitude: grplat
 		}
 	}
 	
-	$.getJSON(url, getparam, alert_group);
+	var newLatLng = new google.maps.LatLng(grplat,grplng);
+	$.getJSON(url_group, getparam, function(data) {
+			if(data == 1) {
+				render_group(newLatLng,grpname);
+				alert("Add Group success");
+			}
+			else alert("Add Group failed");
+		}
+	);
 }
 
 function get_group() {
