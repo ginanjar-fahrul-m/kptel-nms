@@ -24,5 +24,8 @@ session_db_init();
 		<button onclick="add_device()">Add Device</button><br />
 		<button onclick="update_device()">Update Device</button><br />
 		<button onclick="delete_device()">Delete Device</button><br />
+		<button onclick="get_monitoring_graph()">Get Monitoring Graph</button><br />
+		<h2>Monitoring Graph</h2><br />
+		<div id="monitoring_graph"></div><br />
 	</body>
 </html>

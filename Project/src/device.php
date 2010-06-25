@@ -142,7 +142,8 @@ function device_cacti_get($cacti_id) {
 				`status_fail_date`,
 				`status_rec_date`,
 				`status_last_error`,
-				`availability`
+				`availability`,
+				`cur_time`
 			FROM `host`
 			WHERE `id` = ".$cacti_id;
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
@@ -165,7 +166,8 @@ function device_cacti_get_all() {
 				`status_fail_date`,
 				`status_rec_date`,
 				`status_last_error`,
-				`availability`
+				`availability`,
+				`cur_time`
 			FROM `host`
 			ORDER BY `description` ASC";
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
@@ -179,26 +181,21 @@ function device_cacti_get_all() {
 	return $device_list;
 }
 
-function device_cacti_get_monitoring_data_simple($cacti_id) {
+function device_cacti_get_monitoring_graph($cacti_id) {
 	global $config;
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
-	$sql = "SELECT 
-				`id`,
-				`description`,
-				`hostname`,
-				`monitor`,
-				`status`,
-				`status_fail_date`,
-				`status_rec_date`,
-				`status_last_error`,
-				`availability`
-			FROM `host`
-			WHERE `id` = ".$cacti_id;
+	$sql = "SELECT `id`
+			FROM `graph_local`
+			WHERE `host_id` = ".$cacti_id;
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
 	
-	return mysql_fetch_assoc($result);
+	$graph_start = strtotime('now -1 day');
+	$graph_end = strtotime('now');
+	while($row = mysql_fetch_assoc($result)) {
+		echo '<img src="', $config['cacti']['url'], '/graph_image.php?local_graph_id=', $row['id'], '&rra_id=0&view_type=tree&graph_start=', $graph_start, '&graph_end=', $graph_end, '"></img><br />';
+	}
 }
 
 ?>
