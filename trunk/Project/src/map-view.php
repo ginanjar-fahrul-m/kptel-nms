@@ -38,10 +38,7 @@ session_db_init();
 			<div id = "topright"> 
 				<ul> 
 					<li><a class="ui-widget-header" id="login" href="#" title="Login as admin"> 
-					<img border="0" src="images/menu-login.png"/> Login </a></li> 
-					<li><a href="http://10.32.18.200/plugins/realtime/graph_popup_rt.php?local_graph_id=300" class="tu_iframe_750x350">
-					<img alt="Google" src="/images/thumbnails/google.jpg?1269382362" id="element_18"></a>
-					</li>
+					<img border="0" src="images/menu-login.png"/> Login </a></li>
 					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
 					<img border="0" src="images/menu-help.png"/> Help </a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
@@ -131,6 +128,9 @@ session_db_init();
 		<div id="contextmenu">
 			<label id="adddevice" title="add new device"> Add Device </label>
 			<label id="addgroup" title="add new group"> Add Group </label>
+		</div>
+		<div id="objectmenu">
+			<label id="showdetail" title="add new device"><a id="cactidetail" href="http://10.32.18.200/plugins/realtime/graph_popup_rt.php?local_graph_id=300" class="tu_iframe_750x350"> Show Detail </a></label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
