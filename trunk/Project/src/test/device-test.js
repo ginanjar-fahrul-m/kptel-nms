@@ -41,6 +41,21 @@ function get_cacti_device() {
 	$.getJSON(url, getparam, alert_device);
 }
 
+function get_monitoring_graph() {
+	alert("get monitoring graph cacti id " + document.getElementById("cacti_id").value);
+	
+	var getparam = {
+		action: 'getcactimonitoringgraph',
+		data: {
+			cacti_id: document.getElementById("cacti_id").value
+		}
+	}
+	
+	$.get(url, getparam, function(data) {
+		document.getElementById('monitoring_graph').innerHTML = data;
+	});
+}
+
 function get_cacti_device_list() {
 	var getparam = {
 		action: 'getcactidevicelist',

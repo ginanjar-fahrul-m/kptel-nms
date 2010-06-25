@@ -58,6 +58,10 @@ if($_GET) {
 		case 'deletedevice':
 			echo device_delete($data['device_id']);
 			break;
+		
+		case 'getcactimonitoringgraph':
+			echo device_cacti_get_monitoring_graph($data['cacti_id']);
+			break;
 	}
 	
 	session_db_close();
