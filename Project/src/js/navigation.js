@@ -125,9 +125,24 @@ $(function() {
 		open: function() {
 			name.focus();
 			$('#contextmenu').dialog('close');
+			$('#objectmenu').dialog('close');
 		}
 	});
 	$("#contextmenu").dialog({
+		autoOpen: false,
+		height: 70,
+		width: 120,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
+		}
+	});
+	$("#objectmenu").dialog({
 		autoOpen: false,
 		height: 70,
 		width: 120,
@@ -184,6 +199,7 @@ $(function() {
 			$('#devicelng').val(currentLng);
 			$('#devicelat').val(currentLat);
 			$('#contextmenu').dialog('close');
+			$('#objectmenu').dialog('close');
 		}
 	});
 	$("#groupform").dialog({
@@ -228,6 +244,7 @@ $(function() {
 			$('#grouplng').val(currentLng);
 			$('#grouplat').val(currentLat);
 			$('#contextmenu').dialog('close');
+$('#objectmenu').dialog('close');
 		}
 	});
 	$('#help').click(function() {
@@ -239,9 +256,15 @@ $(function() {
 	$('#adddevice').click(function() {
 		$('#deviceform').dialog('open');
 		$('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('close');
 	});
 	$('#addgroup').click(function() {
 		$('#groupform').dialog('open');
 		$('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('close');
+	});
+	$('#showdetail').click(function() {
+		$('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('close');
 	});
 });

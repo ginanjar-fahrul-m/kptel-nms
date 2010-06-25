@@ -57,12 +57,14 @@ function kptel_init() {
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {	
 	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('close');
       check_point(event.latLng);
 
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
       $('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('close');
     });
 	
 	//set map limited only for zoom 5 until 15
@@ -135,6 +137,7 @@ function render_init_group(data){
 		render_group(newPos,datum['name']);
 	});
 }
+
 //DEVICE MODEL-CONTROL
 function render_device(location,devname) {
     marker = new google.maps.Marker({
@@ -147,7 +150,12 @@ function render_device(location,devname) {
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      alert("Device name :" + devname);
+      //alert("Device name :" + devname);
+		currentMouseX = tempX;
+		currentMouseY = tempY;
+		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+		$('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('open');
     });
 }
 
@@ -278,7 +286,12 @@ function render_group(location,groupname){
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      alert("Group name :" + groupname);
+      //alert("Group name :" + groupname);
+		currentMouseX = tempX;
+		currentMouseY = tempY;
+		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+		$('#contextmenu').dialog('close');
+		$('#objectmenu').dialog('open');
     });
 }
 
