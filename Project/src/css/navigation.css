@@ -174,7 +174,7 @@ a:hover {
 #devicelng, #devicelat {
 	width:30%; 
 }
-#devicename, #deviceparent, #groupname, #groupparent, #cacti {
+#devicename, #deviceparent, #groupname, #groupparent, #devicecacti {
 	width:100%; 
 }
 #deviceform fieldset { 
