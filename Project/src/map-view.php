@@ -117,8 +117,8 @@ session_db_init();
 			<div id="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"></div>
 			<button onclick="zoom_out_btn()">-</button>
 		</div>
-		<div id="dialogform" title="Login">
-			<p class="validateTips">All form fields are required.</p>
+		<div id="loginform" title="Login">
+			<p class="logintips">All form fields are required.</p>
 			<form>
 			<fieldset>
 				<label for="name">Username</label>
@@ -133,16 +133,47 @@ session_db_init();
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
 		<div id="deviceform" title="device form">
+			<p class="logintips">All form fields are required.</p>
 			<form>
 			<fieldset>
-				<label for="name">Name: </label>
-				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+				<label for="devicename">Name: </label>
+				<input type="text" name="name" id="devicename" class="text ui-widget-content ui-corner-all" />
 				<label for="parent">Parent: </label>
-				<select name="parent" id="parent" class="text ui-widget-content ui-corner-all" />
+				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all" />
+					<option value="g1">group_1</option>
+					<option value="g2">group_2</option>
+					<option value="g3">group_3</option>
+					<option value="g4">group_4</option>
 				</select>
-				<label for="location">Location: </label>
-				<input type="text" id="lng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
-				<input type="text" id="lat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+				<label for="cacti">Device: </label>
+				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all" />
+					<option value="id1">d1_aa</option>
+					<option value="id2">d2_bb</option>
+					<option value="id3">d3_cc</option>
+					<option value="id4">d4_dd</option>
+				</select>
+				<label for="devicelocation">Location: </label>
+				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+				<input type="text" id="devicelat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+			</fieldset>
+			</form>
+		</div>
+		<div id="groupform" title="group form">
+			<p class="logintips">All form fields are required.</p>
+			<form>
+			<fieldset>
+				<label for="groupname">Name: </label>
+				<input type="text" name="name" id="groupname" class="text ui-widget-content ui-corner-all" />
+				<label for="groupparent">Parent: </label>
+				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all" />
+					<option value="g1">group_1</option>
+					<option value="g2">group_2</option>
+					<option value="g3">group_3</option>
+					<option value="g4">group_4</option>
+				</select>
+				<label for="grouplocation">Location: </label>
+				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
 			</fieldset>
 			</form>
 		</div>
