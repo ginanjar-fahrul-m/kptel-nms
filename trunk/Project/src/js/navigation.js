@@ -166,7 +166,7 @@ $(function() {
 				bValid = bValid && checkLength(devicetips,devicelat,"latitude",-180,180);
 				
 				if (bValid) {
-					alert('success'); 
+					add_device(0,0,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),2,"Ini device");
 					devicetips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -210,7 +210,7 @@ $(function() {
 				bValid = bValid && checkLength(grouptips,grouplat,"latitude",-180,180);
 				
 				if (bValid) {
-					alert('success'); 
+					add_group(0,$('#groupname').val(),$('#grouplng').val(),$('#grouplat').val(),"ini group");
 					grouptips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
