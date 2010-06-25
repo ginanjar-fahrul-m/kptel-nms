@@ -99,41 +99,41 @@ a:hover {
 	text-align: center;
 }
 //login-form
-#dialogform label, #login input { 
+#loginform label, #login input { 
 	display:block; 
 }
-#dialogform input.text {
+#loginform input.text {
 	margin-bottom:12px; 
 	width:100%; 
 	padding: .4em; 
 }
-#dialogform fieldset { 
+#loginform fieldset { 
 	padding:0; 
 	border:0; 
 	margin-top:25px;
 }
-#dialogform h1 { 
+#loginform h1 { 
 	font-size: 1.2em; 
 	margin: .6em 0; 
 }
-#dialogform div#users-contain { 
+#loginform div#users-contain { 
 	width: 350px; 
 	margin: 20px 0; 
 }
-#dialogform div#users-contain table { 
+#loginform div#users-contain table { 
 	margin: 1em 0; 
 	border-collapse: collapse; 
 	width: 100%; 
 }
-#dialogform div#users-contain table td, #dialogform div#users-contain table th { 
+#loginform div#users-contain table td, #loginform div#users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
 }
-#dialogform .ui-dialog .ui-state-error { 
+#loginform .ui-dialog .ui-state-error { 
 	padding: .3em; 
 }
-#dialogform .validateTips { 
+#loginform .validateTips { 
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
@@ -164,17 +164,17 @@ a:hover {
 	cursor: hand;
 }
 //deviceform
-#deviceform label, #login input { 
+#deviceform label, #deviceform input { 
 	display:block; 
 }
 #deviceform input.text, #deviceform select {
 	margin-bottom:12px;
 	padding: .4em; 
 }
-#lng, #lat {
+#devicelng, #devicelat {
 	width:30%; 
 }
-#name, #parent {
+#devicename, #deviceparent, #groupname, #groupparent, #cacti {
 	width:100%; 
 }
 #deviceform fieldset { 
@@ -196,6 +196,40 @@ a:hover {
 	width: 100%; 
 }
 #deviceform div#users-contain table td, #deviceform div#users-contain table th { 
+	border: 1px solid #eee; 
+	padding: .6em 10px; 
+	text-align: left; 
+}
+//groupform
+#groupform label, #groupform input { 
+	display:block; 
+}
+#groupform input.text, #groupform select {
+	margin-bottom:12px;
+	padding: .4em; 
+}
+#grouplng, #grouplat {
+	width:30%; 
+}
+#groupform fieldset { 
+	padding:0; 
+	border:0; 
+	margin-top:25px;
+}
+#groupform h1 { 
+	font-size: 1.2em; 
+	margin: .6em 0; 
+}
+#groupform div#users-contain { 
+	width: 350px; 
+	margin: 20px 0; 
+}
+#groupform div#users-contain table { 
+	margin: 1em 0; 
+	border-collapse: collapse; 
+	width: 100%; 
+}
+#groupform div#users-contain table td, #groupform div#users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
