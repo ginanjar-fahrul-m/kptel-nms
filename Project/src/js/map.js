@@ -10,7 +10,8 @@ var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
 var indonesiaBound;
-
+var minZoom = 5;
+var maxZoom = 15;
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
 var tempX = 0;
@@ -26,7 +27,7 @@ $(function(){
 
 function kptel_init() {
 	var myOptions = {
-		zoom: 5,
+		zoom: minZoom,
 		center: indonesiaCenter,
 		mapTypeControl: false,
 		navigationControl: false,
@@ -39,17 +40,17 @@ function kptel_init() {
 	//alert(map.getBounds().getSouthWest()+ " , ne: "+map.getBounds().getNorthEast());
 	//indonesiaBound = new google.maps.LatLngBounds(getSouthWest(),getNorthEast());
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
-		if (map.getZoom() < 5) { 
-			map.setZoom(5); 
+		if (map.getZoom() < minZoom) { 
+			map.setZoom(minZoom); 
 		};
-		if (map.getZoom() == 5) { 
+		if (map.getZoom() == minZoom) { 
 			map.setCenter(indonesiaCenter);
 		};
 		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
 	
 	google.maps.event.addListener(map, 'drag', function(event) {
-		if(map.getZoom() == 5){
+		if(map.getZoom() == minZoom){
 			map.setCenter(indonesiaCenter);
 		}
     });
@@ -66,8 +67,8 @@ function kptel_init() {
 	
 	//set map limited only for zoom 5 until 15
 	google.maps.event.addListenerOnce(map, 'idle', function() {
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = 5;
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = 15;
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
     });
 	
 	init_device();
@@ -78,9 +79,9 @@ function kptel_init() {
 	//Add Zoom Slider
 		$("#slider").slider({
 			orientation: "vertical",
-			value:5,
-			min: 5,
-			max: 15,
+			value:minZoom,
+			min: minZoom,
+			max: maxZoom,
 			step: 1,
 			slide: function(event, ui) {
 				$("#amount").val('$' + ui.value);
@@ -368,14 +369,14 @@ function check_point(position){
 
 //CONTROL UNTUK BUTTOM MAP ZOOM SLIDER
 function zoom_in_btn(){
-	if(map.getZoom() < 15) {
+	if(map.getZoom() < maxZoom) {
 		var val = map.getZoom()+1;
 		map.setZoom(val);
 		$( "#slider" ).slider( "option", "value", val);
 	}
 }
 function zoom_out_btn(){
-	if(map.getZoom() > 5) {
+	if(map.getZoom() > minZoom) {
 		var val = map.getZoom()-1;
 		map.setZoom(val);
 		$( "#slider" ).slider( "option", "value", val);
