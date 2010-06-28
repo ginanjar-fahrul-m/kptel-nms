@@ -87,6 +87,7 @@ $(function() {
 			return false;
 		}
 	}
+	
 	$("#loginform").dialog({	
 		autoOpen: false,
 		height: 300,
@@ -160,7 +161,7 @@ $(function() {
 		autoOpen: false,
 		height: 330,
 		width: 350,
-		modal: true,
+		modal: false,
 		draggable: false,
 		resizable: false,
 		show: "clip",
@@ -196,6 +197,7 @@ $(function() {
 			allfieldsdevice.val('').removeClass('ui-state-error');
 		},
 		open: function() {
+			get_cacti_device_list();
 			$('#devicelng').val(currentLng);
 			$('#devicelat').val(currentLat);
 			$('#contextmenu').dialog('close');
@@ -244,11 +246,11 @@ $(function() {
 			$('#grouplng').val(currentLng);
 			$('#grouplat').val(currentLat);
 			$('#contextmenu').dialog('close');
-$('#objectmenu').dialog('close');
+			$('#objectmenu').dialog('close');
 		}
 	});
 	$('#help').click(function() {
-		$('#detail').dialog('open');
+		
 	});
 	$('#login').click(function() {
 		$('#loginform').dialog('open');
