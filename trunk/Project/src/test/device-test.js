@@ -6,14 +6,12 @@ function alert_device(data) {
 
 function get_device() {
 	alert("get device id " + document.getElementById("device_id").value);
-	
 	var getparam = {
 		action: 'getdevice',
 		data: {
 			device_id: document.getElementById("device_id").value
 		}
 	}
-	
 	$.getJSON(url, getparam, alert_device);
 }
 
@@ -24,7 +22,6 @@ function get_device_list() {
 		
 		}
 	}
-	
 	$.getJSON(url, getparam, alert_device);
 }
 
@@ -109,6 +106,5 @@ function delete_device() {
 			device_id: 1
 		}
 	}
-	
 	$.getJSON(url, getparam, alert_device);
 }

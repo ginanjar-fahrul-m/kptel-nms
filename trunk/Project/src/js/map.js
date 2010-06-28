@@ -1,5 +1,6 @@
 var map= null;
 var mapmode = 0;
+var DSLAM_DEVICE = 0;
 /*
 	Mode 0 : mode peta biasa
 	Mode 1 : mode ambil koordinat
@@ -20,6 +21,7 @@ var currentMouseX;
 var currentMouseY;
 var currentLng;
 var currentLat;
+var currentCacti;
 
 $(function(){
 	kptel_init();
@@ -60,6 +62,7 @@ function kptel_init() {
 	
 	google.maps.event.addListener(map, 'click', function(event) {
       $('#contextmenu').dialog('close');
+	  $('#objectmenu').dialog('close');
     });
 	
 	//set map limited only for zoom 5 until 15
@@ -132,7 +135,7 @@ function kptel_init() {
 function render_init_device(data){
 	$.each(data, function(index,datum){
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		render_device(newPos,datum['name']);
+		render_device(newPos,datum['name'],datum['cacti_id']);
 	});
 }
 
@@ -143,7 +146,7 @@ function render_init_group(data){
 	});
 }
 //DEVICE MODEL-CONTROL
-function render_device(location,devname) {
+function render_device(location,devname,cacid) {
     marker = new google.maps.Marker({
       position: location,
 	  icon : iconDevice,
@@ -154,26 +157,32 @@ function render_device(location,devname) {
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      alert("Device name :" + devname);
+		//alert("Device id :" + devid);
+		currentCacti = cacid;
+		currentMouseX = tempX;
+		currentMouseY = tempY;
+		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		$('#objectmenu').dialog('open');
+		$('#contextmenu').dialog('close');
     });
 }
 function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	var getparam = {
 		action: 'adddevice',
 		data: {
-			group_id: 1,
-			device_type_id: 0,
+			group_id: groupid,
+			device_type_id: devtype,
 			name: devname,
 			description: devdesc,
 			longitude: devlng,
 			latitude: devlat,
-			cacti_id: 2
+			cacti_id: cactiid
 		}
 	}
 	var newLatLng = new google.maps.LatLng(devlat,devlng);
 	$.getJSON(url_device, getparam, function(data) {
 			if(data == 1) {
-				render_device(newLatLng,devname);
+				render_device(newLatLng,devname,cactiid);
 				alert("Add Device success");
 			}
 			else alert("Add Device failed");
@@ -212,9 +221,7 @@ function get_monitoring_graph(id_cacti, callback) {
 			cacti_id: id_cacti
 		}
 	}
-	$.get(url_device, getparam, function(data) {
-		document.getElementById('monitoring_graph').innerHTML = data;
-	});
+	$.get(url_device, getparam, callback);
 }
 function get_cacti_device_list(callback) {
 	var getparam = {
@@ -442,9 +449,4 @@ function vardump(variable, maxDeep)
 
 function alert_device(data) {
 	alert(vardump(data, 5));
-}
-function addOption(o,data) {
-	for (var i = 0; i < data.length; i++){
-		o.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
-	}
 }

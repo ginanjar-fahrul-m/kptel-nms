@@ -155,13 +155,14 @@ $(function() {
 		},
 		open: function() {
 			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
+			$('#cactidetail').attr('href','device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=' + currentCacti);
 		}
 	});
 	$("#deviceform").dialog({
 		autoOpen: false,
 		height: 330,
 		width: 350,
-		modal: false,
+		modal: true,
 		draggable: false,
 		resizable: false,
 		show: "clip",
@@ -182,7 +183,8 @@ $(function() {
 				bValid = bValid && checkLength(devicetips,devicelat,"latitude",-180,180);
 				
 				if (bValid) {
-					add_device(0,0,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),2,"Ini device");
+					//alert(devicecacti.val());
+					add_device(deviceparent.val(),DSLAM_DEVICE,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
 					devicetips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -197,7 +199,16 @@ $(function() {
 			allfieldsdevice.val('').removeClass('ui-state-error');
 		},
 		open: function() {
-			get_cacti_device_list();
+			get_group_list(function(data){
+				for (var i = 0; i < data.length; i++){
+					deviceparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+				}
+			});
+			get_cacti_device_list(function(data){
+				for (var i = 0; i < data.length; i++){
+					devicecacti.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+				}
+			});
 			$('#devicelng').val(currentLng);
 			$('#devicelat').val(currentLat);
 			$('#contextmenu').dialog('close');
@@ -228,7 +239,7 @@ $(function() {
 				bValid = bValid && checkLength(grouptips,grouplat,"latitude",-180,180);
 				
 				if (bValid) {
-					add_group(0,$('#groupname').val(),$('#grouplng').val(),$('#grouplat').val(),"ini group");
+					add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
 					grouptips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -243,6 +254,11 @@ $(function() {
 			allfieldslogin.val('').removeClass('ui-state-error');
 		},
 		open: function() {
+			get_group_list(function(data){
+				for (var i = 0; i < data.length; i++){
+					groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+				}
+			});
 			$('#grouplng').val(currentLng);
 			$('#grouplat').val(currentLat);
 			$('#contextmenu').dialog('close');
