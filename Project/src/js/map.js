@@ -142,7 +142,6 @@ function render_init_group(data){
 		render_group(newPos,datum['name']);
 	});
 }
-
 //DEVICE MODEL-CONTROL
 function render_device(location,devname) {
     marker = new google.maps.Marker({
@@ -158,7 +157,6 @@ function render_device(location,devname) {
       alert("Device name :" + devname);
     });
 }
-
 function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	var getparam = {
 		action: 'adddevice',
@@ -182,7 +180,6 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 		}
 	);
 }
-
 function get_device(id,callback) {	
 	var getparam = {
 		action: 'getdevice',
@@ -192,7 +189,6 @@ function get_device(id,callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
-
 function get_device_list(callback) {
 	var getparam = {
 		action: 'getdevicelist',
@@ -200,7 +196,6 @@ function get_device_list(callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
-
 function get_cacti_device(id_cacti,callback) {	
 	var getparam = {
 		action: 'getcactidevice',
@@ -210,7 +205,6 @@ function get_cacti_device(id_cacti,callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
-
 function get_monitoring_graph(id_cacti, callback) {
 	var getparam = {
 		action: 'getcactimonitoringgraph',
@@ -218,9 +212,10 @@ function get_monitoring_graph(id_cacti, callback) {
 			cacti_id: id_cacti
 		}
 	}
-	$.get(url_device, getparam, callback);
+	$.get(url_device, getparam, function(data) {
+		document.getElementById('monitoring_graph').innerHTML = data;
+	});
 }
-
 function get_cacti_device_list(callback) {
 	var getparam = {
 		action: 'getcactidevicelist',
@@ -231,7 +226,6 @@ function get_cacti_device_list(callback) {
 	
 	$.getJSON(url_device, getparam, callback);
 }
-
 function update_device(callback, devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	var getparam = {
 		action: 'updatedevice',
@@ -246,10 +240,8 @@ function update_device(callback, devid, groupid, devtypeid, named, desc, longi, 
 			cacti_id: cactiid
 		}
 	}
-	
 	$.getJSON(url_device, getparam, callback);
 }
-
 function delete_device(id, callback) {
 	var getparam = {
 		action: 'deletedevice',
@@ -260,7 +252,6 @@ function delete_device(id, callback) {
 	
 	$.getJSON(url_device, getparam, callback);
 }
-
 //GROUP MODEL-CONTROL
 function render_group(location,groupname){
 	marker = new google.maps.Marker({
@@ -270,12 +261,10 @@ function render_group(location,groupname){
 	  title : groupname
     });
     placeMarkers.push(marker);
-	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
       alert("Group name :" + groupname);
     });
 }
-
 function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 	var getparam = {
 		action: 'addgroup',
@@ -297,7 +286,6 @@ function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 		}
 	);
 }
-
 function get_group(id, callback) {
 	var getparam = {
 		action: 'getgroup',
@@ -307,15 +295,14 @@ function get_group(id, callback) {
 	}	
 	$.getJSON(url_group, getparam, callback);
 }
-
 function get_group_list(callback) {
 	var getparam = {
 		action: 'getgrouplist',
+
 		data: {}
 	}
 	$.getJSON(url_group, getparam, callback);
 }
-
 function update_group(callback, groupid, parentid, named, desc, longi, lati) {
 	var getparam = {
 		action: 'updategroup',
@@ -407,4 +394,57 @@ function getMouseXY(e) {
   // show the position values in the form named Show
   // in the text fields named MouseX and MouseY
   return true
+}
+
+function vardump(variable, maxDeep)
+{
+    var deep = 0;
+    var maxDeep = maxDeep || 0;
+
+    function fetch(object, parent)
+    {
+        var buffer = '';
+        deep++;
+
+        for (var i in object) {
+            if (parent) {
+                objectPath = parent + '.' + i;
+            } else {
+                objectPath = i;
+            }
+
+            buffer += objectPath + ' (' + typeof object[i] + ')';
+
+            if (typeof object[i] == 'object') {
+                buffer += "\n";
+                if (deep < maxDeep) {
+                    buffer += fetch(object[i], objectPath);
+                }
+            } else if (typeof object[i] == 'function') {
+                buffer += "\n";
+            } else if (typeof object[i] == 'string') {
+                buffer += ': "' + object[i] + "\"\n";
+            } else {
+                buffer += ': ' + object[i] + "\n";
+            }
+        }
+
+        deep--;
+        return buffer;
+    }
+
+    if (typeof variable == 'object') {
+        return fetch(variable);
+    }
+
+    return '(' + typeof variable + '): ' + variable + "\n";
+}
+
+function alert_device(data) {
+	alert(vardump(data, 5));
+}
+function addOption(o,data) {
+	for (var i = 0; i < data.length; i++){
+		o.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+	}
 }
