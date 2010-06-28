@@ -329,7 +329,7 @@ function update_group(callback, groupid, parentid, named, desc, longi, lati) {
 		}
 	}
 	
-	$.getJSON(url_group, getparam, alert_group);
+	$.getJSON(url_group, getparam, callback);
 }
 
 function delete_group(id, callback) {
@@ -339,7 +339,7 @@ function delete_group(id, callback) {
 			group_id: id
 		}
 	}	
-	$.getJSON(url, getparam, callback);
+	$.getJSON(url_group, getparam, callback);
 }
 
 //CONTROL CONTEXT MENU
