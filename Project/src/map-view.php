@@ -110,7 +110,7 @@ session_db_init();
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
 		<div id="objectmenu">
-			<label id="showdetail" title="add new device"><a id="cactidetail" href="http://10.32.18.200/plugins/realtime/graph_popup_rt.php?local_graph_id=300" class="tu_iframe_750x350"> Show Detail </a></label>
+			<label id="showdetail" title="add new device"><a id="cactidetail" href="device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=8" class="tu_iframe_750x350"> Show Detail </a></label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
@@ -121,18 +121,10 @@ session_db_init();
 				<label for="parent">Parent: </label>
 				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all">
 					<option value="default"></option>
-					<option value="g1">group_1</option>
-					<option value="g2">group_2</option>
-					<option value="g3">group_3</option>
-					<option value="g4">group_4</option>
 				</select>
 				<label for="cacti">Device: </label>
 				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
 					<option value="default"></option>
-					<option value="id1">d1_aa</option>
-					<option value="id2">d2_bb</option>
-					<option value="id3">d3_cc</option>
-					<option value="id4">d4_dd</option>
 				</select>
 				<label for="devicelocation">Location: </label>
 				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
@@ -149,10 +141,6 @@ session_db_init();
 				<label for="groupparent">Parent: </label>
 				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all">
 					<option value="default"></option>
-					<option value="g1">group_1</option>
-					<option value="g2">group_2</option>
-					<option value="g3">group_3</option>
-					<option value="g4">group_4</option>
 				</select>
 				<label for="grouplocation">Location: </label>
 				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
