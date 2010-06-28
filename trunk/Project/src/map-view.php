@@ -56,7 +56,7 @@ session_db_init();
 		<div class="toggler togglerleft">
 			<div id="effectleft" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">DSLAM Device</h3>
-				<div id="demo1" class="demo jstree jstree-0 jstree-default jstree-focused">
+				<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused">
 				</div>
 			</div>
 		</div>
