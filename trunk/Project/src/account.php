@@ -2,64 +2,73 @@
 
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
+require_once('includes/session.php');
+require_once('includes/security.php');
 
-class Account {
-	public $user_id;
-	public $username;
-	public $fullname;
-	public $email;
-	public $password;
+function account_login($username, $password) {
+	global $config;
+	
+	$username = mysql_real_escape_string($username);
+	$password = mysql_real_escape_string($password);
+	$hash = security_hash($password);
+	
+	$sql = "SELECT *
+			FROM `user`
+			WHERE `username` = '".$username."' AND `password` = '".$hash."'
+			LIMIT 1";
+	
+	if($result = session_get($config['session']['app_db_sess'])->query($sql)) {
+		if($row = mysql_fetch_assoc($result)) {
+			session_set('userid', $row['user_id']);
+			session_set('username', $username);
+			session_set('hash', $hash);
+			
+			return 1;
+		} else {
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+}
 
-	public function __construct($_username, $_password){
-		$this->username = $_username;
-		$this->password = $_password;
+function account_logout() {
+	session_del('username');
+	session_del('hash');
+}
+
+function account_is_logged_in() {
+	if(session_get('username') && session_get('hash')) {
+		return 1;
+	} else {
+		return 0;
 	}
+}
+
+function account_add($username, $password, $email, $fullname) {
+	global $config;
 	
-	public function add() {
-		$sql = "INSERT INTO `user` (
-									username, 
-									fullname, 
-									email, 
-									password)
-				VALUES (
-						'".$this->username."',
-						'".$this->fullname."', 
-						'".$this->email."',
-						'".sha1($this->password)."')";
-		if (!mysql_query($sql))
-		{
-			die('Error: ' . mysql_error());
-		}
-	}
+	$username = mysql_real_escape_string($username);
+	$password = mysql_real_escape_string($password);
+	$email = mysql_real_escape_string($email);
+	$fullname = mysql_real_escape_string($fullname);
+	$hash = security_hash($password);
 	
-	public function update() {
-		$sql = "UPDATE user 
-				SET username = '".$this->username."', fullname = '".$this->fullname."', 
-								email = '".$this->email."', password = '".sha1($this->password)."' 
-				WHERE device_id = ".$this->user_id;
-		if (!mysql_query($sql))
-		{
-			die('Error: ' . mysql_error());
-		}
-	}
+	$sql = "INSERT INTO `user` (
+				`username`,
+				`password`,
+				`email`,
+				`fullname`)
+			VALUES(
+				'".$username."',
+				'".$hash."',
+				'".$email."',
+				'".$fullname."')";
 	
-	public function delete() {
-		$sql = "DELETE from user
-				WHERE user_id = ".$this->user_id;
-		if (!mysql_query($sql))
-		{
-			die('Error: ' . mysql_error());
-		}
-	}
-	
-	public function get() {
-		$sql = "SELECT * FROM user WHERE group_id = ".$this->user_id;
-		$result = mysql_query($sql);
-		$row = mysql_fetch_array($result);
-		$this->username = $row['username'];
-		$this->fullname = $row['fullname'];
-		$this->email = $row['email'];
-		$this->password = $row['password'];
+	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+		return 1;
+	} else {
+		return 0;
 	}
 }
 	
