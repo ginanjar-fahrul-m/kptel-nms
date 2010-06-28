@@ -20,6 +20,8 @@ session_db_init();
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script> 
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="js/jquery.jstree.js"></script>
+		<script type="text/javascript" src="js/jquery.jstree.min.js"></script>
 		<script type="text/javascript" src="js/map.js"></script>
 		<script type="text/javascript" src="js/navigation.js"></script>
 		<script type="text/javascript" src="js/top_up-min.js"></script>
