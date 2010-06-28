@@ -16,7 +16,11 @@ function session_set($index, $content) {
 function session_get($index) {
 	global $config;
 	
-	return $_SESSION[$config['session']['prefix'].$index];
+	if(isset($_SESSION[$config['session']['prefix'].$index])) {
+		return $_SESSION[$config['session']['prefix'].$index];
+	} else {
+		return false;
+	}
 }
 
 function session_del($index) {

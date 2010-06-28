@@ -13,6 +13,6 @@ $config['session']['app_db_sess'] = 'conn_a';
 $config['session']['cacti_db_sess'] = 'conn_c';
 
 $config['security']['salt'] = '7mcFSTfhSez6Dn53MYBLd44s';
-$config['security']['loop'] = 16384;
+$config['security']['pass'] = 16384;
 
 ?>

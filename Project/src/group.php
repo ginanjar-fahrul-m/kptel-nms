@@ -31,9 +31,9 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 				".$latitude.")";
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 
@@ -61,9 +61,9 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 			WHERE `group_id` = ".$group_id;
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 
@@ -79,7 +79,7 @@ function group_delete($group_id) {
 	$sql = "DELETE FROM `device`
 			WHERE `group_id` = ".$group_id;
 	if(!session_get($config['session']['app_db_sess'])->query($sql)) {
-		return false;
+		return 0;
 	}
 	
 	// Recursively delete children groups
@@ -87,7 +87,7 @@ function group_delete($group_id) {
 			FROM `group`
 			WHERE `parent_id` = ".$group_id;
 	if(!$result = session_get($config['session']['app_db_sess'])->query($sql)) {
-		return false;
+		return 0;
 	}
 	
 	while($data = mysql_fetch_assoc($result)) {
@@ -99,9 +99,9 @@ function group_delete($group_id) {
 			WHERE `group_id` = ".$group_id;
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 

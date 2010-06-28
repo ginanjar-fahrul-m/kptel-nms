@@ -36,9 +36,9 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 				".$cacti_id.")";
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 
@@ -69,9 +69,9 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 			WHERE `device_id` = ".$device_id;
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 
@@ -87,9 +87,9 @@ function device_delete($device_id) {
 			WHERE `device_id` = ".$device_id;
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return true;
+		return 1;
 	} else {
-		return false;
+		return 0;
 	}
 }
 
@@ -181,6 +181,9 @@ function device_cacti_get_all() {
 	return $device_list;
 }
 
+/* status: ok
+ * tester: jiwo
+ */
 function device_cacti_get_monitoring_graph($cacti_id) {
 	global $config;
 	
