@@ -36,9 +36,6 @@ function kptel_init() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	dateTime();
 	
-	//var indonesiaBound = map.getBounds();
-	//alert(map.getBounds().getSouthWest()+ " , ne: "+map.getBounds().getNorthEast());
-	//indonesiaBound = new google.maps.LatLngBounds(getSouthWest(),getNorthEast());
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < minZoom) { 
 			map.setZoom(minZoom); 
@@ -57,14 +54,12 @@ function kptel_init() {
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {	
 	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('close');
       check_point(event.latLng);
 
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
       $('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('close');
     });
 	
 	//set map limited only for zoom 5 until 15
@@ -73,12 +68,15 @@ function kptel_init() {
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
     });
 	
-	init_device();
-	init_group();
+	//init_device();
+	//init_group();
+	
+	get_device_list(render_init_device);
+	get_group_list(render_init_group);
 	
 	//jQuery Addition
 	$(function() {
-	//Add Zoom Slider
+		//Add Zoom Slider
 		$("#slider").slider({
 			orientation: "vertical",
 			value:minZoom,
@@ -86,11 +84,9 @@ function kptel_init() {
 			max: maxZoom,
 			step: 1,
 			slide: function(event, ui) {
-				$("#amount").val('$' + ui.value);
 				map.setZoom(ui.value);
 			}
 		});
-		$("#amount").val('$' + $("#slider").slider("value"));
 		
 		//Add Zoom Button
 		$(".demo button:first").button({
@@ -104,31 +100,40 @@ function kptel_init() {
             },
             text: false
         });
+		
+		//Tree Group and Device
+		$("#demo1").jstree({
+			"ui" : {"initially_select" : [ "demo1" ] },
+			"plugins" : [ "themes", "ui", "crrm", "html_data"  ]
+		});
+		
+					/*	"json_data": {"data":[
+				{ 
+					"data" : "STO Gambir(dummy)", 
+					"children" : [ 
+							{ "data" : "EMS-D2(dummy)"} 
+						], 
+					"state" : "open" 
+				},
+				{ 
+					"data" : "STO Jatinegara(dummy)", 
+					"children" : [ 
+							{ "data" : "EMS-D2(dummy)"} 
+						], 
+					"state" : "open" 
+				}
+			]},*/
+		
+		$("#demo1").jstree("create","first","Enter a new name");
 	});	
 }
 
 //INITIALIZATION FUNCTION
-function init_device(){
-	var getparam = {
-		action: 'getdevicelist',
-		data: {}
-	}
-	$.getJSON(url_device, getparam, render_init_device);
-}
-
 function render_init_device(data){
 	$.each(data, function(index,datum){
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
 		render_device(newPos,datum['name']);
 	});
-}
-
-function init_group(){
-	var getparam = {
-		action: 'getgrouplist',
-		data: {}
-	}
-	$.getJSON(url_group, getparam, render_init_group);
 }
 
 function render_init_group(data){
@@ -150,12 +155,7 @@ function render_device(location,devname) {
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      //alert("Device name :" + devname);
-		currentMouseX = tempX;
-		currentMouseY = tempY;
-		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
-		$('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('open');
+      alert("Device name :" + devname);
     });
 }
 
@@ -183,59 +183,45 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	);
 }
 
-function get_device() {
-	alert("get device id " + document.getElementById("device_id").value);
-	
+function get_device(id,callback) {	
 	var getparam = {
 		action: 'getdevice',
 		data: {
-			device_id: document.getElementById("device_id").value
+			device_id: id
 		}
 	}
-	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
-function get_device_list() {
+function get_device_list(callback) {
 	var getparam = {
 		action: 'getdevicelist',
-		data: {
-		
-		}
+		data: {	}
 	}
-	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
-function get_cacti_device() {
-	alert("get cacti host id " + document.getElementById("cacti_id").value);
-	
+function get_cacti_device(id_cacti,callback) {	
 	var getparam = {
 		action: 'getcactidevice',
 		data: {
-			cacti_id: document.getElementById("cacti_id").value
+			cacti_id: id_cacti
 		}
 	}
-	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
-function get_monitoring_graph() {
-	alert("get monitoring graph cacti id " + document.getElementById("cacti_id").value);
-	
+function get_monitoring_graph(id_cacti, callback) {
 	var getparam = {
 		action: 'getcactimonitoringgraph',
 		data: {
-			cacti_id: document.getElementById("cacti_id").value
+			cacti_id: id_cacti
 		}
 	}
-	
-	$.get(url, getparam, function(data) {
-		document.getElementById('monitoring_graph').innerHTML = data;
-	});
+	$.get(url_device, getparam, callback);
 }
 
-function get_cacti_device_list() {
+function get_cacti_device_list(callback) {
 	var getparam = {
 		action: 'getcactidevicelist',
 		data: {
@@ -243,36 +229,36 @@ function get_cacti_device_list() {
 		}
 	}
 	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
-function update_device() {
+function update_device(callback, devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	var getparam = {
 		action: 'updatedevice',
 		data: {
-			device_id: 1,
-			group_id: 1,
-			device_type_id: 0,
-			name: 'Mencobax',
-			description: 'ini adalah device coba-coba',
-			longitude: 110,
-			latitude: 7.4,
-			cacti_id: 2
+			device_id: devid,
+			group_id: groupid,
+			device_type_id: devtypeid,
+			name: named,
+			description: desc,
+			longitude: longi,
+			latitude: lati,
+			cacti_id: cactiid
 		}
 	}
 	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
-function delete_device() {
+function delete_device(id, callback) {
 	var getparam = {
 		action: 'deletedevice',
 		data: {
-			device_id: 1
+			device_id: id
 		}
 	}
 	
-	$.getJSON(url, getparam, alert_device);
+	$.getJSON(url_device, getparam, callback);
 }
 
 //GROUP MODEL-CONTROL
@@ -286,16 +272,11 @@ function render_group(location,groupname){
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      //alert("Group name :" + groupname);
-		currentMouseX = tempX;
-		currentMouseY = tempY;
-		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
-		$('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('open');
+      alert("Group name :" + groupname);
     });
 }
 
-function add_group(parentid,grpname,grplng,grplat,grpdesc) {
+function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 	var getparam = {
 		action: 'addgroup',
 		data: {
@@ -306,7 +287,6 @@ function add_group(parentid,grpname,grplng,grplat,grpdesc) {
 			latitude: grplat
 		}
 	}
-	
 	var newLatLng = new google.maps.LatLng(grplat,grplng);
 	$.getJSON(url_group, getparam, function(data) {
 			if(data == 1) {
@@ -318,55 +298,48 @@ function add_group(parentid,grpname,grplng,grplat,grpdesc) {
 	);
 }
 
-function get_group() {
-	alert("get group id " + document.getElementById("group_id").value);
-	
+function get_group(id, callback) {
 	var getparam = {
 		action: 'getgroup',
 		data: {
-			group_id: 1
+			group_id: id
 		}
-	}
-	
-	$.getJSON(url, getparam, alert_group);
+	}	
+	$.getJSON(url_group, getparam, callback);
 }
 
-function get_group_list() {
+function get_group_list(callback) {
 	var getparam = {
 		action: 'getgrouplist',
-		data: {
-		
-		}
+		data: {}
 	}
-	
-	$.getJSON(url, getparam, alert_group);
+	$.getJSON(url_group, getparam, callback);
 }
 
-function update_group() {
+function update_group(callback, groupid, parentid, named, desc, longi, lati) {
 	var getparam = {
 		action: 'updategroup',
 		data: {
-			group_id: 3,
-			parent_id: 1,
-			name: 'Mencobax',
-			description: 'ini adalah grup coba-coba',
-			longitude: 110,
-			latitude: 7.4
+			group_id: groupid,
+			parent_id: parentid,
+			name: named,
+			description: desc,
+			longitude: longi,
+			latitude: lati
 		}
 	}
 	
-	$.getJSON(url, getparam, alert_group);
+	$.getJSON(url_group, getparam, alert_group);
 }
 
-function delete_group() {
+function delete_group(id, callback) {
 	var getparam = {
 		action: 'deletegroup',
 		data: {
-			group_id: 5
+			group_id: id
 		}
-	}
-	
-	$.getJSON(url, getparam, alert_group);
+	}	
+	$.getJSON(url, getparam, callback);
 }
 
 //CONTROL CONTEXT MENU
