@@ -63,30 +63,22 @@ session_db_init();
 		<div class="toggler togglerright">
 			<div id="effectright" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">Notification</h3>
-				<p class="scroll">
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-					Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
-				</p>
+				<div id="notification" class="scroll demo jstree jstree-0 jstree-default jstree-focused">
+					<ul>
+						<li>
+							<img class="notif-img" "border="0" src="images/flag-alert.png"/>
+							<div class="notif-box">
+								<span class="notif-span-1">qwerty</span>
+								<span class="notif-span-2">12-12-12</span>
+							<div>
+						</li>
+						<li><img border="0" src="images/flag-recover.png"/>qwerty</li>
+						<li><img border="0" src="images/flag-warning.png"/>qwerty</li>
+						<li><img border="0" src="images/flag-alert.png"/>qwerty</li>
+						<li><img border="0" src="images/flag-recover.png"/>qwerty</li>
+						<li><img border="0" src="images/flag-warning.png"/>qwerty</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div id="zoom_control">
@@ -110,7 +102,7 @@ session_db_init();
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
 		<div id="objectmenu">
-			<label id="showdetail" title="add new device"><a id="cactidetail" href="device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=8" class="tu_iframe_750x350"> Show Detail </a></label>
+			<label id="showdetail" title="add new device"><a id="cactidetail" href="device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=8" class="tu_iframe_800x500"> Show Detail </a></label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
@@ -120,11 +112,11 @@ session_db_init();
 				<input type="text" name="name" id="devicename" class="text ui-widget-content ui-corner-all" />
 				<label for="parent">Parent: </label>
 				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all">
-					<option value="default"></option>
+					<option value="0">&lt;none&gt;</option>
 				</select>
 				<label for="cacti">Device: </label>
 				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
-					<option value="default"></option>
+					<option value="0">&lt;none&gt;</option>
 				</select>
 				<label for="devicelocation">Location: </label>
 				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
@@ -140,13 +132,16 @@ session_db_init();
 				<input type="text" name="name" id="groupname" class="text ui-widget-content ui-corner-all" />
 				<label for="groupparent">Parent: </label>
 				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all">
-					<option value="default"></option>
+					<option value="0">&lt;none&gt;</option>
 				</select>
 				<label for="grouplocation">Location: </label>
 				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
 				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
 			</fieldset>
 			</form>
+		</div>
+		<div id="alert">
+			<div id=>
 		</div>
 		<div id="map_canvas"></div>
 	</body>

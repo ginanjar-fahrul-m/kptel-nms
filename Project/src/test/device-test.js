@@ -34,7 +34,6 @@ function get_cacti_device() {
 			cacti_id: document.getElementById("cacti_id").value
 		}
 	}
-	
 	$.getJSON(url, getparam, alert_device);
 }
 
