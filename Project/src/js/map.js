@@ -130,8 +130,7 @@ function kptel_init() {
 			}
 	});
 	//create tree
-	tree_group_processing(0);
-	tree_device_processing();
+	build_tree();
 }
 
 //INITIALIZATION FUNCTION
@@ -149,56 +148,65 @@ function render_init_group(data){
 	});
 }
 
-function tree_group_processing(x){		
-	var queueid = [];
+function build_tree(){
+	var groupnode;
+	var devicenode;
 	var getparam = {
 		action: 'getgrouplist',
-		data: {}
+		data1: {}
 	}
 	
-	$.getJSON(url_group, getparam, function(data) {
-		$.each(data, function(index,datum){
-			if(datum['parent_id'] == x){
-				var parentnode=null;
-				var groupid = "group-"+datum['group_id'];
-				var info = {
-						  "attr":{"id":groupid, "rel":"group"}//, "param":3}
-						 ,"data":{"title":datum['name']}
-						 ,"state":"closed"
-				 };
-				
-				if(x == 0) parentnode = -1;
-				else parentnode = "#group-"+x;
-				$("#trees").jstree("create",parentnode,false,info,false,true);
-				queueid.push(datum['group_id']);
-			}
-		});
-		
-		while(queueid.length >= 1){
-			tree_group_processing(queueid.pop());
+	$.getJSON(url_group, getparam, function(data1) {
+		groupnode = data1;
+		var getparam = {
+			action: 'getdevicelist',
+			data2: {}
 		}
+		$.getJSON(url_device, getparam, function(data2) {
+			devicenode = data2;			
+			tree_group_processing(groupnode,0);
+			tree_device_processing(devicenode);
+		});
 	});
 }
 
-function tree_device_processing(){
-	var getparam = {
-		action: 'getdevicelist',
-		data: {}
+function tree_group_processing(data,x){
+	var queueid = [];
+	$.each(data, function(index,datum){
+		if(datum['parent_id'] == x){
+			var parentnode=null;
+			var groupid = "group-"+datum['group_id'];
+			var info = {
+					  "attr":{"id":groupid, "rel":"group"}//, "param":3}
+					 ,"data":{"title":datum['name']}
+					 ,"state":"closed"
+			 };
+			
+			if(x == 0) parentnode = -1;
+			else parentnode = "#group-"+x;
+			$("#trees").jstree("create",parentnode,false,info,false,true);
+			queueid.push(datum['group_id']);
+		}
+	});
+	
+	while(queueid.length >= 1){
+		tree_group_processing(data, queueid.pop());
 	}
-	$.getJSON(url_device, getparam, function(data) {
-		$.each(data, function(index,datum){
-				var parentnode=null;
-				var devid = "device-"+datum['device_id'];
-				var info = {
-						  "attr":{"id":devid, "rel":"device"}//, "param":3}
-						 ,"data":{"title":datum['name']}
-						 ,"state":"closed"
-				 };
-				
-				if(datum['group_id'] == 0) parentnode = -1;
-				else parentnode = "#group-"+datum['group_id'];
-				$("#trees").jstree("create",parentnode,false,info,false,true);
-		});
+}
+
+function tree_device_processing(data){
+	$.each(data, function(index,datum){
+			var parentnode=null;
+			var devid = "device-"+datum['device_id'];
+			var info = {
+					  "attr":{"id":devid, "rel":"device"}//, "param":3}
+					 ,"data":{"title":datum['name']}
+					 ,"state":"closed"
+			 };
+			
+			if(datum['group_id'] == 0) parentnode = -1;
+			else parentnode = "#group-"+datum['group_id'];
+			$("#trees").jstree("create",parentnode,false,info,false,true);
 	});
 }
 
