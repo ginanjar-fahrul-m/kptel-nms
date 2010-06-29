@@ -232,6 +232,7 @@ function render_device(location,devname,cacid) {
 		$('#contextmenu').dialog('close');
     });
 }
+
 function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	var getparam = {
 		action: 'adddevice',
@@ -255,6 +256,7 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 		}
 	);
 }
+
 function get_device(id,callback) {	
 	var getparam = {
 		action: 'getdevice',
@@ -264,6 +266,7 @@ function get_device(id,callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
+
 function get_device_list(callback) {
 	var getparam = {
 		action: 'getdevicelist',
@@ -271,6 +274,7 @@ function get_device_list(callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
+
 function get_cacti_device(id_cacti,callback) {	
 	var getparam = {
 		action: 'getcactidevice',
@@ -280,6 +284,7 @@ function get_cacti_device(id_cacti,callback) {
 	}
 	$.getJSON(url_device, getparam, callback);
 }
+
 function get_monitoring_graph(id_cacti, callback) {
 	var getparam = {
 		action: 'getcactimonitoringgraph',
@@ -289,6 +294,7 @@ function get_monitoring_graph(id_cacti, callback) {
 	}
 	$.get(url_device, getparam, callback);
 }
+
 function get_status_notification(callback) {
 	var getparam = {
 		action: 'getstatusnotification',
@@ -299,6 +305,7 @@ function get_status_notification(callback) {
 	
 	$.getJSON(url_notif, getparam, callback);
 }
+
 function get_cacti_device_list(callback) {
 	var getparam = {
 		action: 'getcactidevicelist',
@@ -309,6 +316,7 @@ function get_cacti_device_list(callback) {
 	
 	$.getJSON(url_device, getparam, callback);
 }
+
 function update_device(callback, devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	var getparam = {
 		action: 'updatedevice',
@@ -325,6 +333,7 @@ function update_device(callback, devid, groupid, devtypeid, named, desc, longi, 
 	}
 	$.getJSON(url_device, getparam, callback);
 }
+
 function delete_device(id, callback) {
 	var getparam = {
 		action: 'deletedevice',
@@ -335,6 +344,7 @@ function delete_device(id, callback) {
 	
 	$.getJSON(url_device, getparam, callback);
 }
+
 //GROUP MODEL-CONTROL
 function render_group(location,groupname){
 	marker = new google.maps.Marker({
@@ -348,6 +358,7 @@ function render_group(location,groupname){
       alert("Group name :" + groupname);
     });
 }
+
 function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 	var getparam = {
 		action: 'addgroup',
@@ -369,6 +380,7 @@ function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 		}
 	);
 }
+
 function get_group(id, callback) {
 	var getparam = {
 		action: 'getgroup',
@@ -378,6 +390,7 @@ function get_group(id, callback) {
 	}	
 	$.getJSON(url_group, getparam, callback);
 }
+
 function get_group_list(callback) {
 	var getparam = {
 		action: 'getgrouplist',
@@ -386,6 +399,7 @@ function get_group_list(callback) {
 	}
 	$.getJSON(url_group, getparam, callback);
 }
+
 function update_group(callback, groupid, parentid, named, desc, longi, lati) {
 	var getparam = {
 		action: 'updategroup',
@@ -412,9 +426,15 @@ function delete_group(id, callback) {
 	$.getJSON(url_group, getparam, callback);
 }
 
+//CONTROL AUTO SETCENTERZOOM
+function set_center_and_zoom(lat,lng){	
+	var selectedCenter = new google.maps.LatLng(lat, lng);
+	map.setCenter(selectedCenter);
+	map.setZoom(centeringZoom);
+}
+
 //CONTROL CONTEXT MENU
 function check_point(position){
-	//alert("lat : " + position.lat() + ", lng : " + position.lng());
 	currentMouseX = tempX;
 	currentMouseY = tempY;
 	currentLng = position.lng();
