@@ -10,9 +10,9 @@ var flagMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
-var indonesiaBound;
 var minZoom = 5;
 var maxZoom = 15;
+var centeringZoom = minZoom + 2;
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
@@ -66,14 +66,11 @@ function kptel_init() {
 	  $('#objectmenu').dialog('close');
     });
 	
-	//set map limited only for zoom 5 until 15
+	//limit the map zoom
 	google.maps.event.addListenerOnce(map, 'idle', function() {
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
     });
-	
-	//init_device();
-	//init_group();
 	
 	get_device_list(render_init_device);
 	get_group_list(render_init_group);
@@ -104,32 +101,37 @@ function kptel_init() {
             },
             text: false
         });
-		
-		//Tree Group and Device
-		$("#demo1").jstree({
-			"ui" : {"initially_select" : [ "demo1" ] },
-			"plugins" : [ "themes", "ui", "crrm", "html_data"  ]
-		});
-		
-					/*	"json_data": {"data":[
-				{ 
-					"data" : "STO Gambir(dummy)", 
-					"children" : [ 
-							{ "data" : "EMS-D2(dummy)"} 
-						], 
-					"state" : "open" 
-				},
-				{ 
-					"data" : "STO Jatinegara(dummy)", 
-					"children" : [ 
-							{ "data" : "EMS-D2(dummy)"} 
-						], 
-					"state" : "open" 
-				}
-			]},*/
-		
-		$("#demo1").jstree("create","first","Enter a new name");
 	});	
+	//Init tree
+	$("#trees").jstree({
+		"plugins" : [ "themes", "ui", "crrm", "types", "html_data"],
+		"types" : {
+				"valid_children" : [ "group", "device" ],
+				"types" : {
+					// The `group` type
+					"group" : {
+						"valid_children" : [ "device","group"],
+						"icon" : {
+							"image" : "images/form-group.png"
+						}
+					},
+					// The `device` nodes 
+					"device" : {
+						"valid_children" : [ "none" ],
+						"icon" : {
+							"image" : "images/form-device.png"
+						}/*,
+						"start_drag" : false,
+						"move_node" : false,
+						"delete_node" : false,
+						"remove" : false*/
+					}
+				}
+			}
+	});
+	//create tree
+	tree_group_processing(0);
+	tree_device_processing();
 }
 
 //INITIALIZATION FUNCTION
@@ -146,6 +148,60 @@ function render_init_group(data){
 		render_group(newPos,datum['name']);
 	});
 }
+
+function tree_group_processing(x){		
+	var queueid = [];
+	var getparam = {
+		action: 'getgrouplist',
+		data: {}
+	}
+	
+	$.getJSON(url_group, getparam, function(data) {
+		$.each(data, function(index,datum){
+			if(datum['parent_id'] == x){
+				var parentnode=null;
+				var groupid = "group-"+datum['group_id'];
+				var info = {
+						  "attr":{"id":groupid, "rel":"group"}//, "param":3}
+						 ,"data":{"title":datum['name']}
+						 ,"state":"closed"
+				 };
+				
+				if(x == 0) parentnode = -1;
+				else parentnode = "#group-"+x;
+				$("#trees").jstree("create",parentnode,false,info,false,true);
+				queueid.push(datum['group_id']);
+			}
+		});
+		
+		while(queueid.length >= 1){
+			tree_group_processing(queueid.pop());
+		}
+	});
+}
+
+function tree_device_processing(){
+	var getparam = {
+		action: 'getdevicelist',
+		data: {}
+	}
+	$.getJSON(url_device, getparam, function(data) {
+		$.each(data, function(index,datum){
+				var parentnode=null;
+				var devid = "device-"+datum['device_id'];
+				var info = {
+						  "attr":{"id":devid, "rel":"device"}//, "param":3}
+						 ,"data":{"title":datum['name']}
+						 ,"state":"closed"
+				 };
+				
+				if(datum['group_id'] == 0) parentnode = -1;
+				else parentnode = "#group-"+datum['group_id'];
+				$("#trees").jstree("create",parentnode,false,info,false,true);
+		});
+	});
+}
+
 //DEVICE MODEL-CONTROL
 function render_device(location,devname,cacid) {
     marker = new google.maps.Marker({
