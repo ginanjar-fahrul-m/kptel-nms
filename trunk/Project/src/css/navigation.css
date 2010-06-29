@@ -38,6 +38,19 @@ a:hover {
 	max-height: 500px;
 	overflow: auto;
 }
+.notif-img {
+	margin: 0px;
+	float: left;
+}
+.notif-box {
+	float: left;
+}
+.notif-span-1 {
+	display: block;
+}
+.notif-span-2 {
+	display: block;
+}
 #time {
 	font-weight: normal;
 }
@@ -87,7 +100,7 @@ a:hover {
 }
 //dialog
 #effectleft, #effectright { 
-	width: 240px; 
+	width: 1000px; 
 	height: 135px; 
 	padding: 0.4em; 
 	position: relative; 
@@ -141,13 +154,16 @@ a:hover {
 #contextmenu, #objectmenu{
 	
 }
-#contextmenu label, #objectmenu label{
+#notification ul {
+	margin: 5;
+}
+#contextmenu label, #objectmenu label, #notification li{
 	margin: 0 auto;
 	padding: 8px;
 	display: block;
 	color: #eeeeee;
 }
-#contextmenu label:hover, #objectmenu label:hover{
+#contextmenu label:hover, #objectmenu label:hover, #notification li:hover{
 	margin: 0;
 	padding: 8px;
 	display: block;
@@ -155,7 +171,7 @@ a:hover {
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	cursor: hand;
 }
-#contextmenu label:active, #objectmenu label:active{
+#contextmenu label:active, #objectmenu label:active, #notification li:active{
 	margin: 0;
 	padding: 8px;
 	display: block;

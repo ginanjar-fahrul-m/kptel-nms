@@ -15,6 +15,7 @@ var minZoom = 5;
 var maxZoom = 15;
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
+var url_notif = "notification-controller.php";
 var tempX = 0;
 var tempY = 0;
 var currentMouseX;
@@ -222,6 +223,16 @@ function get_monitoring_graph(id_cacti, callback) {
 		}
 	}
 	$.get(url_device, getparam, callback);
+}
+function get_status_notification(callback) {
+	var getparam = {
+		action: 'getstatusnotification',
+		data: {
+		
+		}
+	}
+	
+	$.getJSON(url_notif, getparam, callback);
 }
 function get_cacti_device_list(callback) {
 	var getparam = {
@@ -449,4 +460,29 @@ function vardump(variable, maxDeep)
 
 function alert_device(data) {
 	alert(vardump(data, 5));
+}
+function showWarningDevice(){
+	$('#notification ul li').remove();
+	get_status_notification(function(data){
+		var li = "<li><img border='0' src='images/";
+		for(var i = 0; i < data.length; i++){
+			li = "<li><img border='0' src='images/";
+			switch(data[i]['status']){
+				case '1': {
+					li += "flag-alert.png'/>" + data[i]['description'] + "</li>";
+					break;
+				}
+				case '2': {
+					li += "flag-recover.png'/>" + data[i]['description'] + "</li>";
+					break;
+				}
+				case '4': {
+					li += "flag-warning.png'/>" + data[i]['description'] + "</li>";
+					break;
+				}
+			}
+			$('#notification ul').append(li);
+		}
+	});
+	setTimeout("showWarningDevice()",5000);
 }

@@ -2,6 +2,7 @@ $(document).ready(function(){
 	$(document).ready(function () { 
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
+		//showWarningDevice();
 	}); 
 });
 $(function() {
@@ -46,7 +47,7 @@ $(function() {
 		devicetips = $(".devicetips");
 		allfieldsgroup = $([]).add(groupname).add(groupparent).add(grouplng).add(grouplat),
 		grouptips = $(".grouptips");
-
+		
 	function updateTips(tips,t) {
 		tips
 			.text(t)
@@ -78,7 +79,7 @@ $(function() {
 	}
 	function checkSelect(tips,o) {
 		var n = "Select one ";
-		if (o.val() != 'default') {
+		if (o.val() != '0') {
 			return true;
 		}
 		else {
@@ -175,7 +176,6 @@ $(function() {
 				bValid = bValid && checkLength(devicetips,devicename,"name",3,16);
 
 				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkSelect(devicetips,deviceparent);
 				bValid = bValid && checkSelect(devicetips,devicecacti);
 				bValid = bValid && checkRegexp(devicetips,devicelng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
 				bValid = bValid && checkRegexp(devicetips,devicelat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
@@ -200,11 +200,15 @@ $(function() {
 		},
 		open: function() {
 			get_group_list(function(data){
+				deviceparent.find('option').remove();
+				deviceparent.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
 					deviceparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
 			});
 			get_cacti_device_list(function(data){
+				devicecacti.find('option').remove();
+				devicecacti.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
 					devicecacti.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
 				}
@@ -232,7 +236,6 @@ $(function() {
 				bValid = bValid && checkLength(grouptips,groupname,"name",3,16);
 
 				bValid = bValid && checkRegexp(grouptips,groupname,/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkSelect(grouptips,groupparent);
 				bValid = bValid && checkRegexp(grouptips,grouplng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
 				bValid = bValid && checkRegexp(grouptips,grouplat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
 				bValid = bValid && checkLength(grouptips,grouplng,"longitude",-90,90);
@@ -255,6 +258,8 @@ $(function() {
 		},
 		open: function() {
 			get_group_list(function(data){
+				groupparent.find('option').remove();
+				groupparent.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
 					groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
