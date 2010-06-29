@@ -19,8 +19,8 @@ function notification_get_status() {
 				`availability`,
 				`cur_time`
 			FROM `host`
-			WHERE `status` < 3 AND `disabled` = '' AND `monitor` = 'on'
-			ORDER BY `status` ASC, `status_fail_date` DESC";
+			WHERE NOT(`status` = 3) AND `disabled` = '' AND `monitor` = 'on'
+			ORDER BY `status_fail_date` DESC, `status` ASC";
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
 	
 	$i = 0;
