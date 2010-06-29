@@ -18,8 +18,15 @@ function notification_get_status() {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `host`
-			WHERE NOT(`status` = 3) AND `disabled` = '' AND `monitor` = 'on'
+			FROM `".$config['db']['cacti_db']."`.`host`
+			WHERE
+				NOT(`status` = 3) AND
+				`disabled` = '' AND
+				`monitor` = 'on' AND
+				`id` IN (
+					SELECT `cacti_id` AS `id`
+					FROM `".$config['db']['app_db']."`.`device`
+				)
 			ORDER BY `status_fail_date` DESC, `status` ASC";
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
 	
