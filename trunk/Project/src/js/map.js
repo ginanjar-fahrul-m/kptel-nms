@@ -120,7 +120,10 @@ function kptel_init() {
 						"valid_children" : [ "none" ],
 						"icon" : {
 							"image" : "images/form-device.png"
-						}/*,
+						},
+						open_node : false,
+						close_node : false
+						/*,
 						"start_drag" : false,
 						"move_node" : false,
 						"delete_node" : false,
@@ -179,7 +182,6 @@ function tree_group_processing(data,x){
 			var info = {
 					  "attr":{"id":groupid, "rel":"group"}//, "param":3}
 					 ,"data":{"title":datum['name']}
-					 ,"state":"closed"
 			 };
 			
 			if(x == 0) parentnode = -1;
@@ -201,12 +203,11 @@ function tree_device_processing(data){
 			var info = {
 					  "attr":{"id":devid, "rel":"device"}//, "param":3}
 					 ,"data":{"title":datum['name']}
-					 ,"state":"closed"
 			 };
 			
 			if(datum['group_id'] == 0) parentnode = -1;
 			else parentnode = "#group-"+datum['group_id'];
-			$("#trees").jstree("create",parentnode,false,info,false,true);
+			$("#trees").jstree("create",parentnode,"last",info,false,true);
 	});
 }
 
