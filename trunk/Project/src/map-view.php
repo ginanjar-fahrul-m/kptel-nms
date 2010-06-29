@@ -47,7 +47,7 @@ session_db_init();
 					<li><a class="ui-widget-header" id="time"></a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="notif" href="#" title="Show device status"> 
-					<img border="0" src="images/menu-notif.png"/> Notifications </a></li> 
+					<img id="warning" border="0" src="images/menu-notif.png"/> Notifications </a></li> 
 				</ul>
 			</div> 
 			<div class="clearboth"></div> 
@@ -63,21 +63,24 @@ session_db_init();
 		<div class="toggler togglerright">
 			<div id="effectright" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">Notification</h3>
-				<div id="notification" class="scroll demo jstree jstree-0 jstree-default jstree-focused">
+				<div id="notification" class="scroll">
 					<ul>
 						<li>
 							<div class="notif-img"><img "border="0" src="images/flag-alert.png"/></div>
 							<div class="notif-box">
 								<span class="notif-span-1">qwerty</span>
 								<span class="notif-span-2">12-12-12</span>
-							<div>
+							</div>
 							<div class="notif-clear"></div>
 						</li>
-						<li><img border="0" src="images/flag-recover.png"/>qwerty</li>
-						<li><img border="0" src="images/flag-warning.png"/>qwerty</li>
-						<li><img border="0" src="images/flag-alert.png"/>qwerty</li>
-						<li><img border="0" src="images/flag-recover.png"/>qwerty</li>
-						<li><img border="0" src="images/flag-warning.png"/>qwerty</li>
+						<li>
+							<div class="notif-img"><img "border="0" src="images/flag-alert.png"/></div>
+							<div class="notif-box">
+								<span class="notif-span-1">qwerty</span>
+								<span class="notif-span-2">12-12-12</span>
+							</div>
+							<div class="notif-clear"></div>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -140,11 +143,6 @@ session_db_init();
 				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
 			</fieldset>
 			</form>
-		</div>
-		<div id="info-alert">
-			<div id="alert">1</div>
-			<div id="recover">2</div>
-			<div id="warning">3</div>
 		</div>
 		<div id="map_canvas"></div>
 	</body>

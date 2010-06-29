@@ -547,7 +547,7 @@ function alert_device(data) {
 	alert(vardump(data, 5));
 }
 function showWarningDevice(){
-	$('#notification ul li').remove();
+	//$('#notification ul li').remove();
 	get_status_notification(function(data){
 		var li = "<li><img border='0' src='images/";
 		for(var i = 0; i < data.length; i++){
@@ -566,8 +566,22 @@ function showWarningDevice(){
 					break;
 				}
 			}
-			$('#notification ul').append(li);
+			//$('#notification ul').append(li);
 		}
+		showAlert(true,data.length);
 	});
-	setTimeout("showWarningDevice()",5000);
+	//setTimeout("showWarningDevice()",5000);
+}
+
+function showAlert(bool,n){
+	if(n > 0){
+		if(bool)
+			$('#warning').attr("src",'images/flag-alert.png');
+		else
+			$('#warning').attr("src",'images/flag-warning.png');
+		bool = !bool;
+	}
+	else
+		$('#warning').attr("src",'images/flag-ok.png');
+	setTimeout("showAlert("+bool+","+n+")",200);
 }

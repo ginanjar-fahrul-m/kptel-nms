@@ -2,7 +2,7 @@ $(document).ready(function(){
 	$(document).ready(function () { 
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
-		//showWarningDevice();
+		showWarningDevice();
 	}); 
 });
 $(function() {
