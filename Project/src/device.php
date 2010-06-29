@@ -168,7 +168,11 @@ function device_cacti_get_all() {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `host`
+			FROM `cacti`.`host`
+			WHERE `id` NOT IN (
+				SELECT `cacti_id` AS `id`
+				FROM `".$config['db']['app_db']."`.`device`
+			)
 			ORDER BY `description` ASC";
 	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
 	
