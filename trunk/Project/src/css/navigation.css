@@ -38,6 +38,9 @@ a:hover {
 	max-height: 500px;
 	overflow: auto;
 }
+.notif-clear, .notif-img, .notif-box {
+	clear: both;
+}
 .notif-img {
 	margin: 0px;
 	float: left;
@@ -249,4 +252,33 @@ a:hover {
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
+}
+#info-alert {
+	position: absolute;
+	right: 1px;
+	top: 42px;
+	color: #FFFFFF;
+	background: #444444;
+	float: right;
+	z-index: 1011;
+	display: block;
+	font-size: 15;
+}
+#alert {
+	display: inline;
+	margin: 5px 0;
+	padding: 0px 10px;
+	background: url("../images/flag-red.png") repeat 1;
+}
+#recover {
+	display: inline;
+	margin: 5px 0;
+	padding: 0px 10px;
+	background: url("../images/flag-blue.png") repeat 1;
+}
+#warning {
+	display: inline;
+	margin: 5px 0;
+	padding: 0px 10px;
+	background: url("../images/flag-yellow.png") repeat 1;
 }

@@ -66,11 +66,12 @@ session_db_init();
 				<div id="notification" class="scroll demo jstree jstree-0 jstree-default jstree-focused">
 					<ul>
 						<li>
-							<img class="notif-img" "border="0" src="images/flag-alert.png"/>
+							<div class="notif-img"><img "border="0" src="images/flag-alert.png"/></div>
 							<div class="notif-box">
 								<span class="notif-span-1">qwerty</span>
 								<span class="notif-span-2">12-12-12</span>
 							<div>
+							<div class="notif-clear"></div>
 						</li>
 						<li><img border="0" src="images/flag-recover.png"/>qwerty</li>
 						<li><img border="0" src="images/flag-warning.png"/>qwerty</li>
@@ -140,8 +141,10 @@ session_db_init();
 			</fieldset>
 			</form>
 		</div>
-		<div id="alert">
-			<div id=>
+		<div id="info-alert">
+			<div id="alert">1</div>
+			<div id="recover">2</div>
+			<div id="warning">3</div>
 		</div>
 		<div id="map_canvas"></div>
 	</body>
