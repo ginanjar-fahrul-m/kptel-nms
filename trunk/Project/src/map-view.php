@@ -9,8 +9,10 @@ session_db_init();
 
 ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-	<head> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">	
+	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>KPTEL-NMS</title> 
 		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
@@ -30,29 +32,29 @@ session_db_init();
 		<div id="top" class="fluid ui-widget-header">
 			<div id="topleft"> 
 				<ul>
-					<li><a class="ui-widget-header" href="" title="Return to home">
-					<img border="0" src="images/menu-home.png"/> Home </a></li> 
+					<li><a class="ui-widget-header" href="#" title="Return to home">
+					<img alt="menu-home" src="images/menu-home.png"/> Home </a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="tree" href="#" title="Show all device and group tree">
-					<img border="0" src="images/menu-tree.png"/> Group and Device Tree </a></li> 
+					<img alt="menu-tree" src="images/menu-tree.png"/> Group and Device Tree </a></li> 
 				</ul> 
 			</div> 
 			<div id = "topright"> 
 				<ul> 
 					<li><a class="ui-widget-header" id="login" href="#" title="Login as admin"> 
-					<img border="0" src="images/menu-login.png"/> Login </a></li>
+					<img alt="menu-login" src="images/menu-login.png"/> Login </a></li>
 					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
-					<img border="0" src="images/menu-help.png"/> Help </a></li> 
+					<img alt="menu-help" src="images/menu-help.png"/> Help </a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="time"></a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="notif" href="#" title="Show device status"> 
-					<img id="warning" border="0" src="images/menu-notif.png"/> Notifications </a></li> 
+					<img id="warning" alt="menu-notif" src="images/menu-notif.png"/><label id="notif-label"> Notifications </label></a></li> 
 				</ul>
 			</div> 
 			<div class="clearboth"></div> 
 		</div> 
-		<hr>
+		<hr/>
 		<div class="toggler togglerleft">
 			<div id="effectleft" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">DSLAM Device</h3>
@@ -64,24 +66,16 @@ session_db_init();
 			<div id="effectright" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">Notification</h3>
 				<div id="notification" class="scroll">
-					<ul>
-						<li>
-							<div class="notif-img"><img "border="0" src="images/flag-alert.png"/></div>
-							<div class="notif-box">
-								<span class="notif-span-1">qwerty</span>
-								<span class="notif-span-2">12-12-12</span>
-							</div>
-							<div class="notif-clear"></div>
-						</li>
-						<li>
-							<div class="notif-img"><img "border="0" src="images/flag-alert.png"/></div>
-							<div class="notif-box">
-								<span class="notif-span-1">qwerty</span>
-								<span class="notif-span-2">12-12-12</span>
-							</div>
-							<div class="notif-clear"></div>
-						</li>
-					</ul>
+					<div class="notif-box"> 
+						<div class="notif-img"><img alt="flag-alert" src="images/flag-alert.png" /></div> 
+						<div class="notif-cont"><h3>qwerty</h3>&nbsp; 12-12-12</div> 
+						<div class="notif-clear"></div> 
+					</div>
+					<div class="notif-box"> 
+						<div class="notif-img"><img alt="menu-warning" src="images/flag-warning.png" /></div> 
+						<div class="notif-cont"><h3>qwerty</h3>&nbsp; 12-12-12</div> 
+						<div class="notif-clear"></div> 
+					</div>
 				</div>
 			</div>
 		</div>
@@ -92,57 +86,51 @@ session_db_init();
 		</div>
 		<div id="loginform" title="Login">
 			<p class="logintips">All form fields are required.</p>
-			<form>
 			<fieldset>
-				<label for="name">Username</label>
+				<label>Username</label>
 				<input type="text" name="name" id="loginname" class="text ui-widget-content ui-corner-all" />
-				<label for="password">Password</label>
+				<label>Password</label>
 				<input type="password" name="password" id="loginpassword" value="" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
-			</form>
 		</div>
 		<div id="contextmenu">
 			<label id="adddevice" title="add new device"> Add Device </label>
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
 		<div id="objectmenu">
-			<label id="showdetail" title="add new device"><a id="cactidetail" href="device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=8" class="tu_iframe_800x500"> Show Detail </a></label>
+			<label id="showdetail" title="add new device"><a id="cactidetail" href="" class="tu_iframe_800x500"> Show Detail </a></label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
-			<form>
 			<fieldset>
-				<label for="devicename">Name: </label>
-				<input type="text" name="name" id="devicename" class="text ui-widget-content ui-corner-all" />
-				<label for="parent">Parent: </label>
-				<select name="parent" id="deviceparent" class="text ui-widget-content ui-corner-all">
+				<label>Name: </label>
+				<input type="text" name="devicename" id="devicename" class="text ui-widget-content ui-corner-all" />
+				<label>Parent: </label>
+				<select name="deviceparent" id="deviceparent" class="text ui-widget-content ui-corner-all">
 					<option value="0">&lt;none&gt;</option>
 				</select>
-				<label for="cacti">Device: </label>
-				<select name="cacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
+				<label>Device: </label>
+				<select name="devicecacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
 					<option value="0">&lt;none&gt;</option>
 				</select>
-				<label for="devicelocation">Location: </label>
-				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
-				<input type="text" id="devicelat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+				<label>Location: </label>
+				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
+				<input type="text" id="devicelat" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
 			</fieldset>
-			</form>
 		</div>
 		<div id="groupform" title="group form">
 			<p class="grouptips">All form fields are required.</p>
-			<form>
 			<fieldset>
-				<label for="groupname">Name: </label>
-				<input type="text" name="name" id="groupname" class="text ui-widget-content ui-corner-all" />
-				<label for="groupparent">Parent: </label>
+				<label>Name: </label>
+				<input type="text" name="groupname" id="groupname" class="text ui-widget-content ui-corner-all" />
+				<label>Parent: </label>
 				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all">
 					<option value="0">&lt;none&gt;</option>
 				</select>
-				<label for="grouplocation">Location: </label>
-				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp&deg
-				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp&deg
+				<label>Location: </label>
+				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
+				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
 			</fieldset>
-			</form>
 		</div>
 		<div id="map_canvas"></div>
 	</body>

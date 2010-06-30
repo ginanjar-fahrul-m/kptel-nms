@@ -132,8 +132,8 @@ $(function() {
 	});
 	$("#contextmenu").dialog({
 		autoOpen: false,
-		height: 70,
-		width: 120,
+		height: 75,
+		width: 125,
 		modal: false,
 		draggable: false,
 		resizable: false,
@@ -161,7 +161,7 @@ $(function() {
 	});
 	$("#deviceform").dialog({
 		autoOpen: false,
-		height: 330,
+		height: 360,
 		width: 350,
 		modal: true,
 		draggable: false,
@@ -175,7 +175,7 @@ $(function() {
 
 				bValid = bValid && checkLength(devicetips,devicename,"name",3,16);
 
-				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_ ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
 				bValid = bValid && checkSelect(devicetips,devicecacti);
 				bValid = bValid && checkRegexp(devicetips,devicelng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
 				bValid = bValid && checkRegexp(devicetips,devicelat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
@@ -221,7 +221,7 @@ $(function() {
 	});
 	$("#groupform").dialog({
 		autoOpen: false,
-		height: 280,
+		height: 320,
 		width: 350,
 		modal: true,
 		draggable: false,
@@ -289,5 +289,8 @@ $(function() {
 	$('#showdetail').click(function() {
 		$('#contextmenu').dialog('close');
 		$('#objectmenu').dialog('close');
+	});
+	$('#devicecacti').change(function() {
+		$('#devicename').val($('#devicecacti :selected').html());
 	});
 });
