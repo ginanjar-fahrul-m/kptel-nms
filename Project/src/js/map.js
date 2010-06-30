@@ -547,41 +547,49 @@ function alert_device(data) {
 	alert(vardump(data, 5));
 }
 function showWarningDevice(){
-	//$('#notification ul li').remove();
+	$('#notification').html('');
 	get_status_notification(function(data){
-		var li = "<li><img border='0' src='images/";
+		var li;
 		for(var i = 0; i < data.length; i++){
-			li = "<li><img border='0' src='images/";
+			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-warning' src='images/";
 			switch(data[i]['status']){
 				case '1': {
-					li += "flag-alert.png'/>" + data[i]['description'] + "</li>";
+					li += "flag-alert.png'";
 					break;
 				}
 				case '2': {
-					li += "flag-recover.png'/>" + data[i]['description'] + "</li>";
+					li += "flag-recover.png'";
 					break;
 				}
 				case '4': {
-					li += "flag-warning.png'/>" + data[i]['description'] + "</li>";
+					li += "flag-warning.png'";
 					break;
 				}
 			}
-			//$('#notification ul').append(li);
+			li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
+			li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
+			$('#notification').append(li);
+		}
+		if(data.length == 0){
+			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-warning' src='images/";
+			li += "flag-ok.png'";
+			li += " /></div><div class='notif-cont'><h3 align='left'>" + "all device ok!" + "</h3>";
+			li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+			$('#notification').append(li);
 		}
 		showAlert(true,data.length);
 	});
-	//setTimeout("showWarningDevice()",5000);
+	setTimeout("showWarningDevice()",5000);
 }
 
 function showAlert(bool,n){
 	if(n > 0){
-		if(bool)
-			$('#warning').attr("src",'images/flag-alert.png');
-		else
-			$('#warning').attr("src",'images/flag-warning.png');
-		bool = !bool;
+		$('#warning').attr("src",'images/alert.gif');
+		$('#notif-label').html(" Notifications (" + n + ") ");
 	}
 	else
+	{
 		$('#warning').attr("src",'images/flag-ok.png');
-	setTimeout("showAlert("+bool+","+n+")",200);
+		$('#notif-label').html(" Notifications ");
+	}
 }

@@ -1,4 +1,3 @@
-//menu bar
 a:visited , a:link {
     text-decoration: none;
 }
@@ -8,7 +7,7 @@ a:hover {
 .fluid {
 	position: absolute;
     min-width: 940px;
-	opacity: 0.9;
+	/*opacity: 0.9;*/
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -40,21 +39,48 @@ a:hover {
 	max-height: 500px;
 	overflow: auto;
 }
-.notif-clear, .notif-img, .notif-box {
+.notif-clear {
 	clear: both;
 }
+.notif-label {
+	cursor: pointer;
+}
 .notif-img {
-	margin: 0px;
-	float: left;
+	border : none;
+	padding : 10px 0;
+	margin : 0;
+	float:left;
+}
+.notif-cont {
+	border : none;
+	padding : 0;
+	margin : 0;
+	float : left;
 }
 .notif-box {
-	float: left;
+	margin: 0 auto;
+	padding: 2px;
+	display: block;
+	color: #eeeeee;
+	text-decoration: none;
 }
-.notif-span-1 {
-	
+.notif-box:hover {
+	margin: 0;
+	padding: 2px;
+	display: block;
+	color: #ffffff;
+	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
 }
-.notif-span-2 {
-	
+.notif-box:active {
+	margin: 0;
+	padding: 2px;
+	display: block;
+    color: #222222;
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
 }
 #time {
 	font-weight: normal;
@@ -103,10 +129,7 @@ a:hover {
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
 	border: none;
 }
-//dialog
-#effectleft, #effectright { 
-	width: 1000px; 
-	height: 135px; 
+#effectleft, #effectright {
 	padding: 0.4em; 
 	position: relative; 
 	z-index: 100;
@@ -116,14 +139,10 @@ a:hover {
 	padding: 0.4em;
 	text-align: center;
 }
-//login-form
-#loginform label, #login input { 
-	display:block; 
-}
 #loginform input.text {
 	margin-bottom:12px; 
 	width:100%; 
-	padding: .4em; 
+	padding: .4em 0;
 }
 #loginform fieldset { 
 	padding:0; 
@@ -134,16 +153,16 @@ a:hover {
 	font-size: 1.2em; 
 	margin: .6em 0; 
 }
-#loginform div#users-contain { 
+#loginform div, #users-contain { 
 	width: 350px; 
 	margin: 20px 0; 
 }
-#loginform div#users-contain table { 
+#loginform div, #users-contain table { 
 	margin: 1em 0; 
 	border-collapse: collapse; 
 	width: 100%; 
 }
-#loginform div#users-contain table td, #loginform div#users-contain table th { 
+#loginform div#users-contain table td, #loginform div, #users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
@@ -155,42 +174,31 @@ a:hover {
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
-//context-menu
-#contextmenu, #objectmenu{
-	
-}
-#notification ul {
-	margin: 5;
-}
-#contextmenu label, #objectmenu label, #notification li{
+#contextmenu label, #objectmenu label{
 	margin: 0 auto;
 	padding: 8px;
 	display: block;
 	color: #eeeeee;
 }
-#contextmenu label:hover, #objectmenu label:hover, #notification li:hover{
+#contextmenu label:hover, #objectmenu label:hover{
 	margin: 0;
 	padding: 8px;
 	display: block;
 	color: #ffffff;
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
-	cursor: hand;
+	cursor: pointer;
 }
-#contextmenu label:active, #objectmenu label:active, #notification li:active{
+#contextmenu label:active, #objectmenu label:active{
 	margin: 0;
 	padding: 8px;
 	display: block;
     color: #222222;
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
-	cursor: hand;
-}
-//deviceform
-#deviceform label, #deviceform input { 
-	display:block; 
+	cursor: pointer;
 }
 #deviceform input.text, #deviceform select {
 	margin-bottom:12px;
-	padding: .4em; 
+	padding: .4em 0;
 }
 #devicelng, #devicelat {
 	width:30%; 
@@ -221,13 +229,9 @@ a:hover {
 	padding: .6em 10px; 
 	text-align: left; 
 }
-//groupform
-#groupform label, #groupform input { 
-	display:block; 
-}
 #groupform input.text, #groupform select {
 	margin-bottom:12px;
-	padding: .4em; 
+	padding: .4em 0; 
 }
 #grouplng, #grouplat {
 	width:30%; 
@@ -254,4 +258,7 @@ a:hover {
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
+}
+#cactidetail {
+	text-decoration: none;
 }
