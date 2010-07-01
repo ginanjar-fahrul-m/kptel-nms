@@ -99,6 +99,8 @@ session_db_init();
 		</div>
 		<div id="objectmenu">
 			<label id="showdetail" title="add new device"><a id="cactidetail" href="" class="tu_iframe_800x500"> Show Detail </a></label>
+			<label id="editdevice" title="edit this device"> Edit </label>
+			<label id="deletedevice" title="delete this device"> Delete </label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
