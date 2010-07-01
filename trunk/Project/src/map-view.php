@@ -41,6 +41,9 @@ session_db_init();
 			</div> 
 			<div id = "topright"> 
 				<ul> 
+					<li><a class="tu_iframe_1200x560" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
+					<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a></li>
+					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="login" href="#" title="Login as admin"> 
 					<img alt="menu-login" src="images/menu-login.png"/> Login </a></li>
 					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
@@ -93,14 +96,17 @@ session_db_init();
 				<input type="password" name="password" id="loginpassword" value="" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 		</div>
-		<div id="contextmenu">
+		<div id="mapctxmenu">
 			<label id="adddevice" title="add new device"> Add Device </label>
 			<label id="addgroup" title="add new group"> Add Group </label>
 		</div>
-		<div id="objectmenu">
-			<label id="showdetail" title="add new device"><a id="cactidetail" href="" class="tu_iframe_800x500"> Show Detail </a></label>
-			<label id="editdevice" title="edit this device"> Edit </label>
-			<label id="deletedevice" title="delete this device"> Delete </label>
+		<div id="devicectxmenu">
+			<label id="editdevice" title="edit this device"> Edit Device </label>
+			<label id="deletedevice" title="delete this device"> Delete Device </label>
+		</div>
+		<div id="groupctxmenu">
+			<label id="groupdevice" title="edit this group"> Edit Group </label>
+			<label id="groupdevice" title="delete this group"> Delete Group </label>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
