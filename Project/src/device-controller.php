@@ -70,6 +70,10 @@ if($_GET) {
 		case 'showdevicedetail':
 			header('Location: '.device_cacti_detail_url($data['cacti_id']));
 			break;
+		
+		case 'gotocacti':
+			header('Location: '.$config['cacti']['url']);
+			break;
 	}
 	
 	session_db_close();
