@@ -174,27 +174,30 @@ a:hover {
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
-#mapctxmenu label, #devicectxmenu label{
+#mapctxmenu label, #devicectxmenu label, #groupctxmenu label, #panelrrd a {
 	margin: 0 auto;
 	padding: 8px;
 	display: block;
 	color: #eeeeee;
+	text-decoration: none;
 }
-#mapctxmenu label:hover, #devicectxmenu label:hover{
+#mapctxmenu label:hover, #devicectxmenu label:hover, #groupctxmenu label:hover, #panelrrd a:hover {
 	margin: 0;
 	padding: 8px;
 	display: block;
 	color: #ffffff;
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	cursor: pointer;
+	text-decoration: none;
 }
-#mapctxmenu label:active, #devicectxmenu label:active{
+#mapctxmenu label:active, #devicectxmenu label:active, #groupctxmenu label:active, #panelrrd a:active {
 	margin: 0;
 	padding: 8px;
 	display: block;
     color: #222222;
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
 	cursor: pointer;
+	text-decoration: none;
 }
 #deviceform input.text, #deviceform select {
 	margin-bottom:12px;

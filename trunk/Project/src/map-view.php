@@ -67,7 +67,7 @@ session_db_init();
 		</div>
 		<div class="toggler togglerright">
 			<div id="effectright" class="ui-widget-content ui-corner-all">
-				<h3 class="ui-widget-header ui-corner-all">Notification</h3>
+				<h3 class="ui-widget-header ui-corner-all">Notifications</h3>
 				<div id="notification" class="scroll">
 					<div class="notif-box"> 
 						<div class="notif-img"><img alt="flag-alert" src="images/flag-alert.png" /></div> 
@@ -105,8 +105,12 @@ session_db_init();
 			<label id="deletedevice" title="delete this device"> Delete Device </label>
 		</div>
 		<div id="groupctxmenu">
-			<label id="groupdevice" title="edit this group"> Edit Group </label>
-			<label id="groupdevice" title="delete this group"> Delete Group </label>
+			<label id="editgroup" title="edit this group"> Edit Group </label>
+			<label id="deletegroup" title="delete this group"> Delete Group </label>
+		</div>
+		<div id="panelrrd">
+			<a class="tu_iframe_800x500" id="rrd1" title="rrd1" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD1 </a>
+			<a class="tu_iframe_800x500" id="rrd2" title="rrd2" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD2 </a>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
