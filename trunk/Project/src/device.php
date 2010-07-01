@@ -237,4 +237,24 @@ function device_cacti_get_monitoring_graph($cacti_id) {
 	echo '</center>';
 }
 
+function device_cacti_detail_url($cacti_id) {
+	global $config;
+	
+	$cacti_id = mysql_real_escape_string($cacti_id);
+	
+	$sql = "SELECT `id`, `graph_tree_id`
+			FROM `graph_tree_items`
+			WHERE `host_id` = ".$cacti_id."
+			LIMIT 1";
+	$url = '';
+	
+	if($result = session_get($config['session']['cacti_db_sess'])->query($sql)) {
+		if($row = mysql_fetch_assoc($result)) {
+			$url = $config['cacti']['url'].'/graph_view.php?action=tree&tree_id='.$row['graph_tree_id'].'&leaf_id='.$row['id'];
+		}
+	}
+	
+	return $url;
+}
+
 ?>

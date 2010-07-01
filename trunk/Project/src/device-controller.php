@@ -66,6 +66,10 @@ if($_GET) {
 		case 'getcactimonitoringgraph':
 			echo device_cacti_get_monitoring_graph($data['cacti_id']);
 			break;
+		
+		case 'showdevicedetail':
+			header('Location: '.device_cacti_detail_url($data['cacti_id']));
+			break;
 	}
 	
 	session_db_close();
