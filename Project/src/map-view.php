@@ -32,7 +32,7 @@ session_db_init();
 		<div id="top" class="fluid ui-widget-header">
 			<div id="topleft"> 
 				<ul>
-					<li><a class="ui-widget-header" href="#" title="Return to home">
+					<li><a class="ui-widget-header" href="" title="Return to home">
 					<img alt="menu-home" src="images/menu-home.png"/> Home </a></li> 
 					<li><a class="ui-widget-header"> | </a></li> 
 					<li><a class="ui-widget-header" id="tree" href="#" title="Show all device and group tree">
