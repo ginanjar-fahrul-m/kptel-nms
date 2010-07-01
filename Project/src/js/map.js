@@ -317,6 +317,17 @@ function get_cacti_device_list(callback) {
 	$.getJSON(url_device, getparam, callback);
 }
 
+function get_cacti_unlisted_device_list(callback) {
+	var getparam = {
+		action: 'getcactiunlisteddevicelist',
+		data: {
+			
+		}
+	}
+	
+	$.getJSON(url_device, getparam, callback);
+}
+
 function update_device(callback, devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	var getparam = {
 		action: 'updatedevice',
