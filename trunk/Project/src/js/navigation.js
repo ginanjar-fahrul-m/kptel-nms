@@ -206,7 +206,7 @@ $(function() {
 					deviceparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
 			});
-			get_cacti_device_list(function(data){
+			get_cacti_unlisted_device_list(function(data){
 				devicecacti.find('option').remove();
 				devicecacti.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
