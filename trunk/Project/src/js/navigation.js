@@ -183,7 +183,7 @@ $(function() {
 		show: "slide",
 		hide: "slide",
 		position: [0,42],
-		zIndex: 25,
+		zIndex: 11,
 		close: function() {
 			
 		},
