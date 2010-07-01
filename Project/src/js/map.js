@@ -1,6 +1,6 @@
 var map= null;
 var mapmode = 0;
-var DSLAM_DEVICE = 0;
+var default_device = 0;
 /*
 	Mode 0 : mode peta biasa
 	Mode 1 : mode ambil koordinat
@@ -143,14 +143,14 @@ function kptel_init() {
 function render_init_device(data){
 	$.each(data, function(index,datum){
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		render_device(newPos,datum['name'],datum['cacti_id']);
+		render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
 	});
 }
 
 function render_init_group(data){
 	$.each(data, function(index,datum){
 		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		render_group(newPos,datum['name']);
+		render_group(newPos,datum['name'],datum['group_id']);
 	});
 }
 
@@ -223,7 +223,7 @@ function tree_device_processing(data){
 }
 
 //DEVICE MODEL-CONTROL
-function render_device(location,devname,cacid) {
+function render_device(location,devname,cacid,devid) {
     marker = new google.maps.Marker({
       position: location,
 	  icon : iconDevice,
@@ -236,6 +236,7 @@ function render_device(location,devname,cacid) {
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		//alert("Device id :" + devid);
 		currentCacti = cacid;
+		currentDevice = devid;
 		currentMouseX = tempX;
 		currentMouseY = tempY;
 		$("#devicectxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
@@ -428,7 +429,7 @@ function delete_device(id, callback) {
 }
 
 //GROUP MODEL-CONTROL
-function render_group(location,groupname){
+function render_group(location,groupname,groupid){
 	marker = new google.maps.Marker({
       position: location,
 	  icon : iconGroup,
@@ -437,7 +438,13 @@ function render_group(location,groupname){
     });
     placeMarkers.push(marker);
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-      alert("Group name :" + groupname);
+		//alert("Group name :" + groupname);
+		currentMouseX = tempX;
+		currentMouseY = tempY;
+		currentGroup = groupid;
+		$("#groupctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		closeOtherCtxMenu(null);
+		$('#groupctxmenu').dialog('open');
     });
 	
 	var content = '<img src="images/icon-group.png" style="float:left;"/>This is group '+groupname;

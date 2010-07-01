@@ -147,7 +147,7 @@ $(function() {
 	$("#devicectxmenu").dialog({
 		autoOpen: false,
 		height: 75,
-		width: 125,
+		width: 130,
 		modal: false,
 		draggable: false,
 		resizable: false,
@@ -156,7 +156,39 @@ $(function() {
 		},
 		open: function() {
 			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
-			$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + currentCacti);
+			//$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + currentCacti);
+		}
+	});
+	$("#groupctxmenu").dialog({
+		autoOpen: false,
+		height: 75,
+		width: 130,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog('option', 'position', [currentMouseX,currentMouseY]);
+		}
+	});
+	$("#panelrrd").dialog({
+		autoOpen: false,
+		height: 600,
+		width: 350,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		show: "slide",
+		hide: "slide",
+		position: [0,42],
+		zIndex: 25,
+		close: function() {
+			
+		},
+		open: function() {
+			closeOtherCtxMenu("#panelrrd");
 		}
 	});
 	$("#deviceform").dialog({
@@ -184,7 +216,7 @@ $(function() {
 				
 				if (bValid) {
 					//alert(devicecacti.val());
-					add_device(deviceparent.val(),DSLAM_DEVICE,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
+					add_device(deviceparent.val(),default_device,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
 					devicetips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -285,5 +317,38 @@ $(function() {
 	});
 	$('#devicecacti').change(function() {
 		$('#devicename').val($('#devicecacti :selected').html());
+	});
+	$('#editdevice').click(function() {
+		$('#deviceform').dialog('open');
+		get_device(currentDevice,function(devicedata){
+			$('#devicename').val(devicedata['name']);
+			$('#deviceparent').val(devicedata['group_id']);
+			get_cacti_device(devicedata['cacti_id'],function(cactidata){
+				$('#devicecacti').append($("<option></option>").attr("value",devicedata['cacti_id']).text(cactidata['description']));
+				$('#devicecacti').val(devicedata['cacti_id']);
+			});
+			$('#devicelng').val(devicedata['longitude']);
+			$('#devicelat').val(devicedata['latitude']);
+		});
+	});
+	$('#deletedevice').click(function() {
+		delete_device(currentDevice, function(){alert("deleted")});
+		closeOtherCtxMenu(null);
+	});
+	$('#editgroup').click(function() {
+		$('#groupform').dialog('open');
+		get_group(currentGroup,function(data){
+			$('#groupname').val(data['name']);
+			$('#groupparent').val(data['parent_id']);
+			$('#grouplng').val(data['longitude']);
+			$('#grouplat').val(data['latitude']);
+		});
+	});
+	$('#deletegroup').click(function() {
+		delete_group(currentGroup, function(){alert("deleted")});
+		closeOtherCtxMenu(null);
+	});
+	$('#help').click(function() {
+		$('#panelrrd').dialog('open');
 	});
 });
