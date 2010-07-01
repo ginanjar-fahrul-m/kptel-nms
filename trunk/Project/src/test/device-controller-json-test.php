@@ -21,6 +21,7 @@ session_db_init();
 		<button onclick="get_device_list()">Get Device List</button><br />
 		Cacti ID: <input type="text" id="cacti_id" /><button onclick="get_cacti_device()">Get Cacti Host</button><br />
 		<button onclick="get_cacti_device_list()">Get Cacti Host List</button><br />
+		<button onclick="get_cacti_unlisted_device_list()">Get Cacti Unlisted Host List</button><br />
 		<button onclick="add_device()">Add Device</button><br />
 		<button onclick="update_device()">Update Device</button><br />
 		<button onclick="delete_device()">Delete Device</button><br />
