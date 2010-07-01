@@ -30,6 +30,10 @@ if($_GET) {
 			echo json_encode(device_cacti_get_all());
 			break;
 		
+		case 'getcactiunlisteddevicelist':
+			echo json_encode(device_cacti_get_all_unlisted());
+			break;
+		
 		case 'adddevice':
 			echo device_add(
 				$data['group_id'],

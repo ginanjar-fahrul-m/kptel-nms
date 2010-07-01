@@ -63,6 +63,17 @@ function get_cacti_device_list() {
 	$.getJSON(url, getparam, alert_device);
 }
 
+function get_cacti_unlisted_device_list() {
+	var getparam = {
+		action: 'getcactiunlisteddevicelist',
+		data: {
+			
+		}
+	}
+	
+	$.getJSON(url, getparam, alert_device);
+}
+
 function add_device() {
 	var getparam = {
 		action: 'adddevice',

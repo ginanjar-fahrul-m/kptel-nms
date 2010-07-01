@@ -169,6 +169,36 @@ function device_cacti_get_all() {
 				`availability`,
 				`cur_time`
 			FROM `cacti`.`host`
+			ORDER BY `description` ASC";
+	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
+	
+	$i = 0;
+	while($row = mysql_fetch_assoc($result)) {
+		$device_list[$i] = $row;
+		$i++;
+	}
+	
+	return $device_list;
+}
+
+/* status: ok
+ * tester: jiwo
+ */
+function device_cacti_get_all_unlisted() {
+	global $config;
+	
+	$sql = "SELECT 
+				`id`,
+				`description`,
+				`hostname`,
+				`monitor`,
+				`status`,
+				`status_fail_date`,
+				`status_rec_date`,
+				`status_last_error`,
+				`availability`,
+				`cur_time`
+			FROM `cacti`.`host`
 			WHERE `id` NOT IN (
 				SELECT `cacti_id` AS `id`
 				FROM `".$config['db']['app_db']."`.`device`
