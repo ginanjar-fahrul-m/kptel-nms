@@ -146,7 +146,7 @@ $(function() {
 	});
 	$("#objectmenu").dialog({
 		autoOpen: false,
-		height: 70,
+		height: 100,
 		width: 120,
 		modal: false,
 		draggable: false,
@@ -156,7 +156,7 @@ $(function() {
 		},
 		open: function() {
 			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
-			$('#cactidetail').attr('href','device-controller.php?action=getcactimonitoringgraph&data[cacti_id]=' + currentCacti);
+			$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + currentCacti);
 		}
 	});
 	$("#deviceform").dialog({
