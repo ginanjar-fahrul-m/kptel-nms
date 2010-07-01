@@ -187,6 +187,10 @@ function tree_group_processing(data,x){
 			if(x == 0) parentnode = -1;
 			else parentnode = "#group-"+x;
 			$("#trees").jstree("create",parentnode,false,info,false,true);
+			$('#'+groupid).click(function() {
+				set_center_and_zoom(datum['latitude']+0.5,datum['longitude']);
+				//alert("group click :" + datum['latitude'] + ' , ' + datum['longitude']);
+			});
 			queueid.push(datum['group_id']);
 		}
 	});
@@ -208,6 +212,10 @@ function tree_device_processing(data){
 			if(datum['group_id'] == 0) parentnode = -1;
 			else parentnode = "#group-"+datum['group_id'];
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
+			$('#'+devid).click(function() {
+				set_center_and_zoom(datum['latitude'],datum['longitude']);
+				//alert("device click :" + datum['latitude'] + ' , ' + datum['longitude']);
+			});
 	});
 }
 
@@ -231,6 +239,66 @@ function render_device(location,devname,cacid) {
 		$('#objectmenu').dialog('open');
 		$('#contextmenu').dialog('close');
     });
+	
+	
+	var getparam = {
+		action: 'getcactidevice',
+		data: {cacti_id: cacid}
+	}
+	var content='';
+	var infowindow = new google.maps.InfoWindow({
+		content: content
+		,maxWidth: 500
+	});
+	$.getJSON(url_device, getparam, function(cactidata){
+		var imgstat = '';
+		var textstat = '';
+		switch(cactidata['status'])
+		{
+			case '0':
+			  imgstat = 'images/menu-help.png';
+			  textstat = 'unknown';
+			  break;
+			case '1':
+			  imgstat = 'images/flag-alert.png';
+			  textstat = 'down';
+			  break;
+			case '2':
+			  imgstat = 'images/flag-recover.png';
+			  textstat = 'recover';
+			  break;
+			case '3':
+			  imgstat = 'images/flag-ok.png';
+			  textstat = 'up';
+			  break;
+			case '4':
+			  imgstat = 'images/flag-warning.png';
+			  textstat = 'threshold';
+			  break;
+			default:
+			  imgstat = 'images/menu-help.png';
+			  textstat = 'unknown 2';
+		}
+		
+		var text = '<div id="devinfowindow">'
+						+'<div id="imginfowindow">'
+						+'<img id="imglogo" src="images/icon-device2.png" />'
+						+'<img id="imgstat" src="'+imgstat+'" /></div>'
+						+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
+						+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
+						+'</div><div id="devinfovalue">: '
+						+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
+						+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
+						+'<div class="clearboth"></div></div>'
+					;
+		infowindow.setContent(text);
+	});
+	google.maps.event.addListener(marker, 'click', function(e) {
+		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+0.5,this.getPosition().lng());
+		map.setCenter(selectedCenter);
+		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+		infowindow.open(map,this);
+	});
 }
 
 function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
@@ -368,6 +436,16 @@ function render_group(location,groupname){
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
       alert("Group name :" + groupname);
     });
+	
+	var content = '<img src="images/icon-group.png" style="float:left;"/>This is group '+groupname;
+	var infowindow = new google.maps.InfoWindow({
+		content: content,
+		maxWidth: 200,
+		maxHeight: 100
+	});
+	google.maps.event.addListener(marker, 'click', function(e) {
+		infowindow.open(map,this);
+	});
 }
 
 function add_group(parentid, grpname, grplng, grplat, grpdesc) {
