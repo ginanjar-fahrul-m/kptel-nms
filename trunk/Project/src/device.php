@@ -257,4 +257,10 @@ function device_cacti_detail_url($cacti_id) {
 	return $url;
 }
 
+function device_cacti_get_graph($cacti_id) {
+	global $config;
+	
+	$cacti_id = mysql_real_escape_string($cacti_id);
+}
+
 ?>
