@@ -174,13 +174,13 @@ a:hover {
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
-#contextmenu label, #objectmenu label{
+#mapctxmenu label, #devicectxmenu label{
 	margin: 0 auto;
 	padding: 8px;
 	display: block;
 	color: #eeeeee;
 }
-#contextmenu label:hover, #objectmenu label:hover{
+#mapctxmenu label:hover, #devicectxmenu label:hover{
 	margin: 0;
 	padding: 8px;
 	display: block;
@@ -188,7 +188,7 @@ a:hover {
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	cursor: pointer;
 }
-#contextmenu label:active, #objectmenu label:active{
+#mapctxmenu label:active, #devicectxmenu label:active{
 	margin: 0;
 	padding: 8px;
 	display: block;

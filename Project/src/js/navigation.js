@@ -126,11 +126,10 @@ $(function() {
 		},
 		open: function() {
 			name.focus();
-			$('#contextmenu').dialog('close');
-			$('#objectmenu').dialog('close');
+			closeOtherCtxMenu("#loginform");
 		}
 	});
-	$("#contextmenu").dialog({
+	$("#mapctxmenu").dialog({
 		autoOpen: false,
 		height: 75,
 		width: 125,
@@ -142,12 +141,13 @@ $(function() {
 		},
 		open: function() {
 			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
+			closeOtherCtxMenu("#mapctxmenu");
 		}
 	});
-	$("#objectmenu").dialog({
+	$("#devicectxmenu").dialog({
 		autoOpen: false,
-		height: 100,
-		width: 120,
+		height: 75,
+		width: 125,
 		modal: false,
 		draggable: false,
 		resizable: false,
@@ -175,7 +175,7 @@ $(function() {
 
 				bValid = bValid && checkLength(devicetips,devicename,"name",3,16);
 
-				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_ ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
 				bValid = bValid && checkSelect(devicetips,devicecacti);
 				bValid = bValid && checkRegexp(devicetips,devicelng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
 				bValid = bValid && checkRegexp(devicetips,devicelat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
@@ -215,8 +215,7 @@ $(function() {
 			});
 			$('#devicelng').val(currentLng);
 			$('#devicelat').val(currentLat);
-			$('#contextmenu').dialog('close');
-			$('#objectmenu').dialog('close');
+			closeOtherCtxMenu("#deviceform");
 		}
 	});
 	$("#groupform").dialog({
@@ -266,8 +265,7 @@ $(function() {
 			});
 			$('#grouplng').val(currentLng);
 			$('#grouplat').val(currentLat);
-			$('#contextmenu').dialog('close');
-			$('#objectmenu').dialog('close');
+			closeOtherCtxMenu("#groupform");
 		}
 	});
 	$('#help').click(function() {
@@ -278,17 +276,12 @@ $(function() {
 	});
 	$('#adddevice').click(function() {
 		$('#deviceform').dialog('open');
-		$('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('close');
 	});
 	$('#addgroup').click(function() {
 		$('#groupform').dialog('open');
-		$('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('close');
 	});
 	$('#showdetail').click(function() {
-		$('#contextmenu').dialog('close');
-		$('#objectmenu').dialog('close');
+		
 	});
 	$('#devicecacti').change(function() {
 		$('#devicename').val($('#devicecacti :selected').html());

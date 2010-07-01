@@ -23,6 +23,11 @@ var currentMouseY;
 var currentLng;
 var currentLat;
 var currentCacti;
+var currentDevice;
+var currentGroup;
+var listctxmenu = [];
+
+listctxmenu.push('#mapctxmenu', '#devicectxmenu', '#groupctxmenu');
 
 $(function(){
 	kptel_init();
@@ -56,14 +61,12 @@ function kptel_init() {
     });
 
 	google.maps.event.addListener(map, 'rightclick', function(event) {	
-	  if($('#contextmenu').dialog("isOpen")) $('#contextmenu').dialog('close');
+	  closeOtherCtxMenu($('#mapctxmenu'));
       check_point(event.latLng);
-
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
-      $('#contextmenu').dialog('close');
-	  $('#objectmenu').dialog('close');
+      closeOtherCtxMenu(null);
     });
 	
 	//limit the map zoom
@@ -235,9 +238,9 @@ function render_device(location,devname,cacid) {
 		currentCacti = cacid;
 		currentMouseX = tempX;
 		currentMouseY = tempY;
-		$("#objectmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-		$('#objectmenu').dialog('open');
-		$('#contextmenu').dialog('close');
+		$("#devicectxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		closeOtherCtxMenu(null);
+		$('#devicectxmenu').dialog('open');
     });
 	
 	
@@ -528,8 +531,8 @@ function check_point(position){
 	currentMouseY = tempY;
 	currentLng = position.lng();
 	currentLat = position.lat();
-	$("#contextmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
-	$('#contextmenu').dialog('open');
+	$("#mapctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+	$('#mapctxmenu').dialog('open');
 }
 
 //CONTROL UNTUK BUTTOM MAP ZOOM SLIDER
@@ -681,4 +684,11 @@ function showAlert(bool,n){
 		$('#warning').attr("src",'images/flag-ok.png');
 		$('#notif-label').html(" Notifications ");
 	}
+}
+
+function closeOtherCtxMenu(id){
+	for(var i = 0; i < listctxmenu.length; i++)
+		if(listctxmenu[i]!=id){
+			$(listctxmenu[i]).dialog('close');
+		}
 }
