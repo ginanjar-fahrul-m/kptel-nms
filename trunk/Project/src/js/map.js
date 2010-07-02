@@ -182,6 +182,7 @@ function tree_group_processing(data,x){
 		if(datum['parent_id'] == x){
 			var parentnode=null;
 			var groupid = "group-"+datum['group_id'];
+			var cgroupid = "cgroup-"+datum['group_id'];
 			var info = {
 					  "attr":{"id":groupid, "rel":"group"}//, "param":3}
 					 ,"data":{"title":datum['name']}
@@ -190,9 +191,9 @@ function tree_group_processing(data,x){
 			if(x == 0) parentnode = -1;
 			else parentnode = "#group-"+x;
 			$("#trees").jstree("create",parentnode,false,info,false,true);
-			$('#'+groupid).click(function() {
-				set_center_and_zoom(datum['latitude']+0.5,datum['longitude']);
-				//alert("group click :" + datum['latitude'] + ' , ' + datum['longitude']);
+			$('#'+groupid).find('a').attr("id",cgroupid);
+			$('#'+cgroupid).click(function() {
+				set_center_and_zoom(datum['latitude'],datum['longitude']);
 			});
 			queueid.push(datum['group_id']);
 		}
