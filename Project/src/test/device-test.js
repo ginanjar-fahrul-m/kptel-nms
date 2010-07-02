@@ -15,6 +15,17 @@ function get_device() {
 	$.getJSON(url, getparam, alert_device);
 }
 
+function get_device_by_cacti_id() {
+	alert("get device id " + document.getElementById("cacti_id").value);
+	var getparam = {
+		action: 'getdevicebycactiid',
+		data: {
+			cacti_id: document.getElementById("cacti_id").value
+		}
+	}
+	$.getJSON(url, getparam, alert_device);
+}
+
 function get_device_list() {
 	var getparam = {
 		action: 'getdevicelist',
