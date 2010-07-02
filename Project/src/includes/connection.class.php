@@ -69,6 +69,10 @@ class Connection {
 	public function fetch_array($res) {
 		return mysql_fetch_array($res);
 	}
+	
+	public function get_last_insert_id() {
+		return mysql_insert_id();
+	}
 }
 
 ?>

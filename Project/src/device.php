@@ -36,7 +36,7 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 				".$cacti_id.")";
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return 1;
+		return session_get($config['session']['app_db_sess'])->get_last_insert_id();
 	} else {
 		return 0;
 	}
@@ -284,8 +284,8 @@ function device_cacti_get_graph_list($cacti_id) {
 	
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {
-		$graph_list['graph'][$i] = $row;
-		$graph_list['graph'][$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
+		$graph_list[$i] = $row;
+		$graph_list[$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
 		
 		$sql = "SELECT rra.id, rra.name
 				FROM (
@@ -308,7 +308,7 @@ function device_cacti_get_graph_list($cacti_id) {
 		while($row2 = mysql_fetch_assoc($result2)) {
 			$rra['url'] = $config['cacti']['url'].'/graph_image.php?action=view&local_graph_id='.$row['local_graph_id'].'&rra_id='.$row2['id'];
 			$rra['name'] = $row2['name'];
-			$graph_list['graph'][$i]['rra_url'][$j] = $rra;
+			$graph_list[$i]['rra_url'][$j] = $rra;
 			$j++;
 		}
 		
