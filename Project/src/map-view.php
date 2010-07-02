@@ -108,7 +108,7 @@ session_db_init();
 			<label id="editgroup" title="edit this group"> Edit Group </label>
 			<label id="deletegroup" title="delete this group"> Delete Group </label>
 		</div>
-		<div id="panelrrd">
+		<div id="panelrrd" title="Device Graph">
 			<div id="rrd-tabs">
 				<ul>
 					<li><a href="#rrd-aggregate"><span>Aggregate</span></a></li>
@@ -144,6 +144,7 @@ session_db_init();
 				<label>Location: </label>
 				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
 				<input type="text" id="devicelat" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
+				<img id="devicelocation" alt="form-location" src="images/form-location.png"/>
 			</fieldset>
 		</div>
 		<div id="groupform" title="group form">
@@ -158,8 +159,14 @@ session_db_init();
 				<label>Location: </label>
 				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
 				<input type="text" id="grouplat" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
+				<img id="grouplocation" alt="form-location" src="images/form-location.png"/>
 			</fieldset>
 		</div>
 		<div id="map_canvas"></div>
+		<div id="coordinate" class="text ui-widget-content ui-corner-all">
+			<label>Location: </label>
+			<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" READONLY/>&nbsp;&deg;
+			<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" READONLY/>&nbsp;&deg;
+		</div>
 	</body>
 </html>
