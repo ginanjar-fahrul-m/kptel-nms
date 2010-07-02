@@ -140,7 +140,7 @@ $(function() {
 			
 		},
 		open: function() {
-			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
+			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
 			closeOtherCtxMenu("#mapctxmenu");
 		}
 	});
@@ -155,8 +155,8 @@ $(function() {
 			
 		},
 		open: function() {
-			$(this).dialog( 'option', 'position', [currentMouseX,currentMouseY]);
-			//$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + currentCacti);
+			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
+			//$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + current.cactiId);
 		}
 	});
 	$("#groupctxmenu").dialog({
@@ -170,25 +170,26 @@ $(function() {
 			
 		},
 		open: function() {
-			$(this).dialog('option', 'position', [currentMouseX,currentMouseY]);
+			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
 		}
 	});
 	$("#panelrrd").dialog({
 		autoOpen: false,
-		height: 600,
-		width: 350,
+		height: 400,
+		width: 200,
 		modal: false,
 		draggable: false,
 		resizable: false,
 		show: "slide",
 		hide: "slide",
 		position: [0,42],
-		zIndex: 11,
+		zIndex: -1,
 		close: function() {
-			
+			$('#zoom_control').css('z-index','10');
 		},
 		open: function() {
 			closeOtherCtxMenu("#panelrrd");
+			$('#zoom_control').css('z-index','0');
 		}
 	});
 	$("#deviceform").dialog({
@@ -201,7 +202,7 @@ $(function() {
 		show: "clip",
 		hide: "clip",
 		buttons: {
-			'Add': function() {
+			'OK': function() {
 				var bValid = true;
 				allfieldsdevice.removeClass('ui-state-error');
 
@@ -215,8 +216,12 @@ $(function() {
 				bValid = bValid && checkLength(devicetips,devicelat,"latitude",-180,180);
 				
 				if (bValid) {
-					//alert(devicecacti.val());
-					add_device(deviceparent.val(),default_device,$('#devicename').val(),$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
+					if(!current.isEditForm)
+						add_device(deviceparent.val(),default_device,$('#devicename').val(),
+									$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
+					else
+						update_device(current.deviceId, deviceparent.val(), default_device, $('#devicename').val(), 
+									"", $('#devicelng').val(),$('#devicelat').val(),devicecacti.val());
 					devicetips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -231,6 +236,7 @@ $(function() {
 			allfieldsdevice.val('').removeClass('ui-state-error');
 		},
 		open: function() {
+			devicename.val('');
 			get_group_list(function(data){
 				deviceparent.find('option').remove();
 				deviceparent.append($("<option></option>").attr("value",'0').text('<none>'));
@@ -245,8 +251,8 @@ $(function() {
 					devicecacti.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
 				}
 			});
-			$('#devicelng').val(currentLng);
-			$('#devicelat').val(currentLat);
+			$('#devicelng').val(current.longitude);
+			$('#devicelat').val(current.latitude);
 			closeOtherCtxMenu("#deviceform");
 		}
 	});
@@ -260,7 +266,7 @@ $(function() {
 		show: "clip",
 		hide: "clip",
 		buttons: {
-			'Add': function() {
+			'OK': function() {
 				var bValid = true;
 				allfieldsgroup.removeClass('ui-state-error');
 
@@ -273,7 +279,10 @@ $(function() {
 				bValid = bValid && checkLength(grouptips,grouplat,"latitude",-180,180);
 				
 				if (bValid) {
-					add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
+					if(!current.isEditForm)
+						add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
+					else
+						update_device(current.groupId, groupparent.val(), $('#devicename').val(), "", $('#devicelng').val(),$('#devicelat').val());
 					grouptips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -288,6 +297,7 @@ $(function() {
 			allfieldslogin.val('').removeClass('ui-state-error');
 		},
 		open: function() {
+			groupname.val('');
 			get_group_list(function(data){
 				groupparent.find('option').remove();
 				groupparent.append($("<option></option>").attr("value",'0').text('<none>'));
@@ -295,8 +305,8 @@ $(function() {
 					groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
 			});
-			$('#grouplng').val(currentLng);
-			$('#grouplat').val(currentLat);
+			$('#grouplng').val(current.longitude);
+			$('#grouplat').val(current.latitude);
 			closeOtherCtxMenu("#groupform");
 		}
 	});
@@ -316,11 +326,13 @@ $(function() {
 		
 	});
 	$('#devicecacti').change(function() {
-		$('#devicename').val($('#devicecacti :selected').html());
+		if($('#devicecacti').val()!='0')$('#devicename').val($.trim($('#devicecacti :selected').html()));
+		else $('#devicename').val("");
 	});
 	$('#editdevice').click(function() {
+		current.isEditForm = true;
 		$('#deviceform').dialog('open');
-		get_device(currentDevice,function(devicedata){
+		get_device(current.deviceId,function(devicedata){
 			$('#devicename').val(devicedata['name']);
 			$('#deviceparent').val(devicedata['group_id']);
 			get_cacti_device(devicedata['cacti_id'],function(cactidata){
@@ -332,12 +344,13 @@ $(function() {
 		});
 	});
 	$('#deletedevice').click(function() {
-		delete_device(currentDevice, function(){alert("deleted")});
+		delete_device(current.deviceId, function(){alert("deleted")});
 		closeOtherCtxMenu(null);
 	});
 	$('#editgroup').click(function() {
+		current.isEditForm = true;
 		$('#groupform').dialog('open');
-		get_group(currentGroup,function(data){
+		get_group(current.groupId,function(data){
 			$('#groupname').val(data['name']);
 			$('#groupparent').val(data['parent_id']);
 			$('#grouplng').val(data['longitude']);
@@ -345,7 +358,7 @@ $(function() {
 		});
 	});
 	$('#deletegroup').click(function() {
-		delete_group(currentGroup, function(){alert("deleted")});
+		delete_group(current.groupId, function(){alert("deleted")});
 		closeOtherCtxMenu(null);
 	});
 	$('#help').click(function() {
