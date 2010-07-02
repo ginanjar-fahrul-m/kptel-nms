@@ -8,24 +8,24 @@ $(document).ready(function(){
 });
 $(function() {
 	//run the currently selected effect
-	function runEffect(effect){
+	function runEffect(effectId,effect){
 		//get effect type from 
-		var selectedEffect = 'blind';
+		var selectedEffect = effect;
 		//most effect types need no options passed by default
 		var options = {};
 		if(selectedEffect == 'scale'){ options = {percent: 0}; } 
 		else if(selectedEffect == 'size'){ options = { to: {width: 200,height: 60} }; }
 		//run the effect
-		$(effect).toggle(selectedEffect,options,300);
+		$(effectId).toggle(selectedEffect,options,300);
 	};
 	
 	//set effect from select menu value
 	$("#tree").click(function() {
-		runEffect("#effectleft");
+		runEffect("#effectleft",'blind');
 		return false;
 	});
 	$("#notif").click(function() {
-		runEffect("#effectright");
+		runEffect("#effectright",'blind');
 		return false;
 	});
 	//login-dialog-form
@@ -130,6 +130,32 @@ $(function() {
 			closeOtherCtxMenu("#loginform");
 		}
 	});
+	$("#coordinate").dialog({	
+		autoOpen: false,
+		modal: false,
+		draggable: true,
+		resizable: false,
+		show: "clip",
+		hide: "clip",
+		buttons: {
+			'OK': function() {
+				$("#coordinate").dialog('close');
+				current.isConfirm = true;
+				$("#deviceform").dialog('open');
+			},
+			Cancel: function() {
+				$("#coordinate").dialog('close');
+				current.isConfirm = false;
+				$("#deviceform").dialog('open');
+			}
+		},
+		close: function() {
+			
+		},
+		open: function() {
+			
+		}
+	});
 	$("#mapctxmenu").dialog({
 		autoOpen: false,
 		height: 75,
@@ -184,12 +210,11 @@ $(function() {
 		show: "slide",
 		hide: "slide",
 		position: [0,42],
-		zIndex: -1,
 		close: function() {
 			$('#zoom_control').css('z-index','10');
 		},
 		open: function() {
-			closeOtherCtxMenu("#panelrrd");
+			closeOtherCtxMenu(null);
 			$('#zoom_control').css('z-index','0');
 		}
 	});
@@ -238,22 +263,45 @@ $(function() {
 		},
 		open: function() {
 			devicename.val('');
+			current.isFinish1 = false;
+			current.isFinish2 = false;
 			get_group_list(function(data){
+				current.isFinish1 = true;
 				deviceparent.find('option').remove();
 				deviceparent.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
 					deviceparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
+				if(current.isFindLoc){
+					$('#devicename').val(current.tempName);
+					$('#deviceparent').val(current.tempParent);
+					$('#devicecacti').val(current.tempDevice);
+					if(current.isConfirm){
+						$('#devicelng').val($('#coord-lng').val());
+						$('#devicelat').val($('#coord-lat').val());
+					}
+					else {
+						$('#devicelng').val(current.tempLng);
+						$('#devicelat').val(current.tempLat);
+					}
+					if(current.isFinish1 && current.isFinish2) current.isFindLoc = false;
+				} else {
+					$('#devicelng').val(current.longitude);
+					$('#devicelat').val(current.latitude);
+				}
 			});
 			get_cacti_unlisted_device_list(function(data){
+				current.isFinish2 = true;
 				devicecacti.find('option').remove();
 				devicecacti.append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
 					devicecacti.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
 				}
+				if(current.isFindLoc){
+					$('#devicecacti').val(current.tempDevice);
+					if(current.isFinish1 && current.isFinish2) current.isFindLoc = false;
+				}
 			});
-			$('#devicelng').val(current.longitude);
-			$('#devicelat').val(current.latitude);
 			closeOtherCtxMenu("#deviceform");
 		}
 	});
@@ -283,7 +331,7 @@ $(function() {
 					if(!current.isEditForm)
 						add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
 					else
-						update_device(current.groupId, groupparent.val(), $('#devicename').val(), "", $('#devicelng').val(),$('#devicelat').val());
+						update_group(current.groupId, groupparent.val(), $('#devicename').val(), "", $('#devicelng').val(),$('#devicelat').val());
 					grouptips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -305,9 +353,23 @@ $(function() {
 				for (var i = 0; i < data.length; i++){
 					groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
+				if(current.isFindLoc){
+					$('#groupname').val(current.tempName);
+					$('#groupparent').val(current.tempParent);
+					if(current.isConfirm){
+						$('#grouplng').val($('#coord-lng').val());
+						$('#grouplat').val($('#coord-lat').val());
+					} else{
+						$('#grouplng').val(current.tempLng);
+						$('#grouplat').val(current.tempLat);
+					}
+					current.isFindLoc = false;
+				} else{
+					$('#grouplng').val(current.longitude);
+					$('#grouplat').val(current.latitude);
+				}
 			});
-			$('#grouplng').val(current.longitude);
-			$('#grouplat').val(current.latitude);
+			
 			closeOtherCtxMenu("#groupform");
 		}
 	});
@@ -362,7 +424,33 @@ $(function() {
 		delete_group(current.groupId, function(){alert("deleted")});
 		closeOtherCtxMenu(null);
 	});
+	$('#devicelocation').click(function() {
+		current.tempName = $('#devicename').val();
+		current.tempParent = $('#deviceparent').val();
+		current.tempDevice = $('#devicecacti').val();
+		current.tempLng = $('#devicelng').val();
+		current.tempLat = $('#devicelat').val();
+		$('#coord-lng').val($('#devicelng').val());
+		$('#coord-lat').val($('#devicelat').val());
+		$('#deviceform').dialog('close');
+		$("#coordinate").dialog('open');
+		current.isFindLoc = true;
+		return false;
+	});
+	$('#grouplocation').click(function() {
+		current.tempName = $('#groupname').val();
+		current.tempParent = $('#groupparent').val();
+		current.tempLng = $('#grouplng').val();
+		current.tempLat = $('#grouplat').val();
+		$('#coord-lng').val($('#grouplng').val());
+		$('#coord-lat').val($('#grouplat').val());
+		$('#groupform').dialog('close');
+		$("#coordinate").dialog('open');
+		current.isFindLoc = true;
+		return false;
+	});
 	$('#help').click(function() {
 		$('#panelrrd').dialog('open');
+		return false;
 	});
 });

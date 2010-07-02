@@ -270,6 +270,13 @@ a:hover {
 #cactidetail {
 	text-decoration: none;
 }
+#devicelocation, #grouplocation {
+	cursor:pointer;
+}
+#coordinate input {
+	width: 30%;
+	padding: .4em 0;
+}
 #trees {
 	overflow:auto;
 	max-height:400px;

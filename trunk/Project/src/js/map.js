@@ -18,6 +18,8 @@ var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
 var tempX = 0;
 var tempY = 0;
+var tempXMove = 0;
+var tempYMove = 0;
 var current = new function() {
     this.mouseX = -999;
     this.mouseY = -999;
@@ -27,6 +29,15 @@ var current = new function() {
 	this.deviceId = -999;
 	this.groupId = -999;
 	this.isEditForm = false;
+	this.isConfirm = false;
+	this.isFindLoc = false;
+	this.isFinish1 = false;
+	this.isFinish2 = false;
+	this.tempName = "";
+	this.tempParent = 0;
+	this.tempDevice = 0;
+	this.tempLng = 0;
+	this.tempLat = 0;
 }
 var listctxmenu = [];
 
@@ -66,10 +77,15 @@ function kptel_init() {
 	google.maps.event.addListener(map, 'rightclick', function(event) {	
 	  closeOtherCtxMenu($('#mapctxmenu'));
       check_point(event.latLng);
+	  $('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+	  $('#mapctxmenu').dialog('open');
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
-      closeOtherCtxMenu(null);
+		check_point(event.latLng);
+		closeOtherCtxMenu(null);		
+		$('#coord-lng').val(current.longitude);
+		$('#coord-lat').val(current.latitude);
     });
 	
 	//limit the map zoom
@@ -554,8 +570,6 @@ function check_point(position){
 	current.mouseY = tempY;
 	current.longitude = position.lng();
 	current.latitude = position.lat();
-	$("#mapctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
-	$('#mapctxmenu').dialog('open');
 }
 
 //CONTROL UNTUK BUTTOM MAP ZOOM SLIDER
@@ -599,19 +613,19 @@ if (!IE) document.captureEvents(Event.MOUSEMOVE)
 // Set-up to use getMouseXY function onMouseMove
 document.onmousedown = getMouseXY;
 function getMouseXY(e) {
-  if (IE) { // grab the x-y pos.s if browser is IE
-    tempX = event.clientX + document.body.scrollLeft
-    tempY = event.clientY + document.body.scrollTop
-  } else {  // grab the x-y pos.s if browser is NS
-    tempX = e.pageX
-    tempY = e.pageY
-  }  
-  // catch possible negative values in NS4
-  if (tempX < 0){tempX = 0}
-  if (tempY < 0){tempY = 0}  
-  // show the position values in the form named Show
-  // in the text fields named MouseX and MouseY
-  return true
+	if (IE) { // grab the x-y pos.s if browser is IE
+	tempX = event.clientX + document.body.scrollLeft
+	tempY = event.clientY + document.body.scrollTop
+	} else {  // grab the x-y pos.s if browser is NS
+	tempX = e.pageX
+	tempY = e.pageY
+	}  
+	// catch possible negative values in NS4
+	if (tempX < 0){tempX = 0}
+	if (tempY < 0){tempY = 0}  
+	// show the position values in the form named Show
+	// in the text fields named MouseX and MouseY
+	return true
 }
 
 function vardump(variable, maxDeep)
