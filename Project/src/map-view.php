@@ -109,8 +109,24 @@ session_db_init();
 			<label id="deletegroup" title="delete this group"> Delete Group </label>
 		</div>
 		<div id="panelrrd">
-			<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD1 </a>
-			<a class="tu_iframe_800x500" id="rrd2" title="rrd2" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD2 </a>
+			<div id="rrd-tabs">
+				<ul>
+					<li><a href="#rrd-aggregate"><span>Aggregate</span></a></li>
+					<li><a href="#rrd-realtime"><span>Real Time</span></a></li>
+				</ul>
+				<div id="rrd-aggregate">
+					<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" 
+						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD11 </a>
+					<a class="tu_iframe_800x500" id="rrd2" title="rrd2" 
+						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD12 </a>
+				</div>
+				<div id="rrd-realtime">
+					<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" 
+						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD21 </a>
+					<a class="tu_iframe_800x500" id="rrd2" title="rrd2" 
+						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD22 </a>
+				</div>
+			</div>
 		</div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>

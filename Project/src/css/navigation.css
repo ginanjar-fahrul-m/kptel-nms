@@ -199,6 +199,11 @@ a:hover {
 	cursor: pointer;
 	text-decoration: none;
 }
+#rrd-aggregate, #rrd-realtime {
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	border: 1px solid #000000;
+	border-top: none;
+}
 #deviceform input.text, #deviceform select {
 	margin-bottom:12px;
 	padding: .4em 0;

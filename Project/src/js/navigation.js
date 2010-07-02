@@ -1,5 +1,6 @@
 $(document).ready(function(){ 
-	$(document).ready(function () { 
+	$(document).ready(function () {
+		$("#panelrrd").tabs();
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
 		showWarningDevice();
