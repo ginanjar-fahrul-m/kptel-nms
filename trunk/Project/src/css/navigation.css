@@ -270,3 +270,7 @@ a:hover {
 #cactidetail {
 	text-decoration: none;
 }
+#trees {
+	overflow:auto;
+	max-height:400px;
+}
