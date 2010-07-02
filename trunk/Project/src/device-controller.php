@@ -79,7 +79,7 @@ if($_GET) {
 			header('Location: '.$config['cacti']['url']);
 			break;
 		
-		case 'getgraphlist':
+		case 'getcactigraphlist':
 			echo json_encode(device_cacti_get_graph_list($data['cacti_id']));
 			break;
 	}

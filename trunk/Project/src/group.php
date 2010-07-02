@@ -31,7 +31,7 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 				".$latitude.")";
 	
 	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return 1;
+		return return session_get($config['session']['app_db_sess'])->get_last_insert_id();;
 	} else {
 		return 0;
 	}
