@@ -18,6 +18,10 @@ if($_GET) {
 			echo json_encode(device_get($data['device_id']));
 			break;
 		
+		case 'getdevicebycactiid':
+			echo json_encode(device_get_by_cacti_id($data['cacti_id']));
+			break;
+		
 		case 'getdevicelist':
 			echo json_encode(device_get_all());
 			break;
@@ -73,6 +77,10 @@ if($_GET) {
 		
 		case 'gotocacti':
 			header('Location: '.$config['cacti']['url']);
+			break;
+		
+		case 'getgraphlist':
+			echo json_encode(device_cacti_get_graph_list($data['cacti_id']));
 			break;
 	}
 	

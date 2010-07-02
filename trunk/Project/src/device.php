@@ -110,6 +110,20 @@ function device_get($device_id) {
 /* status: ok
  * tester: jiwo
  */
+function device_get_by_cacti_id($cacti_id) {
+	global $config;
+	
+	$cacti_id = mysql_real_escape_string($cacti_id);
+	
+	$sql = "SELECT * FROM `device` WHERE `cacti_id` = ".$cacti_id;
+	$result = session_get($config['session']['app_db_sess'])->query($sql);
+	
+	return mysql_fetch_assoc($result);
+}
+
+/* status: ok
+ * tester: jiwo
+ */
 function device_get_all() {
 	global $config;
 	
@@ -257,10 +271,51 @@ function device_cacti_detail_url($cacti_id) {
 	return $url;
 }
 
-function device_cacti_get_graph($cacti_id) {
+function device_cacti_get_graph_list($cacti_id) {
 	global $config;
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
+	
+	$sql = "SELECT `graph_local`.`id` AS `local_graph_id`, `graph_templates`.`name`
+			FROM `graph_local`, `graph_templates`
+			WHERE `graph_local`.`graph_template_id` = `graph_templates`.`id` AND `graph_local`.`host_id` = ".$cacti_id."
+			ORDER BY `graph_templates`.`name` ASC";
+	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
+	
+	$i = 0;
+	while($row = mysql_fetch_assoc($result)) {
+		$graph_list['graph'][$i] = $row;
+		$graph_list['graph'][$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
+		
+		$sql = "SELECT rra.id, rra.name
+				FROM (
+					graph_templates_item,
+					data_template_data_rra,
+					data_template_rrd,
+					data_template_data,
+					rra
+				)
+				WHERE graph_templates_item.task_item_id = data_template_rrd.id
+					AND data_template_rrd.local_data_id = data_template_data.local_data_id
+					AND data_template_data.id = data_template_data_rra.data_template_data_id
+					AND data_template_data_rra.rra_id = rra.id
+					AND graph_templates_item.local_graph_id = ".$row['local_graph_id']."
+				GROUP BY rra.id
+				ORDER BY rra.timespan";
+		$result2 = session_get($config['session']['cacti_db_sess'])->query($sql);
+		
+		$j = 0;
+		while($row2 = mysql_fetch_assoc($result2)) {
+			$rra['url'] = $config['cacti']['url'].'/graph_image.php?action=view&local_graph_id='.$row['local_graph_id'].'&rra_id='.$row2['id'];
+			$rra['name'] = $row2['name'];
+			$graph_list['graph'][$i]['rra_url'][$j] = $rra;
+			$j++;
+		}
+		
+		$i++;
+	}
+	
+	return $graph_list;
 }
 
 ?>
