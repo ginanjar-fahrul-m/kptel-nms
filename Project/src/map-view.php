@@ -109,7 +109,7 @@ session_db_init();
 			<label id="deletegroup" title="delete this group"> Delete Group </label>
 		</div>
 		<div id="panelrrd">
-			<a class="tu_iframe_800x500" id="rrd1" title="rrd1" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD1 </a>
+			<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD1 </a>
 			<a class="tu_iframe_800x500" id="rrd2" title="rrd2" href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD2 </a>
 		</div>
 		<div id="deviceform" title="device form">

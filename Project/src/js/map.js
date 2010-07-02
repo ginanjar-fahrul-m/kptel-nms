@@ -18,13 +18,16 @@ var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
 var tempX = 0;
 var tempY = 0;
-var currentMouseX;
-var currentMouseY;
-var currentLng;
-var currentLat;
-var currentCacti;
-var currentDevice;
-var currentGroup;
+var current = new function() {
+    this.mouseX = -999;
+    this.mouseY = -999;
+    this.longitude = 0;
+	this.latitude = 0;
+	this.cactiId = -999;
+	this.deviceId = -999;
+	this.groupId = -999;
+	this.isEditForm = false;
+}
 var listctxmenu = [];
 
 listctxmenu.push('#mapctxmenu', '#devicectxmenu', '#groupctxmenu');
@@ -236,10 +239,10 @@ function render_device(location,devname,cacid,devid) {
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		//alert("Device id :" + devid);
-		currentCacti = cacid;
-		currentDevice = devid;
-		currentMouseX = tempX;
-		currentMouseY = tempY;
+		current.cactiId = cacid;
+		current.deviceId = devid;
+		current.mouseX = tempX;
+		current.mouseY = tempY;
 		$("#devicectxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
 		closeOtherCtxMenu(null);
 		$('#devicectxmenu').dialog('open');
@@ -401,7 +404,7 @@ function get_cacti_unlisted_device_list(callback) {
 	$.getJSON(url_device, getparam, callback);
 }
 
-function update_device(callback, devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
+function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	var getparam = {
 		action: 'updatedevice',
 		data: {
@@ -415,7 +418,13 @@ function update_device(callback, devid, groupid, devtypeid, named, desc, longi, 
 			cacti_id: cactiid
 		}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(url_device, getparam, function(data) {
+		if(data == 1) {
+			//render_device(newLatLng,devname,cactiid);
+			alert("Edit Device success");
+		}
+		else alert("Edit Device failed");
+	});
 }
 
 function delete_device(id, callback) {
@@ -440,9 +449,9 @@ function render_group(location,groupname,groupid){
     placeMarkers.push(marker);
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		//alert("Group name :" + groupname);
-		currentMouseX = tempX;
-		currentMouseY = tempY;
-		currentGroup = groupid;
+		current.mouseX = tempX;
+		current.mouseY = tempY;
+		current.groupId = groupid;
 		$("#groupctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
 		closeOtherCtxMenu(null);
 		$('#groupctxmenu').dialog('open');
@@ -500,7 +509,7 @@ function get_group_list(callback) {
 	$.getJSON(url_group, getparam, callback);
 }
 
-function update_group(callback, groupid, parentid, named, desc, longi, lati) {
+function update_group(groupid, parentid, named, desc, longi, lati) {
 	var getparam = {
 		action: 'updategroup',
 		data: {
@@ -513,7 +522,13 @@ function update_group(callback, groupid, parentid, named, desc, longi, lati) {
 		}
 	}
 	
-	$.getJSON(url_group, getparam, callback);
+	$.getJSON(url_group, getparam, function(data) {
+		if(data == 1) {
+			//render_device(newLatLng,devname,cactiid);
+			alert("Edit Device success");
+		}
+		else alert("Edit Device failed");
+	});
 }
 
 function delete_group(id, callback) {
@@ -535,10 +550,10 @@ function set_center_and_zoom(lat,lng){
 
 //CONTROL CONTEXT MENU
 function check_point(position){
-	currentMouseX = tempX;
-	currentMouseY = tempY;
-	currentLng = position.lng();
-	currentLat = position.lat();
+	current.mouseX = tempX;
+	current.mouseY = tempY;
+	current.longitude = position.lng();
+	current.latitude = position.lat();
 	$("#mapctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
 	$('#mapctxmenu').dialog('open');
 }
