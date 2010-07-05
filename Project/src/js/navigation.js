@@ -221,7 +221,7 @@ $(function() {
 				$('#panelrrd').html('');
 				rrdText += "<div id='rrd-accord'>";
 				for(var i=0; i<data.length; i++){
-					rrdText += "<h3><a href='#'>Ping Latency</a></h3><div>";
+					rrdText += "<h3><a href='#'>" + data[i]['name'] + "</a></h3><div>";
 					rrdText += "<label class='tu_iframe_800x500' href='" + data[i]['realtime_url'] + "'>Realtime</label>";
 					rrdText += "<hr/>";
 					for(var j=0; j<data[i]['rra_url'].length; j++){
