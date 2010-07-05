@@ -141,4 +141,49 @@ function group_get_all() {
 	return $group_list;
 }
 
+function group_get_possible_parent_list($group_id) {
+	global $config;
+	
+	$group_id = mysql_real_escape_string($group_id);
+	
+	$forbidden_list = group_get_possible_parent_list_recursive($group_id);
+	
+	$group_list = array();
+	$sql = "SELECT *
+			FROM `".$config['db']['app_db']."`.`group`
+			ORDER BY `group_id` ASC";
+	$result = session_get($config['session']['db_sess'])->query($sql);
+	
+	while($row = mysql_fetch_assoc($result)) {
+		if(!in_array($row['group_id'], $forbidden_list)) {
+			$group_list[] = $row;
+		}
+	}
+	
+	return $group_list;
+}
+
+function group_get_possible_parent_list_recursive($group_id) {
+	global $config;
+	
+	$group_id = mysql_real_escape_string($group_id);
+	
+	$group_list = array();
+	$group_list[] = $group_id;
+	
+	$sql = "SELECT `group_id`
+			FROM `".$config['db']['app_db']."`.`group`
+			WHERE `parent_id` = ".$group_id."
+			ORDER BY `group_id` ASC";
+	$result = session_get($config['session']['db_sess'])->query($sql);
+	
+	if(session_get($config['session']['db_sess'])->num_rows($result) > 0) {
+		while($row = mysql_fetch_assoc($result)) {
+			$group_list = array_merge($group_list, group_get_possible_parent_list_recursive($row['group_id']));
+		}
+	}
+	
+	return $group_list;
+}
+
 ?>

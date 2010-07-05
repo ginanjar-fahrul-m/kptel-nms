@@ -22,5 +22,6 @@ session_db_init();
 		<button onclick="add_group()">Add Group</button><br />
 		<button onclick="update_group()">Update Group</button><br />
 		<button onclick="delete_group()">Delete Group</button><br />
+		<button onclick="get_possible_parent_list()">Get Possible Parents</button><br />
 	</body>
 </html>

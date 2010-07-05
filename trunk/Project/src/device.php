@@ -1,11 +1,35 @@
 <?php
 
+/* File   : device.php
+ * Role   : Model (MVC)
+ * Author : Adityo Jiwandono (jiwo)
+ * E-Mail : jiwandono@arc.itb.ac.id
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * Model ini mengurus semua hal yang berkaitan dengan data-data device
+ * baik dari database aplikasi maupun database Cacti.
+ *
+ * Catatan penting:
+ * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
+ * database aplikasi [KPTEL].
+ */
+
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_add
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk menambahkan device baru ke database.
+ * Parameter   :
+ *   group_id            ID group parent.
+ *   device_type_id      ID tipe device.
+ *   name                Nama device.
+ *   description         Keterangan device.
+ *   longitude           Derajat bujur barat/timur.
+ *   latitude            Derajat lintang selatan/utara.
+ *   cacti_id            ID host pada database Cacti.
  */
 function device_add($group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
@@ -38,12 +62,22 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 	if(session_get($config['session']['db_sess'])->query($sql)) {
 		return session_get($config['session']['db_sess'])->get_last_insert_id();
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_update
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mengedit informasi device di database.
+ * Parameter   :
+ *   device_id           ID device yang akan diedit.
+ *   group_id            ID group parent.
+ *   device_type_id      ID tipe device.
+ *   name                Nama device.
+ *   description         Keterangan device.
+ *   longitude           Derajat bujur barat/timur.
+ *   latitude            Derajat lintang selatan/utara.
+ *   cacti_id            ID host pada database Cacti.
  */
 function device_update($device_id, $group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
@@ -69,14 +103,17 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 			WHERE `device_id` = ".$device_id;
 	
 	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return 1;
+		return $config['function']['return']['success'];
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_delete
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk menghapus device di database.
+ * Parameter   :
+ *   device_id           ID device yang akan dihapus.
  */
 function device_delete($device_id) {
 	global $config;
@@ -87,14 +124,17 @@ function device_delete($device_id) {
 			WHERE `device_id` = ".$device_id;
 	
 	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return 1;
+		return $config['function']['return']['success'];
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_get
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi sebuah device.
+ * Parameter   :
+ *   device_id           ID device yang akan diambil.
  */
 function device_get($device_id) {
 	global $config;
@@ -109,8 +149,12 @@ function device_get($device_id) {
 	return mysql_fetch_assoc($result);
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_get_by_cacti_id
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi sebuah device
+ *   berdasarkan atribut cacti_id.
+ * Parameter   :
+ *   cacti_id           ID cacti device yang akan diambil.
  */
 function device_get_by_cacti_id($cacti_id) {
 	global $config;
@@ -125,12 +169,14 @@ function device_get_by_cacti_id($cacti_id) {
 	if($row = mysql_fetch_assoc($result)) {
 		return $row;
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_get_all
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi semua device.
+ * Parameter   : Tidak ada.
  */
 function device_get_all() {
 	global $config;
@@ -149,8 +195,12 @@ function device_get_all() {
 	return $device_list;
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_cacti_get
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi sebuah host
+ *   dari database Cacti.
+ * Parameter   :
+ *   cacti_id            ID host di database Cacti
  */
 function device_cacti_get($cacti_id) {
 	global $config;
@@ -175,8 +225,11 @@ function device_cacti_get($cacti_id) {
 	return mysql_fetch_assoc($result);
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_cacti_get_all
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi semua host
+ *   dari database Cacti.
+ * Parameter   : Tidak ada.
  */
 function device_cacti_get_all() {
 	global $config;
@@ -205,8 +258,11 @@ function device_cacti_get_all() {
 	return $device_list;
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_cacti_get_all_unlisted
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi semua host
+ *   dari database Cacti yang belum dimasukkan ke tabel device.
+ * Parameter   : Tidak ada.
  */
 function device_cacti_get_all_unlisted() {
 	global $config;
@@ -239,48 +295,13 @@ function device_cacti_get_all_unlisted() {
 	return $device_list;
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : device_cacti_get_graph_list
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi semua grafik
+ *   sebuah host yang ada di database Cacti.
+ * Parameter   :
+ *   cacti_id            ID host di database Cacti
  */
-function device_cacti_get_monitoring_graph($cacti_id) {
-	global $config;
-	
-	$cacti_id = mysql_real_escape_string($cacti_id);
-	
-	$sql = "SELECT `id`
-			FROM `".$config['db']['cacti_db']."`.`graph_local`
-			WHERE `host_id` = ".$cacti_id;
-	$result = session_get($config['session']['db_sess'])->query($sql);
-	
-	$graph_start = strtotime('now -1 day');
-	$graph_end = strtotime('now');
-	echo '<center>';
-	while($row = mysql_fetch_assoc($result)) {
-		echo '<img src="', $config['cacti']['url'], '/graph_image.php?local_graph_id=', $row['id'], '&rra_id=0&view_type=tree&graph_start=', $graph_start, '&graph_end=', $graph_end, '"></img><br />';
-	}
-	echo '</center>';
-}
-
-function device_cacti_detail_url($cacti_id) {
-	global $config;
-	
-	$cacti_id = mysql_real_escape_string($cacti_id);
-	
-	$sql = "SELECT `id`, `graph_tree_id`
-			FROM `".$config['db']['cacti_db']."`.`graph_tree_items`
-			WHERE `host_id` = ".$cacti_id."
-			LIMIT 1";
-	$url = '';
-	
-	if($result = session_get($config['session']['db_sess'])->query($sql)) {
-		if($row = mysql_fetch_assoc($result)) {
-			$url = $config['cacti']['url'].'/graph_view.php?action=tree&tree_id='.$row['graph_tree_id'].'&leaf_id='.$row['id'];
-		}
-	}
-	
-	return $url;
-}
-
 function device_cacti_get_graph_list($cacti_id) {
 	global $config;
 	
@@ -330,6 +351,10 @@ function device_cacti_get_graph_list($cacti_id) {
 		
 		$i++;
 	}
+	
+	echo '<pre>';
+	print_r($graph_list);
+	echo '</pre>';
 	
 	return $graph_list;
 }

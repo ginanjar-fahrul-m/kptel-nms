@@ -69,3 +69,14 @@ function delete_group() {
 	
 	$.getJSON(url, getparam, alert_group);
 }
+
+function get_possible_parent_list() {
+	var getparam = {
+		action: 'getgrouppossibleparentlist',
+		data: {
+			group_id: document.getElementById("group_id").value
+		}
+	}
+	
+	$.getJSON(url, getparam, alert_group);
+}
