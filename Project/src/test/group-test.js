@@ -10,7 +10,7 @@ function get_group() {
 	var getparam = {
 		action: 'getgroup',
 		data: {
-			group_id: 1
+			group_id: document.getElementById("group_id").value
 		}
 	}
 	
@@ -47,7 +47,7 @@ function update_group() {
 	var getparam = {
 		action: 'updategroup',
 		data: {
-			group_id: 42,
+			group_id: 0,
 			parent_id: 1,
 			name: 'Mencobax',
 			description: 'ini adalah grup coba-coba',

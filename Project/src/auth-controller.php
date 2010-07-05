@@ -22,10 +22,6 @@ if($_GET) {
 			account_logout();
 			break;
 		
-		case 'accountadd':
-			echo account_add($data['username'], $data['password'], $data['email'], $data['fullname']);
-			break;
-		
 		case 'accountisloggedin':
 			echo account_is_logged_in();
 			break;

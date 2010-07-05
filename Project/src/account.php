@@ -10,16 +10,16 @@ function account_login($username, $password) {
 	
 	$username = mysql_real_escape_string($username);
 	$password = mysql_real_escape_string($password);
-	$hash = security_hash($password);
+	$hash = md5($password);
 	
 	$sql = "SELECT *
-			FROM `user`
+			FROM `".$config['db']['cacti_db']."`.`user_auth`
 			WHERE `username` = '".$username."' AND `password` = '".$hash."'
 			LIMIT 1";
 	
-	if($result = session_get($config['session']['app_db_sess'])->query($sql)) {
+	if($result = session_get($config['session']['db_sess'])->query($sql)) {
 		if($row = mysql_fetch_assoc($result)) {
-			session_set('userid', $row['user_id']);
+			session_set('userid', $row['id']);
 			session_set('username', $username);
 			session_set('hash', $hash);
 			
@@ -45,31 +45,4 @@ function account_is_logged_in() {
 	}
 }
 
-function account_add($username, $password, $email, $fullname) {
-	global $config;
-	
-	$username = mysql_real_escape_string($username);
-	$password = mysql_real_escape_string($password);
-	$email = mysql_real_escape_string($email);
-	$fullname = mysql_real_escape_string($fullname);
-	$hash = security_hash($password);
-	
-	$sql = "INSERT INTO `user` (
-				`username`,
-				`password`,
-				`email`,
-				`fullname`)
-			VALUES(
-				'".$username."',
-				'".$hash."',
-				'".$email."',
-				'".$fullname."')";
-	
-	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
-	
 ?>
