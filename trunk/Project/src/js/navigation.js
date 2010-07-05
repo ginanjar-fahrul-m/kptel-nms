@@ -369,8 +369,17 @@ $(function() {
 			get_group_list(function(data){
 				groupparent.find('option').remove();
 				groupparent.append($("<option></option>").attr("value",'0').text('<none>'));
-				for (var i = 0; i < data.length; i++){
-					groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+				if(current.isEditForm){
+					get_possible_parent_list(current.groupId, function(posData){
+						for (var i = 0; i < posData.length; i++){
+							groupparent.append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+						}
+					});
+				}
+				else {
+					for (var i = 0; i < data.length; i++){
+						groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+					}
 				}
 				if(current.isFindLoc){
 					$('#groupname').val(current.tempName);
