@@ -158,7 +158,7 @@ $(function() {
 	});
 	$("#mapctxmenu").dialog({
 		autoOpen: false,
-		height: 75,
+		height: 55,
 		width: 125,
 		modal: false,
 		draggable: false,
@@ -173,7 +173,7 @@ $(function() {
 	});
 	$("#devicectxmenu").dialog({
 		autoOpen: false,
-		height: 75,
+		height: 55,
 		width: 130,
 		modal: false,
 		draggable: false,
@@ -188,7 +188,7 @@ $(function() {
 	});
 	$("#groupctxmenu").dialog({
 		autoOpen: false,
-		height: 75,
+		height: 55,
 		width: 130,
 		modal: false,
 		draggable: false,
