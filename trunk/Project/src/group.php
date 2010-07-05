@@ -151,7 +151,7 @@ function group_get_possible_parent_list($group_id) {
 	$group_list = array();
 	$sql = "SELECT *
 			FROM `".$config['db']['app_db']."`.`group`
-			ORDER BY `group_id` ASC";
+			ORDER BY `name` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
 	while($row = mysql_fetch_assoc($result)) {
