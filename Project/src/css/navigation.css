@@ -174,14 +174,15 @@ a:hover {
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
-#mapctxmenu label, #devicectxmenu label, #groupctxmenu label, #panelrrd a {
+#mapctxmenu label, #devicectxmenu label, #groupctxmenu label, #panelrrd label {
 	margin: 0 auto;
 	padding: 8px;
 	display: block;
 	color: #eeeeee;
 	text-decoration: none;
+	cursor: pointer;
 }
-#mapctxmenu label:hover, #devicectxmenu label:hover, #groupctxmenu label:hover, #panelrrd a:hover {
+#mapctxmenu label:hover, #devicectxmenu label:hover, #groupctxmenu label:hover, #panelrrd label:hover {
 	margin: 0;
 	padding: 8px;
 	display: block;
@@ -190,7 +191,7 @@ a:hover {
 	cursor: pointer;
 	text-decoration: none;
 }
-#mapctxmenu label:active, #devicectxmenu label:active, #groupctxmenu label:active, #panelrrd a:active {
+#mapctxmenu label:active, #devicectxmenu label:active, #groupctxmenu label:active, #panelrrd label:active {
 	margin: 0;
 	padding: 8px;
 	display: block;

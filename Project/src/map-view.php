@@ -57,7 +57,6 @@ session_db_init();
 			</div> 
 			<div class="clearboth"></div> 
 		</div> 
-		<hr/>
 		<div class="toggler togglerleft">
 			<div id="effectleft" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">DSLAM Device</h3>
@@ -109,23 +108,11 @@ session_db_init();
 			<label id="deletegroup" title="delete this group"> Delete Group </label>
 		</div>
 		<div id="panelrrd" title="Device Graph">
-			<div id="rrd-tabs">
-				<ul>
-					<li><a href="#rrd-aggregate"><span>Aggregate</span></a></li>
-					<li><a href="#rrd-realtime"><span>Real Time</span></a></li>
-				</ul>
-				<div id="rrd-aggregate">
-					<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" 
-						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD11 </a>
-					<a class="tu_iframe_800x500" id="rrd2" title="rrd2" 
-						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD12 </a>
-				</div>
-				<div id="rrd-realtime">
-					<a class="tu_iframe_800x500" toption="modal=0" id="rrd1" title="rrd1" 
-						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD21 </a>
-					<a class="tu_iframe_800x500" id="rrd2" title="rrd2" 
-						href="http://10.32.18.200/graph_image.php?action=view&local_graph_id=294&rra_id=1"> RRD22 </a>
-				</div>
+			<div id="rrd-accord">
+				<h3><a href='#'>Section 1</a></h3>
+				<div><label class='tu_iframe_500x500' href='http://10.37.21.137/kptel-nms/'>google</label></div>
+				<h3><a href='#'>Section 1</a></h3>
+				<div><label class='tu_iframe_500x500' href='http://10.37.21.137/kptel-nms/'>google</label></div>
 			</div>
 		</div>
 		<div id="deviceform" title="device form">

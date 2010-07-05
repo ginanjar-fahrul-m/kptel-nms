@@ -45,9 +45,7 @@ body {
 #slider{
  margin-left: 10px;
 }
-hr {
-	display: none;
-}
+
 #map_canvas {
 	top: 0px;
 	left: 0px;

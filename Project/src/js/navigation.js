@@ -1,9 +1,9 @@
 $(document).ready(function(){ 
 	$(document).ready(function () {
-		$("#panelrrd").tabs();
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
 		showWarningDevice();
+		//$("#rrd-accord").accordion();
 	}); 
 });
 $(function() {
@@ -202,7 +202,7 @@ $(function() {
 	});
 	$("#panelrrd").dialog({
 		autoOpen: false,
-		height: 400,
+		height: 500,
 		width: 200,
 		modal: false,
 		draggable: false,
@@ -216,6 +216,23 @@ $(function() {
 		open: function() {
 			closeOtherCtxMenu(null);
 			$('#zoom_control').css('z-index','0');
+			get_cacti_graph_list(8, function(data){
+				var rrdText = "";
+				$('#panelrrd').html('');
+				rrdText += "<div id='rrd-accord'>";
+				for(var i=0; i<data.length; i++){
+					rrdText += "<h3><a href='#'>Ping Latency</a></h3><div>";
+					rrdText += "<label class='tu_iframe_800x500' href='" + data[i]['realtime_url'] + "'>Realtime</label>";
+					rrdText += "<hr/>";
+					for(var j=0; j<data[i]['rra_url'].length; j++){
+						rrdText += "<label class='tu_iframe_800x500' href='" + data[i]['rra_url'][j]['url'] + "'> " + data[i]['rra_url'][j]['name'] + " </label>";
+					}
+					rrdText += "</div>";
+				}
+				rrdText += "</div>";
+				$('#panelrrd').html(rrdText);
+				$("#rrd-accord").accordion();
+			});
 		}
 	});
 	$("#deviceform").dialog({
@@ -331,13 +348,15 @@ $(function() {
 					if(!current.isEditForm)
 						add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
 					else
-						update_group(current.groupId, groupparent.val(), $('#devicename').val(), "", $('#devicelng').val(),$('#devicelat').val());
+						update_group(current.groupId, groupparent.val(), $('#groupname').val(), "", $('#grouplng').val(),$('#grouplat').val());
 					grouptips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
+					current.isEditForm = false;
 				}
 			},
 			Cancel: function() {
+				current.isEditForm = false;
 				grouptips.text('All form fields are required.');
 				$(this).dialog('close');
 			}
