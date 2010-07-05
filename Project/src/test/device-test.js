@@ -129,3 +129,14 @@ function delete_device() {
 	}
 	$.getJSON(url, getparam, alert_device);
 }
+
+function get_cacti_details() {
+	var getparam = {
+		action: 'getcactigraphlist',
+		data: {
+			cacti_id: document.getElementById("cacti_id").value
+		}
+	}
+	
+	$.getJSON(url, getparam, alert_device);
+}

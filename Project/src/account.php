@@ -3,7 +3,6 @@
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
-require_once('includes/security.php');
 
 function account_login($username, $password) {
 	global $config;

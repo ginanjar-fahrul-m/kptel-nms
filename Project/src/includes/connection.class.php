@@ -73,6 +73,10 @@ class Connection {
 	public function get_last_insert_id() {
 		return mysql_insert_id($this->db_connection);
 	}
+	
+	public function num_rows($res) {
+		return mysql_num_rows($res);
+	}
 }
 
 ?>

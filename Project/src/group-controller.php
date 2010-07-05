@@ -46,6 +46,10 @@ if($_GET) {
 		case 'deletegroup':
 			echo group_delete($data['group_id']);
 			break;
+		
+		case 'getgrouppossibleparentlist':
+			echo json_encode(group_get_possible_parent_list($data['group_id']));
+			break;
 	}
 	
 	session_db_close();
