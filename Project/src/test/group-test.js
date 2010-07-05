@@ -47,7 +47,7 @@ function update_group() {
 	var getparam = {
 		action: 'updategroup',
 		data: {
-			group_id: 3,
+			group_id: 42,
 			parent_id: 1,
 			name: 'Mencobax',
 			description: 'ini adalah grup coba-coba',
