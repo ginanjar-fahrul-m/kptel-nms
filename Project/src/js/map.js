@@ -160,17 +160,21 @@ function kptel_init() {
 
 //INITIALIZATION FUNCTION
 function render_init_device(data){
-	$.each(data, function(index,datum){
-		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
-	});
+	if(data!= null){
+		$.each(data, function(index,datum){
+			var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+			render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
+		});
+	}
 }
 
 function render_init_group(data){
-	$.each(data, function(index,datum){
-		var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-		render_group(newPos,datum['name'],datum['group_id']);
-	});
+	if(data!=null){
+		$.each(data, function(index,datum){
+			var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+			render_group(newPos,datum['name'],datum['group_id']);
+		});
+	}
 }
 
 function build_tree(){
@@ -188,9 +192,13 @@ function build_tree(){
 			data2: {}
 		}
 		$.getJSON(url_device, getparam, function(data2) {
-			devicenode = data2;			
-			tree_group_processing(groupnode,0);
-			tree_device_processing(devicenode);
+			if(data2!=null){
+				devicenode = data2;		
+				if(data1!=null){	
+					tree_group_processing(groupnode,0);
+				}
+				tree_device_processing(devicenode);
+			}
 		});
 	});
 }
@@ -579,7 +587,7 @@ function update_group(groupid, parentid, named, desc, longi, lati) {
 	$.getJSON(url_group, getparam, function(data) {
 		if(data == 0) alert("Edit Group failed");
 		else {
-			//render_group(newLatLng,devname,cactiid);
+			render_group(newLatLng,devname,cactiid);
 			alert("Edit Group success");
 			if(parentid == 0) $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");
 			else $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);
