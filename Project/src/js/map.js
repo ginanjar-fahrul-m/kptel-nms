@@ -598,7 +598,6 @@ function update_group(groupid, parentid, named, desc, longi, lati) {
 	$.getJSON(url_group, getparam, function(data) {
 		if(data == 0) alert("Edit Group failed");
 		else {
-			render_group(newLatLng,devname,cactiid);
 			alert("Edit Group success");
 			if(parentid == 0) $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");
 			else $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);
