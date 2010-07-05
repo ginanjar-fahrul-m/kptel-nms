@@ -219,6 +219,7 @@ a:hover {
 	text-decoration: none;
 }
 #deviceform input.text, #deviceform select {
+	font-weight: normal;
 	margin-bottom:12px;
 	padding: .4em 0;
 	color: #555;
@@ -290,6 +291,9 @@ a:hover {
 	cursor:pointer;
 }
 #coordinate input {
+	font-size: 10px;
+	font-weight: normal;
+	color: #555;
 	width: 30%;
 	padding: .4em 0;
 }
