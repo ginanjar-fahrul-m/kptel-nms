@@ -17,7 +17,7 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	$longitude = mysql_real_escape_string($longitude);
 	$latitude = mysql_real_escape_string($latitude);
 	
-	$sql = "INSERT INTO `group` (
+	$sql = "INSERT INTO `".$config['db']['app_db']."`.`group` (
 				`parent_id`,
 				`name`,
 				`description`,
@@ -30,8 +30,8 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 				".$longitude.",
 				".$latitude.")";
 	
-	if(session_get($config['session']['app_db_sess'])->query($sql)) {
-		return session_get($config['session']['app_db_sess'])->get_last_insert_id();;
+	if(session_get($config['session']['db_sess'])->query($sql)) {
+		return session_get($config['session']['db_sess'])->get_last_insert_id();;
 	} else {
 		return 0;
 	}
@@ -50,7 +50,7 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 	$longitude = mysql_real_escape_string($longitude);
 	$latitude = mysql_real_escape_string($latitude);
 	
-	$sql = "UPDATE `group` 
+	$sql = "UPDATE `".$config['db']['app_db']."`.`group` 
 			SET
 				`group_id` = ".$group_id.",
 				`parent_id` = ".$parent_id.",
@@ -60,7 +60,7 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 				`latitude` = ".$latitude." 
 			WHERE `group_id` = ".$group_id;
 	
-	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+	if(session_get($config['session']['db_sess'])->query($sql)) {
 		return 1;
 	} else {
 		return 0;
@@ -76,17 +76,17 @@ function group_delete($group_id) {
 	$group_id = mysql_real_escape_string($group_id);
 	
 	// Delete children devices
-	$sql = "DELETE FROM `device`
+	$sql = "DELETE FROM `".$config['db']['app_db']."`.`device`
 			WHERE `group_id` = ".$group_id;
-	if(!session_get($config['session']['app_db_sess'])->query($sql)) {
+	if(!session_get($config['session']['db_sess'])->query($sql)) {
 		return 0;
 	}
 	
 	// Recursively delete children groups
 	$sql = "SELECT `group_id`
-			FROM `group`
+			FROM `".$config['db']['app_db']."`.`group`
 			WHERE `parent_id` = ".$group_id;
-	if(!$result = session_get($config['session']['app_db_sess'])->query($sql)) {
+	if(!$result = session_get($config['session']['db_sess'])->query($sql)) {
 		return 0;
 	}
 	
@@ -95,10 +95,10 @@ function group_delete($group_id) {
 	}
 	
 	// Finally, delete parent group
-	$sql = "DELETE FROM `group`
+	$sql = "DELETE FROM `".$config['db']['app_db']."`.`group`
 			WHERE `group_id` = ".$group_id;
 	
-	if(session_get($config['session']['app_db_sess'])->query($sql)) {
+	if(session_get($config['session']['db_sess'])->query($sql)) {
 		return 1;
 	} else {
 		return 0;
@@ -113,8 +113,10 @@ function group_get($group_id) {
 	
 	$group_id = mysql_real_escape_string($group_id);
 	
-	$sql = "SELECT * FROM `group` WHERE `group_id` = ".$group_id;
-	$result = session_get($config['session']['app_db_sess'])->query($sql);
+	$sql = "SELECT *
+			FROM `".$config['db']['app_db']."`.`group`
+			WHERE `group_id` = ".$group_id;
+	$result = session_get($config['session']['db_sess'])->query($sql);
 	
 	return mysql_fetch_assoc($result);
 }
@@ -125,8 +127,10 @@ function group_get($group_id) {
 function group_get_all() {
 	global $config;
 	
-	$sql = "SELECT * FROM `group` ORDER BY `name` ASC";
-	$result = session_get($config['session']['app_db_sess'])->query($sql);
+	$sql = "SELECT *
+			FROM `".$config['db']['app_db']."`.`group`
+			ORDER BY `name` ASC";
+	$result = session_get($config['session']['db_sess'])->query($sql);
 	
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {

@@ -28,7 +28,7 @@ function notification_get_status() {
 					FROM `".$config['db']['app_db']."`.`device`
 				)
 			ORDER BY `status_fail_date` DESC, `status` ASC";
-	$result = session_get($config['session']['cacti_db_sess'])->query($sql);
+	$result = session_get($config['session']['db_sess'])->query($sql);
 	
 	$i = 0;
 	$notifications = array();

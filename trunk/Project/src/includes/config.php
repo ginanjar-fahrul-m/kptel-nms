@@ -9,8 +9,7 @@ $config['db']['cacti_db'] = 'cacti';
 $config['cacti']['url'] = "http://10.32.18.200";
 
 $config['session']['prefix'] = 'kptel-nms-';
-$config['session']['app_db_sess'] = 'conn_a';
-$config['session']['cacti_db_sess'] = 'conn_c';
+$config['session']['db_sess'] = 'db_sess';
 
 $config['security']['salt'] = '7mcFSTfhSez6Dn53MYBLd44s';
 $config['security']['pass'] = 16384;
