@@ -322,6 +322,7 @@ function render_device(location,devname,cacid,devid) {
 						+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
 						+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
 						+'<div class="clearboth"></div></div>'
+						
 					;
 		infowindow.setContent(text);
 	});
@@ -405,6 +406,16 @@ function get_monitoring_graph(id_cacti, callback) {
 		}
 	}
 	$.get(url_device, getparam, callback);
+}
+
+function get_cacti_graph_list(id_cacti, callback){
+	var getparam = {
+		action: 'getcactigraphlist',
+		data: {
+			cacti_id: id_cacti
+		}
+	}
+	$.getJSON(url_device, getparam, callback);
 }
 
 function get_status_notification(callback) {

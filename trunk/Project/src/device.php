@@ -352,10 +352,6 @@ function device_cacti_get_graph_list($cacti_id) {
 		$i++;
 	}
 	
-	echo '<pre>';
-	print_r($graph_list);
-	echo '</pre>';
-	
 	return $graph_list;
 }
 
