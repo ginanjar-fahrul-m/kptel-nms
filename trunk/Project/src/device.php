@@ -307,6 +307,15 @@ function device_cacti_get_graph_list($cacti_id) {
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
+	$sql2 = "SELECT `description`
+			FROM `".$config['db']['cacti_db']."`.`host`
+			WHERE `id` = ".$cacti_id."
+			LIMIT 1";
+	$result2 = session_get($config['session']['db_sess'])->query($sql2);
+	$row2 = mysql_fetch_assoc($result2);
+		
+	$graph_list['description'] = $row2['description'];
+	
 	$sql = "SELECT
 				`graph_local`.`id` AS `local_graph_id`,
 				`graph_templates`.`name`
@@ -321,18 +330,8 @@ function device_cacti_get_graph_list($cacti_id) {
 	
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {
-		$graph_list[$i] = $row;
-		
-		$sql2 = "SELECT `description`
-				FROM `".$config['db']['cacti_db']."`.`host`
-				WHERE `id` = ".$cacti_id."
-				LIMIT 1";
-		$result2 = session_get($config['session']['db_sess'])->query($sql2);
-		$row2 = mysql_fetch_assoc($result2);
-		
-		$graph_list[$i]['description'] = $row2['description'];
-		
-		$graph_list[$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
+		$graph_list['data'][$i] = $row;		
+		$graph_list['data'][$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
 		
 		$sql = "SELECT rra.id, rra.name
 				FROM (
