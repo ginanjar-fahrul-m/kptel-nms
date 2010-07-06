@@ -4,6 +4,7 @@ require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 require_once('device.php');
+require_once('account.php');
 
 session_init();
 
@@ -39,32 +40,47 @@ if($_GET) {
 			break;
 		
 		case 'adddevice':
-			echo device_add(
-				$data['group_id'],
-				$data['device_type_id'],
-				$data['name'],
-				$data['description'],
-				$data['longitude'],
-				$data['latitude'],
-				$data['cacti_id']
-			);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo device_add(
+					$data['group_id'],
+					$data['device_type_id'],
+					$data['name'],
+					$data['description'],
+					$data['longitude'],
+					$data['latitude'],
+					$data['cacti_id']
+				);
+			}
+			
 			break;
 		
 		case 'updatedevice':
-			echo device_update(
-				$data['device_id'],
-				$data['group_id'],
-				$data['device_type_id'],
-				$data['name'],
-				$data['description'],
-				$data['longitude'],
-				$data['latitude'],
-				$data['cacti_id']
-			);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo device_update(
+					$data['device_id'],
+					$data['group_id'],
+					$data['device_type_id'],
+					$data['name'],
+					$data['description'],
+					$data['longitude'],
+					$data['latitude'],
+					$data['cacti_id']
+				);
+			}
+			
 			break;
 		
 		case 'deletedevice':
-			echo device_delete($data['device_id']);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo device_delete($data['device_id']);
+			}
+			
 			break;
 		
 		case 'getcactimonitoringgraph':
