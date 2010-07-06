@@ -13,10 +13,16 @@ body {
     color: #666;
 }
 
-#devinfowindow{margin-top:-10px;}
+#devinfowindow{
+	margin-top:-10px;
+}
 #devinfowindow h1{font-size : 2.0em;}
-#devinfolabel{float:left;}
-#devinfovalue{float:left;}
+#devinfovalue,#devinfolabel{float:left;}
+#devinfovalue{margin-left:5px;}
+#showdetail{
+	text-align:right;
+	padding : 10px;
+}
 
 #imginfowindow{
 	float:left;
