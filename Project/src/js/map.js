@@ -6,7 +6,7 @@ var default_device = 0;
 	Mode 1 : mode ambil koordinat
 */
 var placeMarkers = [];
-var flagMarkers = [];
+var infoMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
@@ -217,7 +217,7 @@ function tree_group_processing(data,x){
 			
 			if(x == 0) parentnode = -1;
 			else parentnode = "#group-"+x;
-			$("#trees").jstree("create",parentnode,false,info,false,true);
+			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+groupid).find('a').attr("id",cgroupid);
 			$('#'+cgroupid).click(function() {
 				set_center_and_zoom(datum['latitude'],datum['longitude']);
@@ -327,10 +327,18 @@ function render_device(location,devname,cacid,devid) {
 		infowindow.setContent(text);
 	});
 	google.maps.event.addListener(marker, 'click', function(e) {
+		if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+		}
+		
+		closeOtherCtxMenu(null);
+		
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+0.5,this.getPosition().lng());
 		map.setCenter(selectedCenter);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
 		infowindow.open(map,this);
+		infoMarkers.push(infowindow);
 	});
 }
 
@@ -512,7 +520,14 @@ function render_group(location,groupname,groupid){
 		maxHeight: 100
 	});
 	google.maps.event.addListener(marker, 'click', function(e) {
+		if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+		}
+		
+		closeOtherCtxMenu(null);
 		infowindow.open(map,this);
+		infoMarkers.push(infowindow);
 	});
 }
 
@@ -531,7 +546,7 @@ function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 	$.getJSON(url_group, getparam, function(data) {
 			if(data == 0) alert("Add Group failed");
 			else {
-				render_group(newLatLng,grpname);
+				render_group(newLatLng,grpname,data);
 				alert("Add Group success");
 				var parentnode=null;
 				var groupid = "group-"+data;
@@ -599,10 +614,12 @@ function update_group(groupid, parentid, named, desc, longi, lati) {
 		if(data == 0) alert("Edit Group failed");
 		else {
 			alert("Edit Group success");
+			
+			//update tree
 			if(parentid == 0) $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");
 			else $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);
 			
-			$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
+			//$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
 		}
 	});
 }
