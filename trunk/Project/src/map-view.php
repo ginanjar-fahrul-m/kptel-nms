@@ -9,8 +9,7 @@ session_db_init();
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -67,18 +66,7 @@ session_db_init();
 		<div class="toggler togglerright">
 			<div id="effectright" class="ui-widget-content ui-corner-all">
 				<h3 class="ui-widget-header ui-corner-all">Notifications</h3>
-				<div id="notification" class="scroll">
-					<div class="notif-box"> 
-						<div class="notif-img"><img alt="flag-alert" src="images/flag-alert.png" /></div> 
-						<div class="notif-cont"><h3>qwerty</h3>&nbsp; 12-12-12</div> 
-						<div class="notif-clear"></div> 
-					</div>
-					<div class="notif-box"> 
-						<div class="notif-img"><img alt="menu-warning" src="images/flag-warning.png" /></div> 
-						<div class="notif-cont"><h3>qwerty</h3>&nbsp; 12-12-12</div> 
-						<div class="notif-clear"></div> 
-					</div>
-				</div>
+				<div id="notification" class="scroll"></div>
 			</div>
 		</div>
 		<div id="zoom_control">
@@ -107,14 +95,7 @@ session_db_init();
 			<label id="editgroup" title="edit this group"> Edit Group </label>
 			<label id="deletegroup" title="delete this group"> Delete Group </label>
 		</div>
-		<div id="panelrrd" title="Device Graph">
-			<div id="rrd-accord">
-				<h3><a href='#'>Section 1</a></h3>
-				<div><label class='tu_iframe_500x500' href='http://10.37.21.137/kptel-nms/'>google</label></div>
-				<h3><a href='#'>Section 1</a></h3>
-				<div><label class='tu_iframe_500x500' href='http://10.37.21.137/kptel-nms/'>google</label></div>
-			</div>
-		</div>
+		<div id="panelrrd" title="Device Graph"></div>
 		<div id="deviceform" title="device form">
 			<p class="devicetips">All form fields are required.</p>
 			<fieldset>
@@ -122,11 +103,11 @@ session_db_init();
 				<input type="text" name="devicename" id="devicename" class="text ui-widget-content ui-corner-all" />
 				<label>Parent: </label>
 				<select name="deviceparent" id="deviceparent" class="text ui-widget-content ui-corner-all">
-					<option value="0">&lt;none&gt;</option>
+					<option value="0">&lt;root&gt;</option>
 				</select>
 				<label>Device: </label>
 				<select name="devicecacti" id="devicecacti" class="text ui-widget-content ui-corner-all">
-					<option value="0">&lt;none&gt;</option>
+					<option value="0">&lt;---&gt;</option>
 				</select>
 				<label>Location: </label>
 				<input type="text" id="devicelng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
@@ -141,7 +122,7 @@ session_db_init();
 				<input type="text" name="groupname" id="groupname" class="text ui-widget-content ui-corner-all" />
 				<label>Parent: </label>
 				<select name="groupparent" id="groupparent" class="text ui-widget-content ui-corner-all">
-					<option value="0">&lt;none&gt;</option>
+					<option value="0">&lt;root&gt;</option>
 				</select>
 				<label>Location: </label>
 				<input type="text" id="grouplng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
@@ -152,8 +133,8 @@ session_db_init();
 		<div id="map_canvas"></div>
 		<div id="coordinate" class="text ui-widget-content ui-corner-all">
 			<label>Location: </label>
-			<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" READONLY/>&nbsp;&deg;
-			<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" READONLY/>&nbsp;&deg;
+			<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" readonly/>&nbsp;&deg;
+			<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" readonly/>&nbsp;&deg;
 		</div>
 	</body>
 </html>
