@@ -262,7 +262,10 @@ function render_device(location,devname,cacid,devid) {
     placeMarkers.push(marker);
 	
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		//alert("Device id :" + devid);
+		if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+		}
 		current.cactiId = cacid;
 		current.deviceId = devid;
 		current.mouseX = tempX;
@@ -504,7 +507,10 @@ function render_group(location,groupname,groupid){
     });
     placeMarkers.push(marker);
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		//alert("Group name :" + groupname);
+		if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+		}
 		current.mouseX = tempX;
 		current.mouseY = tempY;
 		current.groupId = groupid;
