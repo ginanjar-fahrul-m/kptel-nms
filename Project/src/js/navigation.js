@@ -216,7 +216,7 @@ $(function() {
 		open: function() {
 			closeOtherCtxMenu(null);
 			$('#zoom_control').css('z-index','0');
-			get_cacti_graph_list(8, function(data){
+			get_cacti_graph_list(current.cactiId, function(data){
 				var rrdText = "";
 				$('#panelrrd').html('');
 				rrdText += "<div id='rrd-accord'>";
@@ -478,6 +478,7 @@ $(function() {
 		return false;
 	});
 	$('#help').click(function() {
+		
 		$('#panelrrd').dialog('open');
 		return false;
 	});

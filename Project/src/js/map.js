@@ -324,8 +324,7 @@ function render_device(location,devname,cacid,devid) {
 						+'</div><div id="devinfovalue">: '
 						+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
 						+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
-						+'<div class="clearboth"></div></div>'
-						
+						+'<div class="clearboth" id="showdetail"><a href="#" onclick="$(\'#panelrrd\').dialog(\'open\');">Show Detail</a></div></div>'
 					;
 		infowindow.setContent(text);
 	});
@@ -337,6 +336,7 @@ function render_device(location,devname,cacid,devid) {
 		
 		closeOtherCtxMenu(null);
 		
+		current.cactiId = cacid;
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+0.5,this.getPosition().lng());
 		map.setCenter(selectedCenter);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
