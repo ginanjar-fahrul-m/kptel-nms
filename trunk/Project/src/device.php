@@ -307,14 +307,14 @@ function device_cacti_get_graph_list($cacti_id) {
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
-	$sql2 = "SELECT `description`
+	$sql3 = "SELECT `description`
 			FROM `".$config['db']['cacti_db']."`.`host`
 			WHERE `id` = ".$cacti_id."
 			LIMIT 1";
-	$result2 = session_get($config['session']['db_sess'])->query($sql2);
-	$row2 = mysql_fetch_assoc($result2);
+	$result3 = session_get($config['session']['db_sess'])->query($sql3);
+	$row3 = mysql_fetch_assoc($result3);
 		
-	$graph_list['description'] = $row2['description'];
+	$graph_list['description'] = $row3['description'];
 	
 	$sql = "SELECT
 				`graph_local`.`id` AS `local_graph_id`,
@@ -354,7 +354,7 @@ function device_cacti_get_graph_list($cacti_id) {
 		while($row2 = mysql_fetch_assoc($result2)) {
 			$rra['url'] = $config['cacti']['url'].'/graph_image.php?action=view&local_graph_id='.$row['local_graph_id'].'&rra_id='.$row2['id'];
 			$rra['name'] = $row2['name'];
-			$graph_list[$i]['rra_url'][$j] = $rra;
+			$graph_list['data'][$i]['rra_url'][$j] = $rra;
 			$j++;
 		}
 		
