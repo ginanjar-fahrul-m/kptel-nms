@@ -238,13 +238,14 @@ $(function() {
 			get_cacti_graph_list(current.cactiId, function(data){
 				var rrdText = "";
 				$('#panelrrd').html('');
+				rrdText += "<div style='margin: 10px;'>" + data['description'] + "</div>";
 				rrdText += "<div id='rrd-accord'>";
-				for(var i=0; i<data.length; i++){
-					rrdText += "<h3><a href='#'>" + data[i]['name'] + "</a></h3><div>";
-					rrdText += "<label class='tu_iframe_800x500' href='" + data[i]['realtime_url'] + "'>Realtime</label>";
+				for(var i=0; i<data['data'].length; i++){
+					rrdText += "<h3><a href='#'>" + data['data'][i]['name'] + "</a></h3><div>";
+					rrdText += "<label class='tu_iframe_800x500' href='" + data['data'][i]['realtime_url'] + "'>Realtime</label>";
 					rrdText += "<hr/>";
-					for(var j=0; j<data[i]['rra_url'].length; j++){
-						rrdText += "<label class='tu_iframe_800x500' href='" + data[i]['rra_url'][j]['url'] + "'> " + data[i]['rra_url'][j]['name'] + " </label>";
+					for(var j=0; j<data['data'][i]['rra_url'].length; j++){
+						rrdText += "<label class='tu_iframe_800x500' href='" + data['data'][i]['rra_url'][j]['url'] + "'> " + data['data'][i]['rra_url'][j]['name'] + " </label>";
 					}
 					rrdText += "</div>";
 				}
