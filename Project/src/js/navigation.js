@@ -3,7 +3,21 @@ $(document).ready(function(){
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
 		showWarningDevice();
-		//$("#rrd-accord").accordion();
+		isLoggedIn(function(data){
+			if(data == 0){
+				$('#login').html('<img alt="menu-login" src="images/menu-login.png"/> Login');
+				$('#login').click(function() {
+					$('#loginform').dialog('open');
+				});
+			} else if(data == 1){
+				$('#login').html('<img alt="menu-logout" src="images/menu-logout.png"/> Logout');
+				$('#login').click(function() {
+					logout(function(){
+						window.location = ".";
+					});
+				});
+			}
+		});
 	}); 
 });
 $(function() {
@@ -92,8 +106,8 @@ $(function() {
 	
 	$("#loginform").dialog({	
 		autoOpen: false,
-		height: 300,
-		width: 350,
+		height: 250,
+		width: 300,
 		modal: true,
 		draggable: false,
 		resizable: false,
@@ -111,10 +125,15 @@ $(function() {
 				bValid = bValid && checkRegexp(logintips,password,/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
 				
 				if (bValid) {
-					alert('username: ' + name.val() + ' - password: ' + password.val()); 
+					var user = name.val();
+					var pass = password.val();
 					logintips.text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
+					login(user, pass, function(data){
+						if(data == 1) window.location = ".";
+						else $('#loginform').dialog('open');
+					});
 				}
 			},
 			Cancel: function() {
@@ -403,9 +422,6 @@ $(function() {
 	});
 	$('#help').click(function() {
 		
-	});
-	$('#login').click(function() {
-		$('#loginform').dialog('open');
 	});
 	$('#adddevice').click(function() {
 		$('#deviceform').dialog('open');
