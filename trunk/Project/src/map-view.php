@@ -34,7 +34,7 @@ session_db_init();
 				<ul>
 					<li><a class="ui-widget-header" href="" title="Return to home">
 					<img alt="menu-home" src="images/menu-home.png"/> Home </a></li> 
-					<li><a class="ui-widget-header"> | </a></li> 
+					<label class="ui-widget-header"> | </label> 
 					<li><a class="ui-widget-header" id="tree" href="#" title="Show all device and group tree">
 					<img alt="menu-tree" src="images/menu-tree.png"/> Group and Device Tree </a></li> 
 				</ul> 
@@ -43,14 +43,14 @@ session_db_init();
 				<ul> 
 					<li><a class="tu_iframe_1200x560" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
 					<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a></li>
-					<li><a class="ui-widget-header"> | </a></li> 
-					<li><a class="ui-widget-header" id="login" href="#" title="Login as admin"> 
+					<label class="ui-widget-header"> | </label> 
+					<li><a class="ui-widget-header" id="login" href="#" title="As admin"> 
 					<img alt="menu-login" src="images/menu-login.png"/> Login </a></li>
 					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
 					<img alt="menu-help" src="images/menu-help.png"/> Help </a></li> 
-					<li><a class="ui-widget-header"> | </a></li> 
-					<li><a class="ui-widget-header" id="time"></a></li> 
-					<li><a class="ui-widget-header"> | </a></li> 
+					<label class="ui-widget-header"> | </label> 
+					<label class="ui-widget-header" id="time"></label> 
+					<label class="ui-widget-header"> | </label>  
 					<li><a class="ui-widget-header" id="notif" href="#" title="Show device status"> 
 					<img id="warning" alt="menu-notif" src="images/menu-notif.png"/><label id="notif-label"> Notifications </label></a></li> 
 				</ul>

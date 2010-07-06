@@ -108,6 +108,13 @@ a:hover {
     margin: 0;
     padding: 0;
 }
+#top label {
+	margin: 0;
+    padding: 15px 11px 7px 9px;
+    color: #eee;
+    text-decoration: none;
+	border: none;
+}
 #top li {
     display: inline;
     margin-left: 0px;
