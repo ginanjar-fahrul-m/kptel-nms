@@ -1,18 +1,27 @@
-var map= null;
-var mapmode = 0;
-var default_device = 0;
+
 /*
-	Mode 0 : mode peta biasa
-	Mode 1 : mode ambil koordinat
+	Author : Mohammad Rizky Adrian
+	Program Studi Teknik Informatika
+	Institut Teknologi Bandung
+	2007
 */
-var placeMarkers = [];
+
+var map= null;
+var default_device = 0;
+var groupMarkers = [];
+var groupObjects = [];
+var deviceMarkers = [];
+var deviceObjects = [];
 var infoMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
+var iconDeviceError = 'images/form-device-a.png';
+var iconGroupError = 'images/form-group-a.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
 var minZoom = 5;
 var maxZoom = 15;
 var centeringZoom = minZoom + 2;
+var additioncentering = 0;
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
@@ -78,6 +87,11 @@ function kptel_init() {
 	isLoggedIn(function(data){
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
+				if(infoMarkers.length > 0) {
+					var lastinfo = infoMarkers.pop();
+					lastinfo.close();
+				}
+				if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 				closeOtherCtxMenu($('#mapctxmenu'));
 				check_point(event.latLng);
 				$('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
@@ -88,7 +102,12 @@ function kptel_init() {
 	
 	google.maps.event.addListener(map, 'click', function(event) {
 		check_point(event.latLng);
-		closeOtherCtxMenu(null);		
+		if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+		}
+		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
+		closeOtherCtxMenu(null);	
 		$('#coord-lng').val(current.longitude);
 		$('#coord-lat').val(current.latitude);
     });
@@ -99,8 +118,8 @@ function kptel_init() {
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
     });
 	
-	get_device_list(render_init_device);
-	get_group_list(render_init_group);
+	updateRenderDevice();
+	updateRenderGroup();
 	
 	//jQuery Addition
 	$(function() {
@@ -150,17 +169,27 @@ function kptel_init() {
 						},
 						open_node : false,
 						close_node : false
-						/*,
-						"start_drag" : false,
-						"move_node" : false,
-						"delete_node" : false,
-						"remove" : false*/
+					},
+					// The `group-error` nodes 
+					"group-error" : {
+						"valid_children" : [ "none" ],
+						"icon" : {
+							"image" : "images/form-group-a.png"
+						}
+					},
+					// The `device-error` nodes 
+					"device-error" : {
+						"valid_children" : [ "none" ],
+						"icon" : {
+							"image" : "images/form-device-a.png"
+						},
+						open_node : false,
+						close_node : false
 					}
 				}
 			}
 	});
-	//create tree
-	build_tree();
+	updateTree();
 }
 
 //INITIALIZATION FUNCTION
@@ -182,6 +211,7 @@ function render_init_group(data){
 	}
 }
 
+//TREE PROCESSING
 function build_tree(){
 	var groupnode;
 	var devicenode;
@@ -206,6 +236,12 @@ function build_tree(){
 			}
 		});
 	});
+}
+
+function updateTree(){
+	$('#trees').html('');
+	build_tree();
+	setTimeout("updateTree()",60000);
 }
 
 function tree_group_processing(data,x){
@@ -241,7 +277,7 @@ function tree_device_processing(data){
 			var parentnode=null;
 			var devid = "device-"+datum['device_id'];
 			var info = {
-					  "attr":{"id":devid, "rel":"device"}//, "param":3}
+					  "attr":{"id":devid, "rel":"device"}
 					 ,"data":{"title":datum['name']}
 			 };
 			
@@ -250,12 +286,22 @@ function tree_device_processing(data){
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
 				set_center_and_zoom(datum['latitude'],datum['longitude']);
-				//alert("device click :" + datum['latitude'] + ' , ' + datum['longitude']);
 			});
 	});
 }
 
 //DEVICE MODEL-CONTROL
+function updateRenderDevice(){
+	if (deviceMarkers) {
+		for (i in deviceMarkers) {
+		  deviceMarkers[i].setMap(null);
+		}
+		deviceMarkers.length = 0;
+	}
+	get_device_list(render_init_device);
+	setTimeout("updateRenderDevice()",60000);
+}
+
 function render_device(location,devname,cacid,devid) {
     marker = new google.maps.Marker({
       position: location,
@@ -264,7 +310,7 @@ function render_device(location,devname,cacid,devid) {
 	  title : devname,
 	  zIndex : 10
     });
-    placeMarkers.push(marker);
+    deviceMarkers.push(marker);
 	
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
@@ -272,6 +318,7 @@ function render_device(location,devname,cacid,devid) {
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
+		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		isLoggedIn(function(data){
 			if(data == 1){
 				current.cactiId = cacid;
@@ -292,63 +339,68 @@ function render_device(location,devname,cacid,devid) {
 	var content='';
 	var infowindow = new google.maps.InfoWindow({
 		content: content
-		,maxWidth: 500
+		,maxWidth: 800
 	});
-	$.getJSON(url_device, getparam, function(cactidata){
-		var imgstat = '';
-		var textstat = '';
-		switch(cactidata['status'])
-		{
-			case '0':
-			  imgstat = 'images/menu-help.png';
-			  textstat = 'unknown';
-			  break;
-			case '1':
-			  imgstat = 'images/flag-alert.png';
-			  textstat = 'down';
-			  break;
-			case '2':
-			  imgstat = 'images/flag-recover.png';
-			  textstat = 'recover';
-			  break;
-			case '3':
-			  imgstat = 'images/flag-ok.png';
-			  textstat = 'up';
-			  break;
-			case '4':
-			  imgstat = 'images/flag-warning.png';
-			  textstat = 'threshold';
-			  break;
-			default:
-			  imgstat = 'images/menu-help.png';
-			  textstat = 'unknown 2';
-		}
-		
-		var text = '<div id="devinfowindow">'
-						+'<div id="imginfowindow">'
-						+'<img id="imglogo" src="images/icon-device2.png" />'
-						+'<img id="imgstat" src="'+imgstat+'" /></div>'
-						+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
-						+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
-						+'</div><div id="devinfovalue">: '
-						+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
-						+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
-						+'<div class="clearboth" id="showdetail"><a href="#" onclick="$(\'#panelrrd\').dialog(\'open\');">Show Detail</a></div></div>'
-					;
-		infowindow.setContent(text);
-	});
+	
 	google.maps.event.addListener(marker, 'click', function(e) {
+		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
+		$.getJSON(url_device, getparam, function(cactidata){
+			var imgstat = '';
+			var textstat = '';
+			switch(cactidata['status'])
+			{
+				case '0':
+				  imgstat = 'images/menu-help.png';
+				  textstat = 'unknown';
+				  break;
+				case '1':
+				  imgstat = 'images/flag-alert.png';
+				  textstat = 'down';
+				  break;
+				case '2':
+				  imgstat = 'images/flag-recover.png';
+				  textstat = 'recover';
+				  break;
+				case '3':
+				  imgstat = 'images/flag-ok.png';
+				  textstat = 'up';
+				  break;
+				case '4':
+				  imgstat = 'images/flag-warning.png';
+				  textstat = 'threshold';
+				  break;
+				default:
+				  imgstat = 'images/menu-help.png';
+				  textstat = 'unknown 2';
+			}
+			
+			var text = '<div id="devinfowindow">'
+							+'<div id="imginfowindow">'
+							+'<img id="imglogo" src="images/icon-device2.png" />'
+							+'<img id="imgstat" src="'+imgstat+'" /></div>'
+							+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
+							+'Hostname<br>Description<br>'
+							+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
+							+'</div><div id="devinfovalue">: '
+							+cactidata['hostname'] + '<br>: '+ cactidata['description']+ '<br>: '
+							+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
+							+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
+							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
+						;
+			infowindow.setContent(text);
+		});
+	
 		if(infoMarkers.length > 0) {
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
-		
 		closeOtherCtxMenu(null);
 		
 		current.cactiId = cacid;
-		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+0.5,this.getPosition().lng());
-		map.setCenter(selectedCenter);
+		additioncentering = 2 - ((map.getZoom()+6)/10);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+additioncentering,this.getPosition().lng());
+		map.setCenter(selectedCenter);
 		infowindow.open(map,this);
 		infoMarkers.push(infowindow);
 	});
@@ -395,6 +447,16 @@ function get_device(id,callback) {
 		action: 'getdevice',
 		data: {
 			device_id: id
+		}
+	}
+	$.getJSON(url_device, getparam, callback);
+}
+
+function get_device_by_cacti_id(cacid,callback) {
+	var getparam = {
+		action: 'getdevicebycactiid',
+		data: {
+			cacti_id: cacid
 		}
 	}
 	$.getJSON(url_device, getparam, callback);
@@ -507,6 +569,17 @@ function delete_device(id, callback) {
 }
 
 //GROUP MODEL-CONTROL
+function updateRenderGroup(){
+	if (groupMarkers) {
+		for (i in groupMarkers) {
+		  groupMarkers[i].setMap(null);
+		}
+		groupMarkers.length = 0;
+	}
+	get_group_list(render_init_group);
+	setTimeout("updateRenderGroup()",60000);
+}
+
 function render_group(location,groupname,groupid){
 	marker = new google.maps.Marker({
       position: location,
@@ -514,7 +587,7 @@ function render_group(location,groupname,groupid){
       map: map,
 	  title : groupname
     });
-    placeMarkers.push(marker);
+    groupMarkers.push(marker);
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		if(infoMarkers.length > 0) {
@@ -543,7 +616,10 @@ function render_group(location,groupname,groupid){
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
+		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		
+		var selectedCenter = new google.maps.LatLng(this.getPosition().lat(),this.getPosition().lng());
+		if(map.getZoom() > minZoom) map.setCenter(selectedCenter);
 		closeOtherCtxMenu(null);
 		infowindow.open(map,this);
 		infoMarkers.push(infowindow);
@@ -778,7 +854,7 @@ function showWarningDevice(){
 	get_status_notification(function(data){
 		var li;
 		for(var i = 0; i < data.length; i++){
-			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-warning' src='images/";
+			li = "<div class='notif-box' onclick='showCactiDevice("+data[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/";
 			switch(data[i]['status']){
 				case '1': {
 					li += "flag-alert.png'";
@@ -821,11 +897,25 @@ function showAlert(bool,n){
 	}
 }
 
+function showPanelRRD(){
+	if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+	}
+	$('#panelrrd').dialog('open');
+}
+
+function showCactiDevice(id){
+	get_device_by_cacti_id(id,function(data){
+		set_center_and_zoom(data['latitude'],data['longitude']);
+	});
+}
+
 function closeOtherCtxMenu(id){
 	for(var i = 0; i < listctxmenu.length; i++)
 		if(listctxmenu[i]!=id){
 			$(listctxmenu[i]).dialog('close');
-		}
+		}	
 }
 
 function login(user, pass, callback) {
