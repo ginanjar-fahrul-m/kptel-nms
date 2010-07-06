@@ -23,28 +23,42 @@ if($_GET) {
 			break;
 		
 		case 'addgroup':
-			echo group_add(
-				$data['parent_id'],
-				$data['name'],
-				$data['description'],
-				$data['longitude'],
-				$data['latitude']
-			);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo group_add(
+					$data['parent_id'],
+					$data['name'],
+					$data['description'],
+					$data['longitude'],
+					$data['latitude']
+				);
+			}
 			break;
 		
 		case 'updategroup':
-			echo group_update(
-				$data['group_id'],
-				$data['parent_id'],
-				$data['name'],
-				$data['description'],
-				$data['longitude'],
-				$data['latitude']
-			);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo group_update(
+					$data['group_id'],
+					$data['parent_id'],
+					$data['name'],
+					$data['description'],
+					$data['longitude'],
+					$data['latitude']
+				);
+			}
+			
 			break;
 		
 		case 'deletegroup':
-			echo group_delete($data['group_id']);
+			if(!account_is_logged_in()) {
+				echo $config['function']['return']['fail'];
+			} else {
+				echo group_delete($data['group_id']);
+			}
+			
 			break;
 		
 		case 'getgrouppossibleparentlist':
