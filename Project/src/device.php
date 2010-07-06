@@ -322,6 +322,16 @@ function device_cacti_get_graph_list($cacti_id) {
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {
 		$graph_list[$i] = $row;
+		
+		$sql2 = "SELECT `description`
+				FROM `".$config['db']['cacti_db']."`.`host`
+				WHERE `id` = ".$cacti_id."
+				LIMIT 1";
+		$result2 = session_get($config['session']['db_sess'])->query($sql2);
+		$row2 = mysql_fetch_assoc($result2);
+		
+		$graph_list[$i]['description'] = $row2['description'];
+		
 		$graph_list[$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
 		
 		$sql = "SELECT rra.id, rra.name
