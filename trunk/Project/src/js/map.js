@@ -1,10 +1,13 @@
 
 /*
-	Author : Mohammad Rizky Adrian
-	Program Studi Teknik Informatika
-	Institut Teknologi Bandung
-	2007
-*/
+/* File   : map.js
+ * Role   : Controller (MVC)
+ * Author : Mohammad Rizky Adrian
+ * E-Mail : moh.rizkya@yahoo.com
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ */
 
 var map= null;
 var default_device = 0;
@@ -158,14 +161,14 @@ function kptel_init() {
 					"group" : {
 						"valid_children" : [ "device","group"],
 						"icon" : {
-							"image" : "images/form-group.png"
+							"image" : iconGroup
 						}
 					},
 					// The `device` nodes 
 					"device" : {
 						"valid_children" : [ "none" ],
 						"icon" : {
-							"image" : "images/form-device.png"
+							"image" : iconDevice
 						},
 						open_node : false,
 						close_node : false
@@ -174,14 +177,14 @@ function kptel_init() {
 					"group-error" : {
 						"valid_children" : [ "none" ],
 						"icon" : {
-							"image" : "images/form-group-a.png"
+							"image" : iconGroupError
 						}
 					},
 					// The `device-error` nodes 
 					"device-error" : {
 						"valid_children" : [ "none" ],
 						"icon" : {
-							"image" : "images/form-device-a.png"
+							"image" : iconDeviceError
 						},
 						open_node : false,
 						close_node : false
@@ -288,6 +291,14 @@ function tree_device_processing(data){
 				set_center_and_zoom(datum['latitude'],datum['longitude']);
 			});
 	});
+	// get_status_notification(function(data){
+		// $.each(data, function(index,datum){
+			// get_device_by_cacti_id(datum['id'],function(data){
+				// $('#device-'+data['device_id']).attr('rel','device-error');
+				// changeParentTreeStatus(data['group_id']);
+			// });
+		// });
+	// });
 }
 
 //DEVICE MODEL-CONTROL
@@ -882,7 +893,14 @@ function showWarningDevice(){
 		}
 		showAlert(true,data.length);
 	});
-	setTimeout("showWarningDevice()",5000);
+	setTimeout("showWarningDevice()",30000);
+}
+
+function changeParentTreeStatus(parentid){
+	get_group(parentid, function(parentdata){
+		$('#group-'+parentdata['group_id']).attr('rel','group-error');
+		if(parentdata['parent_id'] != 0) changeParentTreeStatus(parentdata['parent_id']);
+	});
 }
 
 function showAlert(bool,n){
