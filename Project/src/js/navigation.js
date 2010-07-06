@@ -1,3 +1,15 @@
+/* File   : navigation.js
+ * Role   : Controller (MVC)
+ * Author : Ginanjar Fahrul M (gin)
+ * E-Mail : ginanjar.fahrul.m@gmail.com
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * Controller ini mengurus semua hal yang berkaitan dengan navigasi,
+ * termasuk login, menu, dan panel.
+ *
+ */
+
 $(document).ready(function(){ 
 	$(document).ready(function () {
 		$("#effectleft").toggle(false);
@@ -20,20 +32,20 @@ $(document).ready(function(){
 		});
 	}); 
 });
-$(function() {
-	//run the currently selected effect
+
+$(function(){
 	function runEffect(effectId,effect){
-		//get effect type from 
 		var selectedEffect = effect;
-		//most effect types need no options passed by default
 		var options = {};
-		if(selectedEffect == 'scale'){ options = {percent: 0}; } 
-		else if(selectedEffect == 'size'){ options = { to: {width: 200,height: 60} }; }
-		//run the effect
+		if(selectedEffect == 'scale'){
+			options = {percent: 0}; 
+		}
+		else if(selectedEffect == 'size'){
+			options = { to: {width: 200,height: 60} };
+		}
 		$(effectId).toggle(selectedEffect,options,300);
 	};
 	
-	//set effect from select menu value
 	$("#tree").click(function() {
 		runEffect("#effectleft",'blind');
 		return false;
@@ -42,26 +54,11 @@ $(function() {
 		runEffect("#effectright",'blind');
 		return false;
 	});
-	//login-dialog-form
-	$("#dialog").dialog("destroy");
 	
-	var name = $("#loginname"),
-		password = $("#loginpassword"),
-		devicename = $("#devicename"),
-		deviceparent = $("#deviceparent"),
-		devicecacti = $("#devicecacti"),
-		devicelng = $("#devicelng"),
-		devicelat = $("#devicelat"),
-		groupname = $("#groupname"),
-		groupparent = $("#groupparent"),
-		grouplng = $("#grouplng"),
-		grouplat = $("#grouplat"),
-		allfieldslogin = $([]).add(name).add(password),
-		logintips = $(".logintips");
-		allfieldsdevice = $([]).add(devicename).add(deviceparent).add(devicecacti).add(devicelng).add(devicelat),
-		devicetips = $(".devicetips");
-		allfieldsgroup = $([]).add(groupname).add(groupparent).add(grouplng).add(grouplat),
-		grouptips = $(".grouptips");
+	var 
+		allfieldslogin = $([]).add($("#loginname")).add($("#loginpassword")),
+		allfieldsdevice = $([]).add($("#devicename")).add($("#deviceparent")).add($("#devicecacti")).add($("#devicelng")).add($("#devicelat")),
+		allfieldsgroup = $([]).add($("#groupname")).add($("#groupparent")).add($("#grouplng")).add($("#grouplat"));
 		
 	function updateTips(tips,t) {
 		tips
@@ -118,16 +115,16 @@ $(function() {
 				var bValid = true;
 				allfieldslogin.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength(logintips,name,"username",3,16);
-				bValid = bValid && checkLength(logintips,password,"password",5,16);
+				bValid = bValid && checkLength($(".logintips"),$("#loginname"),"username",3,16);
+				bValid = bValid && checkLength($(".logintips"),$("#loginpassword"),"password",5,16);
 
-				bValid = bValid && checkRegexp(logintips,name,/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkRegexp(logintips,password,/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
+				bValid = bValid && checkRegexp($(".logintips"),$("#loginname"),/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkRegexp($(".logintips"),$("#loginpassword"),/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
 				
 				if (bValid) {
-					var user = name.val();
-					var pass = password.val();
-					logintips.text('All form fields are required.');
+					var user = $("#loginname").val();
+					var pass = $("#loginpassword").val();
+					$(".logintips").text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
 					login(user, pass, function(data){
@@ -137,7 +134,7 @@ $(function() {
 				}
 			},
 			Cancel: function() {
-				logintips.text('All form fields are required.');
+				$(".logintips").text('All form fields are required.');
 				$(this).dialog('close');
 			}
 		},
@@ -145,10 +142,11 @@ $(function() {
 			allfieldslogin.val('').removeClass('ui-state-error');
 		},
 		open: function() {
-			name.focus();
+			$("#loginname").focus();
 			closeOtherCtxMenu("#loginform");
 		}
 	});
+	
 	$("#coordinate").dialog({	
 		autoOpen: false,
 		modal: false,
@@ -175,6 +173,7 @@ $(function() {
 			
 		}
 	});
+	
 	$("#mapctxmenu").dialog({
 		autoOpen: false,
 		height: 55,
@@ -190,6 +189,7 @@ $(function() {
 			closeOtherCtxMenu("#mapctxmenu");
 		}
 	});
+	
 	$("#devicectxmenu").dialog({
 		autoOpen: false,
 		height: 55,
@@ -205,6 +205,7 @@ $(function() {
 			//$('#cactidetail').attr('href','device-controller.php?action=showdevicedetail&data[cacti_id]=' + current.cactiId);
 		}
 	});
+	
 	$("#groupctxmenu").dialog({
 		autoOpen: false,
 		height: 55,
@@ -219,6 +220,7 @@ $(function() {
 			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
 		}
 	});
+	
 	$("#panelrrd").dialog({
 		autoOpen: false,
 		height: 500,
@@ -255,6 +257,7 @@ $(function() {
 			});
 		}
 	});
+	
 	$("#deviceform").dialog({
 		autoOpen: false,
 		height: 360,
@@ -269,29 +272,29 @@ $(function() {
 				var bValid = true;
 				allfieldsdevice.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength(devicetips,devicename,"name",3,16);
+				bValid = bValid && checkLength($(".devicetips"),$("#devicename"),"name",3,16);
 
-				bValid = bValid && checkRegexp(devicetips,devicename,/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkSelect(devicetips,devicecacti);
-				bValid = bValid && checkRegexp(devicetips,devicelng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
-				bValid = bValid && checkRegexp(devicetips,devicelat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
-				bValid = bValid && checkLength(devicetips,devicelng,"longitude",-90,90);
-				bValid = bValid && checkLength(devicetips,devicelat,"latitude",-180,180);
+				bValid = bValid && checkRegexp($(".devicetips"),$("#devicename"),/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkSelect($(".devicetips"),$("#devicecacti"));
+				bValid = bValid && checkRegexp($(".devicetips"),$("#devicelng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
+				bValid = bValid && checkRegexp($(".devicetips"),$("#devicelat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
+				bValid = bValid && checkLength($(".devicetips"),$("#devicelng"),"longitude",-90,90);
+				bValid = bValid && checkLength($(".devicetips"),$("#devicelat"),"latitude",-180,180);
 				
 				if (bValid) {
 					if(!current.isEditForm)
-						add_device(deviceparent.val(),default_device,$('#devicename').val(),
-									$('#devicelng').val(),$('#devicelat').val(),devicecacti.val(),"Ini device");
+						add_device($("#deviceparent").val(),default_device,$('#devicename').val(),
+									$('#devicelng').val(),$('#devicelat').val(),$("#devicecacti").val(),"Ini device");
 					else
-						update_device(current.deviceId, deviceparent.val(), default_device, $('#devicename').val(), 
-									"", $('#devicelng').val(),$('#devicelat').val(),devicecacti.val());
-					devicetips.text('All form fields are required.');
+						update_device(current.deviceId, $("#deviceparent").val(), default_device, $('#devicename').val(), 
+									"", $('#devicelng').val(),$('#devicelat').val(),$("#devicecacti").val());
+					$(".devicetips").text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
 				}
 			},
 			Cancel: function() {
-				devicetips.text('All form fields are required.');
+				$(".devicetips").text('All form fields are required.');
 				$(this).dialog('close');
 			}
 		},
@@ -299,15 +302,15 @@ $(function() {
 			allfieldsdevice.val('').removeClass('ui-state-error');
 		},
 		open: function() {
-			devicename.val('');
+			$("#devicename").val('');
 			current.isFinish1 = false;
 			current.isFinish2 = false;
 			get_group_list(function(data){
 				current.isFinish1 = true;
-				deviceparent.find('option').remove();
-				deviceparent.append($("<option></option>").attr("value",'0').text('<none>'));
+				$("#deviceparent").find('option').remove();
+				$("#deviceparent").append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
-					deviceparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+					$("#deviceparent").append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 				}
 				if(current.isFindLoc){
 					$('#devicename').val(current.tempName);
@@ -329,10 +332,10 @@ $(function() {
 			});
 			get_cacti_unlisted_device_list(function(data){
 				current.isFinish2 = true;
-				devicecacti.find('option').remove();
-				devicecacti.append($("<option></option>").attr("value",'0').text('<none>'));
+				$("#devicecacti").find('option').remove();
+				$("#devicecacti").append($("<option></option>").attr("value",'0').text('<none>'));
 				for (var i = 0; i < data.length; i++){
-					devicecacti.append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+					$("#devicecacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
 				}
 				if(current.isFindLoc){
 					$('#devicecacti').val(current.tempDevice);
@@ -342,6 +345,7 @@ $(function() {
 			closeOtherCtxMenu("#deviceform");
 		}
 	});
+	
 	$("#groupform").dialog({
 		autoOpen: false,
 		height: 320,
@@ -356,20 +360,20 @@ $(function() {
 				var bValid = true;
 				allfieldsgroup.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength(grouptips,groupname,"name",3,16);
+				bValid = bValid && checkLength($(".grouptips"),$("#groupname"),"name",3,16);
 
-				bValid = bValid && checkRegexp(grouptips,groupname,/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkRegexp(grouptips,grouplng,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
-				bValid = bValid && checkRegexp(grouptips,grouplat,/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
-				bValid = bValid && checkLength(grouptips,grouplng,"longitude",-90,90);
-				bValid = bValid && checkLength(grouptips,grouplat,"latitude",-180,180);
+				bValid = bValid && checkRegexp($(".grouptips"),$("#groupname"),/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+				bValid = bValid && checkRegexp($(".grouptips"),$("#grouplng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
+				bValid = bValid && checkRegexp($(".grouptips"),$("#grouplat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"Coordinate must be float : -123.456");
+				bValid = bValid && checkLength($(".grouptips"),$("#grouplng"),"longitude",-90,90);
+				bValid = bValid && checkLength($(".grouptips"),$("#grouplat"),"latitude",-180,180);
 				
 				if (bValid) {
 					if(!current.isEditForm)
-						add_group(groupparent.val(),$('#groupname').val(),$('#grouplng').val(),grouplat.val(),"ini group");
+						add_group($("#groupparent").val(),$('#groupname').val(),$('#grouplng').val(),$("#grouplat").val(),"ini group");
 					else
-						update_group(current.groupId, groupparent.val(), $('#groupname').val(), "", $('#grouplng').val(),$('#grouplat').val());
-					grouptips.text('All form fields are required.');
+						update_group(current.groupId, $("#groupparent").val(), $('#groupname').val(), "", $('#grouplng').val(),$('#grouplat').val());
+					$(".grouptips").text('All form fields are required.');
 					allfieldslogin.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
 					current.isEditForm = false;
@@ -377,7 +381,7 @@ $(function() {
 			},
 			Cancel: function() {
 				current.isEditForm = false;
-				grouptips.text('All form fields are required.');
+				$(".grouptips").text('All form fields are required.');
 				$(this).dialog('close');
 			}
 		},
@@ -385,20 +389,20 @@ $(function() {
 			allfieldslogin.val('').removeClass('ui-state-error');
 		},
 		open: function() {
-			groupname.val('');
+			$("#groupname").val('');
 			get_group_list(function(data){
-				groupparent.find('option').remove();
-				groupparent.append($("<option></option>").attr("value",'0').text('<none>'));
+				$("#groupparent").find('option').remove();
+				$("#groupparent").append($("<option></option>").attr("value",'0').text('<none>'));
 				if(current.isEditForm){
 					get_possible_parent_list(current.groupId, function(posData){
 						for (var i = 0; i < posData.length; i++){
-							groupparent.append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+							$("#groupparent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
 						}
 					});
 				}
 				else {
 					for (var i = 0; i < data.length; i++){
-						groupparent.append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+						$("#groupparent").append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 					}
 				}
 				if(current.isFindLoc){
