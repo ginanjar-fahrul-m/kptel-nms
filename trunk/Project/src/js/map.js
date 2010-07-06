@@ -16,6 +16,7 @@ var centeringZoom = minZoom + 2;
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
+var url_auth = "auth-controller.php";
 var tempX = 0;
 var tempY = 0;
 var tempXMove = 0;
@@ -74,11 +75,15 @@ function kptel_init() {
 		}
     });
 
-	google.maps.event.addListener(map, 'rightclick', function(event) {	
-	  closeOtherCtxMenu($('#mapctxmenu'));
-      check_point(event.latLng);
-	  $('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
-	  $('#mapctxmenu').dialog('open');
+	isLoggedIn(function(data){
+		if(data == 1){
+			google.maps.event.addListener(map, 'rightclick', function(event) {
+				closeOtherCtxMenu($('#mapctxmenu'));
+				check_point(event.latLng);
+				$('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+				$('#mapctxmenu').dialog('open');
+			});
+		}
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
@@ -261,20 +266,24 @@ function render_device(location,devname,cacid,devid) {
     });
     placeMarkers.push(marker);
 	
+
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		if(infoMarkers.length > 0) {
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
-		current.cactiId = cacid;
-		current.deviceId = devid;
-		current.mouseX = tempX;
-		current.mouseY = tempY;
-		$("#devicectxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-		closeOtherCtxMenu(null);
-		$('#devicectxmenu').dialog('open');
-    });
-	
+		isLoggedIn(function(data){
+			if(data == 1){
+				current.cactiId = cacid;
+				current.deviceId = devid;
+				current.mouseX = tempX;
+				current.mouseY = tempY;
+				$("#devicectxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+				closeOtherCtxMenu(null);
+				$('#devicectxmenu').dialog('open');
+			}
+		});
+	});
 	
 	var getparam = {
 		action: 'getcactidevice',
@@ -506,19 +515,23 @@ function render_group(location,groupname,groupid){
 	  title : groupname
     });
     placeMarkers.push(marker);
+
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		if(infoMarkers.length > 0) {
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
-		current.mouseX = tempX;
-		current.mouseY = tempY;
-		current.groupId = groupid;
-		$("#groupctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-		closeOtherCtxMenu(null);
-		$('#groupctxmenu').dialog('open');
-    });
-	
+		isLoggedIn(function(data){
+			if(data == 1){
+				current.mouseX = tempX
+				current.mouseY = tempY;
+				current.groupId = groupid;
+				$("#groupctxmenu").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+				closeOtherCtxMenu(null);
+				$('#groupctxmenu').dialog('open');
+			}
+		});
+	});
 	var content = '<img src="images/icon-group.png" style="float:left;"/>This is group '+groupname;
 	var infowindow = new google.maps.InfoWindow({
 		content: content,
@@ -813,4 +826,46 @@ function closeOtherCtxMenu(id){
 		if(listctxmenu[i]!=id){
 			$(listctxmenu[i]).dialog('close');
 		}
+}
+
+function login(user, pass, callback) {
+	var getparam = {
+		action: 'accountlogin',
+		data: {
+			username: user,
+			password: pass
+		}
+	}
+	
+	$.get(url_auth, getparam, callback);
+}
+
+function isLoggedIn(callback) {
+	var getparam = {
+		action: 'accountisloggedin',
+		data: {
+			
+		}
+	}
+	
+	$.get(url_auth, getparam, callback);
+}
+
+function logout(callback) {
+	var getparam = {
+		action: 'accountlogout',
+		data: {
+			
+		}
+	}
+	
+	$.get(url_auth, getparam, callback);
+}
+
+function checkAuth(){
+	isLoggedIn(function(data){
+		if(data){
+			
+		}
+	});
 }
