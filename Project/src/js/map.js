@@ -121,8 +121,11 @@ function kptel_init() {
 		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
     });
 	
-	updateRenderDevice();
-	updateRenderGroup();
+	updateMap();
+	// showWarningDevice();
+	// updateRenderDevice();
+	// updateRenderGroup();
+	// updateTree();
 	
 	//jQuery Addition
 	$(function() {
@@ -192,7 +195,6 @@ function kptel_init() {
 				}
 			}
 	});
-	updateTree();
 }
 
 //INITIALIZATION FUNCTION
@@ -212,6 +214,14 @@ function render_init_group(data){
 			render_group(newPos,datum['name'],datum['group_id']);
 		});
 	}
+}
+
+function updateMap(){
+	showWarningDevice();
+	updateRenderDevice();
+	updateRenderGroup();
+	updateTree();
+	setTimeout("updateMap()",60000);
 }
 
 //TREE PROCESSING
@@ -244,7 +254,7 @@ function build_tree(){
 function updateTree(){
 	$('#trees').html('');
 	build_tree();
-	setTimeout("updateTree()",60000);
+	//setTimeout("updateTree()",60000);
 }
 
 function tree_group_processing(data,x){
@@ -310,7 +320,7 @@ function updateRenderDevice(){
 		deviceMarkers.length = 0;
 	}
 	get_device_list(render_init_device);
-	setTimeout("updateRenderDevice()",60000);
+	//setTimeout("updateRenderDevice()",60000);
 }
 
 function render_device(location,devname,cacid,devid) {
@@ -588,7 +598,7 @@ function updateRenderGroup(){
 		groupMarkers.length = 0;
 	}
 	get_group_list(render_init_group);
-	setTimeout("updateRenderGroup()",60000);
+	//setTimeout("updateRenderGroup()",60000);
 }
 
 function render_group(location,groupname,groupid){
@@ -893,7 +903,7 @@ function showWarningDevice(){
 		}
 		showAlert(true,data.length);
 	});
-	setTimeout("showWarningDevice()",30000);
+	//setTimeout("showWarningDevice()",30000);
 }
 
 function changeParentTreeStatus(parentid){
