@@ -30,11 +30,35 @@ function notification_get_status() {
 			ORDER BY `status_fail_date` DESC, `status` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
-	$i = 0;
 	$notifications = array();
 	while($row = mysql_fetch_assoc($result)) {
-		$notifications[$i] = $row;
-		$i++;
+		$notifications[] = $row;
+	}
+	
+	return $notifications;
+}
+
+function notification_threshold_status() {
+	global $config;
+	
+	$sql = "SELECT
+				`host_id` AS `id`,
+				`name`,
+				`thold_hi`,
+				`thold_low`,
+				`lastread`
+			FROM `".$config['db']['cacti_db']."`.`thold_data`
+			WHERE
+				`host_id` IN (
+					SELECT `cacti_id` AS `id`
+					FROM `".$config['db']['app_db']."`.`device`
+				)
+			ORDER BY `id` ASC";
+	$result = session_get($config['session']['db_sess'])->query($sql);
+	
+	$notifications = array();
+	while($row = mysql_fetch_assoc($result)) {
+		$notifications[] = $row;
 	}
 	
 	return $notifications;

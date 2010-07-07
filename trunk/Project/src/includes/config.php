@@ -19,7 +19,7 @@ $config['db']['app_db'] = 'appsMonitor';			// Nama database untuk aplikasi [KPTE
 $config['db']['cacti_db'] = 'cacti';				// Nama database untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan aplikasi Cacti. */
-$config['cacti']['url'] = "http://10.32.18.200";	// Alamat URL untuk aplikasi Cacti.
+$config['cacti']['url'] = "http://10.37.22.194/cacti";	// Alamat URL untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan session. */
 $config['session']['prefix']  = 'kptel-nms-';		// Prefiks untuk setiap nama session yang digunakan dalam aplikasi ini untuk mencegah munculnya konflik nama variabel session.
