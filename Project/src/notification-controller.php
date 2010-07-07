@@ -17,6 +17,10 @@ if($_GET) {
 		case 'getstatusnotification':
 			echo json_encode(notification_get_status());
 			break;
+		
+		case 'getthresholdnotification':
+			echo json_encode(notification_threshold_status());
+			break;
 	}
 	
 	session_db_close();
