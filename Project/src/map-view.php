@@ -40,7 +40,7 @@ session_db_init();
 			</div> 
 			<div id = "topright"> 
 				<ul> 
-					<li><a class="tu_iframe_1200x560" toptions="shaded=1, effect=clip, layout=dashboard" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
+					<li><a class="tu_iframe_1200x560" toptions="shaded=1, effect=clip, layout=dashboard, modal=1" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
 					<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a></li>
 					<label class="ui-widget-header"> | </label> 
 					<li><a class="ui-widget-header" id="login" href="#" title="As admin"> 

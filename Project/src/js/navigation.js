@@ -497,9 +497,7 @@ $(function(){
 		current.isFindLoc = true;
 		return false;
 	});
-	$('#help').click(function() {
-		
-		$('#panelrrd').dialog('open');
-		return false;
+	$('#cacti').click(function() {	
+		if($('#panelrrd').dialog('isOpen')) $('#panelrrd').dialog('close');
 	});
 });
