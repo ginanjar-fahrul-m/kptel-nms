@@ -194,23 +194,23 @@ function kptel_init() {
 }
 
 //INITIALIZATION FUNCTION
-function render_init_device(data){
-	if(data!= null){
-		$.each(data, function(index,datum){
-			var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-			render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
-		});
-	}
-}
+// function render_init_device(data){
+	// if(data!= null){
+		// $.each(data, function(index,datum){
+			// var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+			// render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
+		// });
+	// }
+// }
 
-function render_init_group(data){
-	if(data!=null){
-		$.each(data, function(index,datum){
-			var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-			render_group(newPos,datum['name'],datum['group_id']);
-		});
-	}
-}
+// function render_init_group(data){
+	// if(data!=null){
+		// $.each(data, function(index,datum){
+			// var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+			// render_group(newPos,datum['name'],datum['group_id']);
+		// });
+	// }
+// }
 
 function updateMap(){
 	//showWarningDevice();
