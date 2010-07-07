@@ -14,7 +14,6 @@ $(document).ready(function(){
 	$(document).ready(function () {
 		$("#effectleft").toggle(false);
 		$("#effectright").toggle(false);
-		showWarningDevice();
 		isLoggedIn(function(data){
 			if(data == 0){
 				$('#login').html('<img alt="menu-login" src="images/menu-login.png"/> Login');
