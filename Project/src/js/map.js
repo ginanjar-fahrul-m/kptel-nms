@@ -122,10 +122,6 @@ function kptel_init() {
     });
 	
 	updateMap();
-	// showWarningDevice();
-	// updateRenderDevice();
-	// updateRenderGroup();
-	// updateTree();
 	
 	//jQuery Addition
 	$(function() {
@@ -218,43 +214,62 @@ function render_init_group(data){
 
 function updateMap(){
 	showWarningDevice();
-	updateRenderDevice();
-	updateRenderGroup();
-	updateTree();
+	build_map();
 	setTimeout("updateMap()",60000);
 }
 
-//TREE PROCESSING
-function build_tree(){
+//Build Tree and Map Element
+function build_map(){
 	var groupnode;
 	var devicenode;
 	var getparam = {
 		action: 'getgrouplist',
-		data1: {}
+		data: {}
 	}
 	
+	//Reset all component
+	$('#trees').html('');
+	
+	if (deviceMarkers) {
+		for (i in deviceMarkers) {
+		  deviceMarkers[i].setMap(null);
+		}
+		deviceMarkers.length = 0;
+	}
+	
+	if (groupMarkers) {
+		for (i in groupMarkers) {
+		  groupMarkers[i].setMap(null);
+		}
+		groupMarkers.length = 0;
+	}
+	
+	//Refresh all nodes' tree and map component
 	$.getJSON(url_group, getparam, function(data1) {
 		groupnode = data1;
 		var getparam = {
 			action: 'getdevicelist',
-			data2: {}
+			data: {}
 		}
 		$.getJSON(url_device, getparam, function(data2) {
-			if(data2!=null){
 				devicenode = data2;		
 				if(data1!=null){	
 					tree_group_processing(groupnode,0);
+					$.each(data1, function(index,datum){
+						var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+						render_group(newPos,datum['name'],datum['group_id']);
+					});
 				}
-				tree_device_processing(devicenode);
-			}
+				if(data2!=null){
+					tree_device_processing(devicenode);
+					$.each(data2, function(index,datum){
+						var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+						render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
+					});
+
+				}				
 		});
 	});
-}
-
-function updateTree(){
-	$('#trees').html('');
-	build_tree();
-	//setTimeout("updateTree()",60000);
 }
 
 function tree_group_processing(data,x){
@@ -301,27 +316,24 @@ function tree_device_processing(data){
 				set_center_and_zoom(datum['latitude'],datum['longitude']);
 			});
 	});
-	// get_status_notification(function(data){
-		// $.each(data, function(index,datum){
-			// get_device_by_cacti_id(datum['id'],function(data){
-				// $('#device-'+data['device_id']).attr('rel','device-error');
-				// changeParentTreeStatus(data['group_id']);
-			// });
-		// });
-	// });
+	get_status_notification(function(data){
+		$.each(data, function(index,datum){
+			get_device_by_cacti_id(datum['id'],function(datad){
+				$('#device-'+datad['device_id']).attr('rel','device-error');
+				if(datad['group_id'] != 0) changeParentTreeStatus(datad['group_id']);
+			});
+		});
+	});
+}
+
+function changeParentTreeStatus(parentid){
+		get_group(parentid, function(parentdata){
+			$('#group-'+parentdata['group_id']).attr('rel','group-error');
+			if(parentdata['parent_id'] != 0) changeParentTreeStatus(parentdata['parent_id']);
+		});
 }
 
 //DEVICE MODEL-CONTROL
-function updateRenderDevice(){
-	if (deviceMarkers) {
-		for (i in deviceMarkers) {
-		  deviceMarkers[i].setMap(null);
-		}
-		deviceMarkers.length = 0;
-	}
-	get_device_list(render_init_device);
-	//setTimeout("updateRenderDevice()",60000);
-}
 
 function render_device(location,devname,cacid,devid) {
     marker = new google.maps.Marker({
@@ -590,16 +602,6 @@ function delete_device(id, callback) {
 }
 
 //GROUP MODEL-CONTROL
-function updateRenderGroup(){
-	if (groupMarkers) {
-		for (i in groupMarkers) {
-		  groupMarkers[i].setMap(null);
-		}
-		groupMarkers.length = 0;
-	}
-	get_group_list(render_init_group);
-	//setTimeout("updateRenderGroup()",60000);
-}
 
 function render_group(location,groupname,groupid){
 	marker = new google.maps.Marker({
@@ -902,14 +904,6 @@ function showWarningDevice(){
 			$('#notification').append(li);
 		}
 		showAlert(true,data.length);
-	});
-	//setTimeout("showWarningDevice()",30000);
-}
-
-function changeParentTreeStatus(parentid){
-	get_group(parentid, function(parentdata){
-		$('#group-'+parentdata['group_id']).attr('rel','group-error');
-		if(parentdata['parent_id'] != 0) changeParentTreeStatus(parentdata['parent_id']);
 	});
 }
 
