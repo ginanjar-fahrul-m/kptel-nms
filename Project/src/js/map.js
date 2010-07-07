@@ -213,16 +213,16 @@ function render_init_group(data){
 }
 
 function updateMap(){
-	showWarningDevice();
-	build_map();
+	//showWarningDevice();
+	buildMapComponent();
 	setTimeout("updateMap()",60000);
 }
 
 //Build Tree and Map Element
-function build_map(){
+function buildMapComponent(){
 	var groupnode;
 	var devicenode;
-	var getparam = {
+	var getparam1 = {
 		action: 'getgrouplist',
 		data: {}
 	}
@@ -245,29 +245,48 @@ function build_map(){
 	}
 	
 	//Refresh all nodes' tree and map component
-	$.getJSON(url_group, getparam, function(data1) {
+	$.getJSON(url_group, getparam1, function(data1) {
 		groupnode = data1;
-		var getparam = {
+		var getparam2 = {
 			action: 'getdevicelist',
 			data: {}
 		}
-		$.getJSON(url_device, getparam, function(data2) {
-				devicenode = data2;		
-				if(data1!=null){	
-					tree_group_processing(groupnode,0);
-					$.each(data1, function(index,datum){
-						var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-						render_group(newPos,datum['name'],datum['group_id']);
-					});
-				}
-				if(data2!=null){
-					tree_device_processing(devicenode);
-					$.each(data2, function(index,datum){
-						var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-						render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
-					});
-
-				}				
+		$.getJSON(url_device, getparam2, function(data2) {
+			devicenode = data2;		
+			if(data1!=null){	
+				tree_group_processing(groupnode,0);
+				$.each(data1, function(index,datum){
+					var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+					render_group(newPos,datum['name'],datum['group_id']);
+				});
+				$.each(data1, function(index,datum){
+					groupObjects.push(datum);
+				});
+			}
+			if(data2!=null){
+				tree_device_processing(devicenode);
+				$.each(data2, function(index,datum){
+					var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
+					render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
+				});
+				$.each(data2, function(index,datum){
+					deviceObjects.push(datum);
+				});
+			}
+			
+			var getparam3 = {
+				action: 'getstatusnotification',
+				data: {	}
+			}
+	
+			$.getJSON(url_notif, getparam3, function(data3){
+				$.each(data3, function(index,datum){
+					var curdev = get_device_by_cacti_id_from_temp(datum['id']);
+					$('#device-'+curdev['device_id']).attr('rel','device-error');
+					if(curdev['group_id'] != 0) changeParentTreeStatus(curdev['group_id']);
+				});
+				showWarningDevice(data3);
+			});				
 		});
 	});
 }
@@ -316,21 +335,20 @@ function tree_device_processing(data){
 				set_center_and_zoom(datum['latitude'],datum['longitude']);
 			});
 	});
-	get_status_notification(function(data){
-		$.each(data, function(index,datum){
-			get_device_by_cacti_id(datum['id'],function(datad){
-				$('#device-'+datad['device_id']).attr('rel','device-error');
-				if(datad['group_id'] != 0) changeParentTreeStatus(datad['group_id']);
-			});
-		});
-	});
 }
 
 function changeParentTreeStatus(parentid){
-		get_group(parentid, function(parentdata){
-			$('#group-'+parentdata['group_id']).attr('rel','group-error');
-			if(parentdata['parent_id'] != 0) changeParentTreeStatus(parentdata['parent_id']);
-		});
+	var curgroup = get_group_by_group_id(parentid);
+	$('#group-'+curgroup['group_id']).attr('rel','group-error');
+	if(curgroup['parent_id'] != 0) changeParentTreeStatus(curgroup['parent_id']);
+}
+
+function get_group_by_group_id(id){
+	var retval;
+	for(var i = 0; i < groupObjects.length; i++){
+		if(groupObjects[i]['group_id'] == id) retval = groupObjects[i];
+	}
+	return retval;
 }
 
 //DEVICE MODEL-CONTROL
@@ -493,6 +511,14 @@ function get_device_by_cacti_id(cacid,callback) {
 		}
 	}
 	$.getJSON(url_device, getparam, callback);
+}
+
+function get_device_by_cacti_id_from_temp(cacid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i]['cacti_id'] == cacid) retval = deviceObjects[i];
+	}
+	return retval;
 }
 
 function get_device_list(callback) {
@@ -882,9 +908,8 @@ function vardump(variable, maxDeep)
 function alert_device(data) {
 	alert(vardump(data, 5));
 }
-function showWarningDevice(){
+function showWarningDevice(data){
 	$('#notification').html('');
-	get_status_notification(function(data){
 		var li;
 		for(var i = 0; i < data.length; i++){
 			li = "<div class='notif-box' onclick='showCactiDevice("+data[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/";
@@ -930,7 +955,6 @@ function showWarningDevice(){
 			}
 		});
 		showAlert(true,data.length);
-	});
 }
 
 function showAlert(bool,n){
@@ -954,9 +978,8 @@ function showPanelRRD(){
 }
 
 function showCactiDevice(id){
-	get_device_by_cacti_id(id,function(data){
-		set_center_and_zoom(data['latitude'],data['longitude']);
-	});
+	var curdev = get_device_by_cacti_id_from_temp(id);
+	set_center_and_zoom(curdev['latitude'],curdev['longitude']);
 }
 
 function closeOtherCtxMenu(id){
