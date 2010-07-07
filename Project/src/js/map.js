@@ -941,7 +941,7 @@ function showWarningDevice(data){
 		$('#notification').append("<hr/><div align='center'>Threshold</div><hr/>");
 		get_threshold_notification(function(th){
 			for(var i = 0; i < th.length; i++){
-				li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-alert.png'";
+				li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
 				li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
 				li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
 				$('#notification').append(li);
