@@ -46,6 +46,7 @@ var current = {
 	isFindLoc : false,
 	isFinish1 : false,
 	isFinish2 : false,
+	inWhichForm : null,
 	tempName : "",
 	tempParent : 0,
 	tempDevice : 0,

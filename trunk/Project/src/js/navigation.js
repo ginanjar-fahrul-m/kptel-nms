@@ -157,12 +157,21 @@ $(function(){
 			'OK': function() {
 				$("#coordinate").dialog('close');
 				current.isConfirm = true;
-				$("#deviceform").dialog('open');
+				if(current.inWhichForm == 'deviceform'){
+					$("#deviceform").dialog('open');
+				} else
+				if(current.inWhichForm == 'groupform'){
+					$("#groupform").dialog('open');
+				}
 			},
 			Cancel: function() {
 				$("#coordinate").dialog('close');
-				current.isConfirm = false;
-				$("#deviceform").dialog('open');
+				if(current.inWhichForm == 'deviceform'){
+					$("#deviceform").dialog('open');
+				} else
+				if(current.inWhichForm == 'groupform'){
+					$("#groupform").dialog('open');
+				}
 			}
 		},
 		close: function() {
@@ -288,7 +297,7 @@ $(function(){
 						update_device(current.deviceId, $("#deviceparent").val(), default_device, $('#devicename').val(), 
 									"", $('#devicelng').val(),$('#devicelat').val(),$("#devicecacti").val());
 					$(".devicetips").text('All form fields are required.');
-					allfieldslogin.val('').removeClass('ui-state-error');
+					allfieldsdevice.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
 				}
 			},
@@ -373,7 +382,7 @@ $(function(){
 					else
 						update_group(current.groupId, $("#groupparent").val(), $('#groupname').val(), "", $('#grouplng').val(),$('#grouplat').val());
 					$(".grouptips").text('All form fields are required.');
-					allfieldslogin.val('').removeClass('ui-state-error');
+					allfieldsgroup.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
 					current.isEditForm = false;
 				}
@@ -385,7 +394,7 @@ $(function(){
 			}
 		},
 		close: function() {
-			allfieldslogin.val('').removeClass('ui-state-error');
+			allfieldsgroup.val('').removeClass('ui-state-error');
 		},
 		open: function() {
 			$("#groupname").val('');
@@ -481,6 +490,7 @@ $(function(){
 		$('#coord-lng').val($('#devicelng').val());
 		$('#coord-lat').val($('#devicelat').val());
 		$('#deviceform').dialog('close');
+		current.inWhichForm = 'deviceform';
 		$("#coordinate").dialog('open');
 		current.isFindLoc = true;
 		return false;
@@ -493,6 +503,7 @@ $(function(){
 		$('#coord-lng').val($('#grouplng').val());
 		$('#coord-lat').val($('#grouplat').val());
 		$('#groupform').dialog('close');
+		current.inWhichForm = 'groupform';
 		$("#coordinate").dialog('open');
 		current.isFindLoc = true;
 		return false;

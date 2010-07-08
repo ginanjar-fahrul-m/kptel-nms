@@ -15,61 +15,74 @@ session_db_init();
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>KPTEL-NMS</title> 
 		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
-		<link type="text/css" href="css/navigation.css" media="screen" rel="stylesheet" />
-		<link type="text/css" href="css/map.css" media="screen" rel="stylesheet" />
+		<link type="text/css" href="scrapbook/navigation.css" media="screen" rel="stylesheet" />
+		<link type="text/css" href="scrapbook/map.css" media="screen" rel="stylesheet" />
 
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script> 
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="js/jquery.jstree.js"></script>
 		<script type="text/javascript" src="js/jquery.jstree.min.js"></script>
-		<script type="text/javascript" src="js/map.js"></script>
-		<script type="text/javascript" src="js/navigation.js"></script>
+		<script type="text/javascript" src="scrapbook/auth-controller.js"></script>
+		<script type="text/javascript" src="scrapbook/device-controller.js"></script>
+		<script type="text/javascript" src="scrapbook/group-controller.js"></script>
+		<script type="text/javascript" src="scrapbook/notification-controller.js"></script>
+		<script type="text/javascript" src="scrapbook/map.js"></script>
+		<script type="text/javascript" src="scrapbook/navigation.js"></script>
 		<script type="text/javascript" src="js/top_up-min.js"></script>
 	</head>	
 	<body>
-		<div id="top" class="fluid ui-widget-header">
-			<div id="topleft"> 
+		<div id="menu" class="fluid ui-widget-header">
+			<div id="menu-left"> 
 				<ul>
-					<li><a class="ui-widget-header" href="" title="Return to home">
-					<img alt="menu-home" src="images/menu-home.png"/> Home </a></li> 
+					<li>
+						<a class="ui-widget-header" href="" title="Return to home">
+							<img alt="menu-home" src="images/menu-home.png"/> Home </a>
+					</li> 
 					<label class="ui-widget-header"> | </label> 
-					<li><a class="ui-widget-header" id="tree" href="#" title="Show all device and group tree">
-					<img alt="menu-tree" src="images/menu-tree.png"/> Group and Device Tree </a></li> 
+					<li>
+						<a class="ui-widget-header" id="menu-tree" href="#" title="Show all device and group menu-tree">
+							<img alt="menu-tree" src="images/menu-tree.png"/> Group and Device Tree </a>
+					</li> 
 				</ul> 
 			</div> 
-			<div id = "topright"> 
+			<div id="menu-right"> 
 				<ul> 
-					<li><a class="tu_iframe_1200x560" toptions="shaded=1, effect=clip, layout=dashboard, modal=1" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
-					<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a></li>
+					<li>
+						<a class="tu_iframe_1200x560" toptions="shaded=1, effect=clip, layout=dashboard, modal=1" id="cacti" href="device-controller.php?action=gotocacti" title="Go to cacti"> 
+							<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a>
+					</li>
 					<label class="ui-widget-header"> | </label> 
-					<li><a class="ui-widget-header" id="login" href="#" title="As admin"> 
-					<img alt="menu-login" src="images/menu-login.png"/> Login </a></li>
-					<li><a class="ui-widget-header" id="help" href="#" title="Help and support"> 
-					<img alt="menu-help" src="images/menu-help.png"/> Help </a></li> 
+					<li>
+						<a class="ui-widget-header" id="menu-login" href="#" title="As admin"> 
+							<img alt="menu-login" src="images/menu-login.png"/> Login </a>
+					</li>
+					<li>
+						<a class="ui-widget-header" id="menu-help" href="#" title="Help and support"> 
+							<img alt="menu-help" src="images/menu-help.png"/> Help </a>
+					</li> 
 					<label class="ui-widget-header"> | </label> 
-					<label class="ui-widget-header" id="time"></label> 
+					<label class="ui-widget-header" id="menu-date"></label> 
 					<label class="ui-widget-header"> | </label>  
-					<li><a class="ui-widget-header" id="notif" href="#" title="Show device status"> 
-					<img id="warning" alt="menu-notif" src="images/menu-notif.png"/><label id="notif-label"> Notifications </label></a></li> 
+					<li>
+						<a class="ui-widget-header" id="menu-notif" href="#" title="Show device status"> 
+							<img id="notif-icon" alt="menu-notif" src="images/menu-notif.png"/>
+								<label id="notif-label"> Notifications </label></a>
+					</li> 
 				</ul>
 			</div> 
 			<div class="clearboth"></div> 
 		</div> 
-		<div class="toggler togglerleft">
-			<div id="effectleft" class="ui-widget-content ui-corner-all">
-				<h3 class="ui-widget-header ui-corner-all">DSLAM Device</h3>
-				<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused">
-				</div>
+		<div id="panel-tree" class="ui-widget-content ui-corner-all toggler togglerleft">
+			<h3 class="ui-widget-header ui-corner-all">Devices</h3>
+			<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused">
 			</div>
 		</div>
-		<div class="toggler togglerright">
-			<div id="effectright" class="ui-widget-content ui-corner-all">
-				<h3 class="ui-widget-header ui-corner-all">Notifications</h3>
-				<div id="notification" class="scroll"></div>
-			</div>
+		<div id="panel-notif" class="ui-widget-content ui-corner-all toggler togglerright">
+			<h3 class="ui-widget-header ui-corner-all">Notifications</h3>
+			<div id="notif" class="scroll"></div>
 		</div>
-		<div id="zoom_control">
+		<div id="zoom-control">
 			<button onclick="zoom_in_btn()">+</button>
 			<div id="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"></div>
 			<button onclick="zoom_out_btn()">-</button>
