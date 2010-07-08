@@ -1,6 +1,6 @@
 
 /*
-/* File   : map.js
+ * File   : map.js
  * Role   : Controller (MVC)
  * Author : Mohammad Rizky Adrian
  * E-Mail : moh.rizkya@yahoo.com
@@ -33,32 +33,28 @@ var tempX = 0;
 var tempY = 0;
 var tempXMove = 0;
 var tempYMove = 0;
-var current = new function() {
-    this.mouseX = -999;
-    this.mouseY = -999;
-    this.longitude = 0;
-	this.latitude = 0;
-	this.cactiId = -999;
-	this.deviceId = -999;
-	this.groupId = -999;
-	this.isEditForm = false;
-	this.isConfirm = false;
-	this.isFindLoc = false;
-	this.isFinish1 = false;
-	this.isFinish2 = false;
-	this.tempName = "";
-	this.tempParent = 0;
-	this.tempDevice = 0;
-	this.tempLng = 0;
-	this.tempLat = 0;
-}
+var current = {
+    mouseX : -999,
+    mouseY : -999,
+    longitude : 0,
+	latitude : 0,
+	cactiId : -999,
+	deviceId : -999,
+	groupId : -999,
+	isEditForm : false,
+	isConfirm : false,
+	isFindLoc : false,
+	isFinish1 : false,
+	isFinish2 : false,
+	tempName : "",
+	tempParent : 0,
+	tempDevice : 0,
+	tempLng : 0,
+	tempLat : 0
+};
 var listctxmenu = [];
 
 listctxmenu.push('#mapctxmenu', '#devicectxmenu', '#groupctxmenu');
-
-$(function(){
-	kptel_init();
-});
 
 function kptel_init() {
 	var myOptions = {
@@ -74,10 +70,10 @@ function kptel_init() {
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < minZoom) { 
 			map.setZoom(minZoom); 
-		};
+		}
 		if (map.getZoom() == minZoom) { 
 			map.setCenter(indonesiaCenter);
-		};
+		}
 		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
 	
@@ -94,10 +90,11 @@ function kptel_init() {
 					var lastinfo = infoMarkers.pop();
 					lastinfo.close();
 				}
-				if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
+				if($('#panelrrd').dialog('isOpen'))	{$('#panelrrd').dialog('close');}
+				
 				closeOtherCtxMenu($('#mapctxmenu'));
 				check_point(event.latLng);
-				$('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove()
+				$('#mapctxmenu').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
 				$('#mapctxmenu').dialog('open');
 			});
 		}
@@ -109,7 +106,8 @@ function kptel_init() {
 			var lastinfo = infoMarkers.pop();
 			lastinfo.close();
 		}
-		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
+		if($('#panelrrd').dialog('isOpen'))	{$('#panelrrd').dialog('close');}
+		
 		closeOtherCtxMenu(null);	
 		$('#coord-lng').val(current.longitude);
 		$('#coord-lat').val(current.latitude);
@@ -152,7 +150,7 @@ function kptel_init() {
 	});	
 	//Init tree
 	$("#trees").jstree({
-		"plugins" : [ "themes", "ui", "crrm", "types", "html_data"],
+		"plugins" : [ "themes", "crrm", "types", "ui", "html_data"],
 		"types" : {
 				"valid_children" : [ "group", "device" ],
 				"types" : {
@@ -194,26 +192,12 @@ function kptel_init() {
 }
 
 //INITIALIZATION FUNCTION
-// function render_init_device(data){
-	// if(data!= null){
-		// $.each(data, function(index,datum){
-			// var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-			// render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
-		// });
-	// }
-// }
 
-// function render_init_group(data){
-	// if(data!=null){
-		// $.each(data, function(index,datum){
-			// var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-			// render_group(newPos,datum['name'],datum['group_id']);
-		// });
-	// }
-// }
+$(function(){
+	kptel_init();
+});
 
 function updateMap(){
-	//showWarningDevice();
 	buildMapComponent();
 	setTimeout("updateMap()",60000);
 }
@@ -225,24 +209,27 @@ function buildMapComponent(){
 	var getparam1 = {
 		action: 'getgrouplist',
 		data: {}
-	}
+	};
 	
 	//Reset all component
 	$('#trees').html('');
 	
 	if (deviceMarkers) {
-		for (i in deviceMarkers) {
-		  deviceMarkers[i].setMap(null);
+		for (idx = 0; idx > deviceMarkers.length; idx++) {
+		  deviceMarkers[idx].setMap(null);
 		}
 		deviceMarkers.length = 0;
 	}
 	
 	if (groupMarkers) {
-		for (i in groupMarkers) {
-		  groupMarkers[i].setMap(null);
+		for (idx = 0; idx > deviceMarkers.length; idx++) {
+		  groupMarkers[idx].setMap(null);
 		}
 		groupMarkers.length = 0;
 	}
+	
+	if (deviceObjects) {deviceObjects.length = 0;}
+	if (groupObjects) {groupObjects.length = 0;}
 	
 	//Refresh all nodes' tree and map component
 	$.getJSON(url_group, getparam1, function(data1) {
@@ -250,41 +237,48 @@ function buildMapComponent(){
 		var getparam2 = {
 			action: 'getdevicelist',
 			data: {}
-		}
+		};
 		$.getJSON(url_device, getparam2, function(data2) {
 			devicenode = data2;		
-			if(data1!=null){	
+			if(data1 !== null){	
 				tree_group_processing(groupnode,0);
-				$.each(data1, function(index,datum){
-					var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-					render_group(newPos,datum['name'],datum['group_id']);
+				$.each(data1, function(index, datum){
+					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
+					render_group(newPos, datum.name, datum.group_id);
 				});
-				$.each(data1, function(index,datum){
+				$.each(data1, function(index, datum){
 					groupObjects.push(datum);
 				});
 			}
-			if(data2!=null){
+			if(data2 !== null){
 				tree_device_processing(devicenode);
-				$.each(data2, function(index,datum){
-					var newPos = new google.maps.LatLng(datum['latitude'], datum['longitude']);
-					render_device(newPos,datum['name'],datum['cacti_id'],datum['device_id']);
+				$.each(data2, function(index, datum){
+					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
+					render_device(newPos, datum.name, datum.cacti_id, datum.device_id);
 				});
-				$.each(data2, function(index,datum){
+				$.each(data2, function(index, datum){
 					deviceObjects.push(datum);
 				});
 			}
-			
 			var getparam3 = {
 				action: 'getstatusnotification',
 				data: {	}
-			}
+			};
 	
 			$.getJSON(url_notif, getparam3, function(data3){
 				$.each(data3, function(index,datum){
-					var curdev = get_device_by_cacti_id_from_temp(datum['id']);
-					$('#device-'+curdev['device_id']).attr('rel','device-error');
-					if(curdev['group_id'] != 0) changeParentTreeStatus(curdev['group_id']);
+					var curdev = get_device_by_cacti_id_from_temp(datum.id);
+					
+					//update alert device icon in tree column
+					$('#device-'+curdev.device_id).attr('rel','device-error');
+					if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
+					
+					//update alert device icon in google maps
+					var updateIconIndex = get_update_icon_index(curdev.device_id);
+					deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
+					
 				});
+				//udpate notification column
 				showWarningDevice(data3);
 			});				
 		});
@@ -294,13 +288,13 @@ function buildMapComponent(){
 function tree_group_processing(data,x){
 	var queueid = [];
 	$.each(data, function(index,datum){
-		if(datum['parent_id'] == x){
+		if(datum.parent_id == x){
 			var parentnode=null;
-			var groupid = "group-"+datum['group_id'];
-			var cgroupid = "cgroup-"+datum['group_id'];
+			var groupid = "group-"+datum.group_id;
+			var cgroupid = "cgroup-"+datum.group_id;
 			var info = {
-					  "attr":{"id":groupid, "rel":"group"}//, "param":3}
-					 ,"data":{"title":datum['name']}
+					  "attr":{"id":groupid, "rel":"group"}
+					 ,"data":{"title":datum.name}
 			 };
 			
 			if(x == 0) parentnode = -1;
@@ -308,9 +302,9 @@ function tree_group_processing(data,x){
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+groupid).find('a').attr("id",cgroupid);
 			$('#'+cgroupid).click(function() {
-				set_center_and_zoom(datum['latitude'],datum['longitude']);
+				set_center_and_zoom(datum.latitude, datum.longitude);
 			});
-			queueid.push(datum['group_id']);
+			queueid.push(datum.group_id);
 		}
 	});
 	
@@ -322,31 +316,39 @@ function tree_group_processing(data,x){
 function tree_device_processing(data){
 	$.each(data, function(index,datum){
 			var parentnode=null;
-			var devid = "device-"+datum['device_id'];
+			var devid = "device-"+datum.device_id;
 			var info = {
 					  "attr":{"id":devid, "rel":"device"}
-					 ,"data":{"title":datum['name']}
+					 ,"data":{"title":datum.name}
 			 };
 			
-			if(datum['group_id'] == 0) parentnode = -1;
-			else parentnode = "#group-"+datum['group_id'];
+			if(datum.group_id == 0) parentnode = -1;
+			else parentnode = "#group-"+datum.group_id;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
-				set_center_and_zoom(datum['latitude'],datum['longitude']);
+				set_center_and_zoom(datum.latitude, datum.longitude);
 			});
 	});
 }
 
 function changeParentTreeStatus(parentid){
 	var curgroup = get_group_by_group_id(parentid);
-	$('#group-'+curgroup['group_id']).attr('rel','group-error');
-	if(curgroup['parent_id'] != 0) changeParentTreeStatus(curgroup['parent_id']);
+	$('#group-'+curgroup.group_id).attr('rel','group-error');
+	if(curgroup.parent_id != 0) {changeParentTreeStatus(curgroup.parent_id);}
 }
 
-function get_group_by_group_id(id){
+function get_group_by_group_id(groupid){
 	var retval;
 	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i]['group_id'] == id) retval = groupObjects[i];
+		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
+	}
+	return retval;
+}
+
+function get_update_icon_index(devid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].device_id == devid) retval = i;
 	}
 	return retval;
 }
@@ -398,7 +400,7 @@ function render_device(location,devname,cacid,devid) {
 		$.getJSON(url_device, getparam, function(cactidata){
 			var imgstat = '';
 			var textstat = '';
-			switch(cactidata['status'])
+			switch(cactidata.status)
 			{
 				case '0':
 				  imgstat = 'images/menu-help.png';
@@ -433,9 +435,9 @@ function render_device(location,devname,cacid,devid) {
 							+'Hostname<br>Description<br>'
 							+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
 							+'</div><div id="devinfovalue">: '
-							+cactidata['hostname'] + '<br>: '+ cactidata['description']+ '<br>: '
-							+textstat + '<br>: '+ cactidata['status_fail_date']+ '<br>: '+  cactidata['status_rec_date']+ '<br>: '
-							+cactidata['status_last_error']+ '<br>: '+  cactidata['availability']+ ' %<br>: '+  cactidata['cur_time']+' ms</div>'
+							+cactidata.hostname + '<br>: '+ cactidata.description+ '<br>: '
+							+textstat + '<br>: '+ cactidata.status_fail_date+ '<br>: '+  cactidata.status_rec_date+ '<br>: '
+							+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
 							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
 						;
 			infowindow.setContent(text);
@@ -516,7 +518,7 @@ function get_device_by_cacti_id(cacid,callback) {
 function get_device_by_cacti_id_from_temp(cacid){
 	var retval;
 	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i]['cacti_id'] == cacid) retval = deviceObjects[i];
+		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
 	}
 	return retval;
 }
@@ -617,11 +619,18 @@ function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cact
 		}
 	}
 	$.getJSON(url_device, getparam, function(data) {
-		if(data == 1) {
-			//render_device(newLatLng,devname,cactiid);
+		if(data == 0) {alert("Edit Device failed");}
+		else {
 			alert("Edit Device success");
+			
+			//update tree
+			if(parentid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + parentid, "before");}
+			else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + parentid);}
+			
+			$('#device-'+devid).html('<ins class="jstree-icon"></ins>' + named);
+			
+			//update map
 		}
-		else alert("Edit Device failed");
 	});
 }
 
@@ -765,15 +774,16 @@ function update_group(groupid, parentid, named, desc, longi, lati) {
 	}
 	
 	$.getJSON(url_group, getparam, function(data) {
-		if(data == 0) alert("Edit Group failed");
+		alert(data);
+		if(data == 0) {alert("Edit Group failed");}
 		else {
 			alert("Edit Group success");
-			
+			alert(parentid+','+groupid+','+named);
 			//update tree
-			if(parentid == 0) $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");
-			else $("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);
+			if(parentid == 0) {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");}
+			else {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);}
 			
-			//$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
+			$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
 		}
 	});
 }
@@ -912,7 +922,7 @@ function showWarningDevice(data){
 	$('#notification').html('');
 		var li;
 		for(var i = 0; i < data.length; i++){
-			li = "<div class='notif-box' onclick='showCactiDevice("+data[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/";
+			li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
 			switch(data[i]['status']){
 				case '1': {
 					li += "flag-alert.png'";
@@ -940,20 +950,22 @@ function showWarningDevice(data){
 		}
 		$('#notification').append("<hr/><div align='center'>Threshold</div><hr/>");
 		get_threshold_notification(function(th){
-			for(var i = 0; i < th.length; i++){
-				li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
-				li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
-				li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
-				$('#notification').append(li);
+			if(th != null){
+				for(var i = 0; i < th.length; i++){
+					li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
+					li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
+					li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
+					$('#notification').append(li);
+				}
+				if(th.length == 0){
+					li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+					li += "flag-ok.png'";
+					li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
+					li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+					$('#notification').append(li);
+				}
+				showAlert(true,data.length + th.length);
 			}
-			if(th.length == 0){
-				li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-				li += "flag-ok.png'";
-				li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
-				li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-				$('#notification').append(li);
-			}
-			showAlert(true,data.length + th.length);
 		});
 }
 
