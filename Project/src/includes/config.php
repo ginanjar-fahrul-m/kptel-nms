@@ -12,10 +12,10 @@
  */
 
 /* Variabel konfigurasi koneksi database MySQL. */
-$config['db']['hostname'] = '10.37.21.245';			// Alamat server MySQL.
-$config['db']['username'] = 'kptel';				// Username akses MySQL.
-$config['db']['password'] = 'kptel';				// Password akses MySQL.
-$config['db']['app_db'] = 'appsMonitor';			// Nama database untuk aplikasi [KPTEL].
+$config['db']['hostname'] = '10.37.22.194';			// Alamat server MySQL.
+$config['db']['username'] = 'appmonitor';				// Username akses MySQL.
+$config['db']['password'] = 'telkom';				// Password akses MySQL.
+$config['db']['app_db'] = 'appmonitor';			// Nama database untuk aplikasi [KPTEL].
 $config['db']['cacti_db'] = 'cacti';				// Nama database untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan aplikasi Cacti. */
