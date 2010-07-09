@@ -14,11 +14,11 @@ if($_GET) {
 	session_db_open();
 	
 	switch($action) {
-		case 'getstatusnotification':
+		case 'notification_get_status':
 			echo json_encode(notification_get_status());
 			break;
 		
-		case 'getthresholdnotification':
+		case 'notification_threshold_status':
 			echo json_encode(notification_threshold_status());
 			break;
 	}
