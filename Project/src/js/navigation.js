@@ -464,7 +464,10 @@ $(function(){
 		});
 	});
 	$('#deletedevice').click(function() {
-		delete_device(current.deviceId, function(){alert("deleted")});
+		delete_device(current.deviceId, function(result){
+			if(result==1) alert("deleted");
+			else alert("delete failed");
+		});
 		closeOtherCtxMenu(null);
 	});
 	$('#editgroup').click(function() {
@@ -478,7 +481,10 @@ $(function(){
 		});
 	});
 	$('#deletegroup').click(function() {
-		delete_group(current.groupId, function(){alert("deleted")});
+		delete_group(current.groupId, function(result){
+			if(result==1) alert("deleted");
+			else alert("delete failed");
+		});
 		closeOtherCtxMenu(null);
 	});
 	$('#devicelocation').click(function() {
