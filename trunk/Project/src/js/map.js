@@ -153,11 +153,11 @@ function kptel_init() {
 	$("#trees").jstree({
 		"plugins" : [ "themes", "crrm", "types", "ui", "html_data"],
 		"types" : {
-				"valid_children" : [ "group", "device" ],
+				"valid_children" : [ "device","group","device-error","group-error" ],
 				"types" : {
 					// The `group` type
 					"group" : {
-						"valid_children" : [ "device","group"],
+						"valid_children" : [ "device","group","device-error","group-error"],
 						"icon" : {
 							"image" : iconGroup
 						}
@@ -173,7 +173,7 @@ function kptel_init() {
 					},
 					// The `group-error` nodes 
 					"group-error" : {
-						"valid_children" : [ "none" ],
+						"valid_children" : [  "device","group","device-error","group-error" ],
 						"icon" : {
 							"image" : iconGroupError
 						}
@@ -223,7 +223,7 @@ function buildMapComponent(){
 	}
 	
 	if (groupMarkers) {
-		for (idx = 0; idx > deviceMarkers.length; idx++) {
+		for (idx = 0; idx > groupMarkers.length; idx++) {
 		  groupMarkers[idx].setMap(null);
 		}
 		groupMarkers.length = 0;
@@ -240,14 +240,14 @@ function buildMapComponent(){
 			data: {}
 		};
 		$.getJSON(url_device, getparam2, function(data2) {
-			devicenode = data2;		
+			devicenode = data2;
+			//create root node
+			$("#trees").jstree("create",-1,"first",{"attr":{"id":"group-0", "rel":"group"},"data":{"title":"root"}},false,true);
 			if(data1 !== null){	
 				tree_group_processing(groupnode,0);
 				$.each(data1, function(index, datum){
 					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
 					render_group(newPos, datum.name, datum.group_id);
-				});
-				$.each(data1, function(index, datum){
 					groupObjects.push(datum);
 				});
 			}
@@ -256,8 +256,6 @@ function buildMapComponent(){
 				$.each(data2, function(index, datum){
 					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
 					render_device(newPos, datum.name, datum.cacti_id, datum.device_id);
-				});
-				$.each(data2, function(index, datum){
 					deviceObjects.push(datum);
 				});
 			}
@@ -275,7 +273,7 @@ function buildMapComponent(){
 					if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
 					
 					//update alert device icon in google maps
-					var updateIconIndex = get_update_icon_index(curdev.device_id);
+					var updateIconIndex = get_index_deviceObjects(curdev.device_id);
 					deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
 					
 				});
@@ -298,7 +296,7 @@ function tree_group_processing(data,x){
 					 ,"data":{"title":datum.name}
 			 };
 			
-			if(x == 0) parentnode = -1;
+			if(x == 0) parentnode = "#group-0";
 			else parentnode = "#group-"+x;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+groupid).find('a').attr("id",cgroupid);
@@ -323,7 +321,7 @@ function tree_device_processing(data){
 					 ,"data":{"title":datum.name}
 			 };
 			
-			if(datum.group_id == 0) parentnode = -1;
+			if(datum.group_id == 0) parentnode = "#group-0";
 			else parentnode = "#group-"+datum.group_id;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
@@ -333,12 +331,13 @@ function tree_device_processing(data){
 }
 
 function changeParentTreeStatus(parentid){
-	var curgroup = get_group_by_group_id(parentid);
+	var curgroup = get_element_groupObjects(parentid);
 	$('#group-'+curgroup.group_id).attr('rel','group-error');
 	if(curgroup.parent_id != 0) {changeParentTreeStatus(curgroup.parent_id);}
 }
 
-function get_group_by_group_id(groupid){
+//return object in array groupObjects
+function get_element_groupObjects(groupid){
 	var retval;
 	for(var i = 0; i < groupObjects.length; i++){
 		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
@@ -346,10 +345,27 @@ function get_group_by_group_id(groupid){
 	return retval;
 }
 
-function get_update_icon_index(devid){
+//return object in array deviceObjects
+function get_element_deviceObjects(devid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].device_id == devid) retval = deviceObjects[i];
+	}
+	return retval;
+}
+//return id of array deviceObjects
+function get_index_deviceObjects(devid){
 	var retval;
 	for(var i = 0; i < deviceObjects.length; i++){
 		if(deviceObjects[i].device_id == devid) retval = i;
+	}
+	return retval;
+}
+//return id of array groupObjects
+function get_index_groupObjects(groupid){
+	var retval;
+	for(var i = 0; i < groupObjects.length; i++){
+		if(groupObjects[i].group_id == groupid) retval = i;
 	}
 	return retval;
 }
@@ -365,8 +381,7 @@ function render_device(location,devname,cacid,devid) {
 	  zIndex : 10
     });
     deviceMarkers.push(marker);
-	
-
+	//alert(devid);
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		if(infoMarkers.length > 0) {
 			var lastinfo = infoMarkers.pop();
@@ -375,6 +390,7 @@ function render_device(location,devname,cacid,devid) {
 		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		isLoggedIn(function(data){
 			if(data == 1){
+				//alert(current.deviceId +"vs" + devid);
 				current.cactiId = cacid;
 				current.deviceId = devid;
 				current.mouseX = tempX;
@@ -477,7 +493,17 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	$.getJSON(url_device, getparam, function(data) {
 			if(data == 0) alert("Add Device failed");
 			else {
-				render_device(newLatLng,devname,cactiid);
+				render_device(newLatLng,devname,cactiid,data);
+				deviceObjects.push({
+					device_id: data,
+					group_id: groupid,
+					device_type_id: devtype,
+					name: devname,
+					description: devdesc,
+					longitude: devlng,
+					latitude: devlat,
+					cacti_id: cactiid
+				});
 				alert("Add Device success");
 				var parentnode=null;
 				var devid = "device-"+data;
@@ -485,7 +511,7 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 						  "attr":{"id":devid, "rel":"device"}
 						 ,"data":{"title":devname}
 				 };
-				if(groupid == 0) parentnode = -1;
+				if(groupid == 0) parentnode = "#group-0";
 				else parentnode = "#group-"+groupid;
 				$("#trees").jstree("create",parentnode,"last",info,false,true);
 				$('#'+devid).click(function() {
@@ -623,14 +649,27 @@ function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cact
 		if(data == 0) {alert("Edit Device failed");}
 		else {
 			alert("Edit Device success");
-			
 			//update tree
-			if(parentid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + parentid, "before");}
-			else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + parentid);}
+			if(groupid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-0");}
+			else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + groupid);}						
+			$('#device-'+devid+' a').html('<ins class="jstree-icon"></ins>' + named);
 			
-			$('#device-'+devid).html('<ins class="jstree-icon"></ins>' + named);
+			var idxdev = get_index_deviceObjects(devid);
+			closeOtherCtxMenu(null);
 			
-			//update map
+			//update array deviceObjects
+			deviceObjects[idxdev].device_id = devid;
+			deviceObjects[idxdev].group_id = groupid;
+			deviceObjects[idxdev].device_type_id = devtypeid;
+			deviceObjects[idxdev].name = named;
+			deviceObjects[idxdev].description = desc;
+			deviceObjects[idxdev].longitude = longi;
+			deviceObjects[idxdev].latitude = lati;
+			deviceObjects[idxdev].cacti_id = cactiid;
+			
+			//update map change
+			var newlatlng = new google.maps.LatLng(lati,longi);
+			deviceMarkers[idxdev].setOptions({position:newlatlng,title:named});
 		}
 	});
 }
@@ -644,7 +683,14 @@ function delete_device(id, callback) {
 	}
 	
 	$.getJSON(url_device, getparam, callback);
+	var idxdev = get_index_deviceObjects(id);
+	//update tree change
 	$("#trees").jstree("remove","#device-"+id);
+	closeOtherCtxMenu(null);
+	
+	//update map change
+	deviceMarkers[idxdev].setMap(null);
+	deviceObjects[idxdev].device_id = -999;
 }
 
 //GROUP MODEL-CONTROL
@@ -711,15 +757,23 @@ function add_group(parentid, grpname, grplng, grplat, grpdesc) {
 			if(data == 0) alert("Add Group failed");
 			else {
 				render_group(newLatLng,grpname,data);
+				groupObjects.push({
+					group_id: data,
+					parent_id: parentid,
+					name: grpname,
+					description: grpdesc,
+					longitude: grplng,
+					latitude: grplat
+				});
 				alert("Add Group success");
 				var parentnode=null;
 				var groupid = "group-"+data;
-				var cgroupid = "cgroup-"+data;//id for clicked
+				var cgroupid = "cgroup-"+data; //id for clicked
 				var info = {
 						  "attr":{"id":groupid, "rel":"group"}
 						 ,"data":{"title":grpname}
 				 };
-				if(parentid == 0) parentnode = -1;
+				if(parentid == 0) parentnode = "#group-0";
 				else parentnode = "#group-"+parentid;
 				$("#trees").jstree("create",parentnode,"last",info,false,true);
 				$('#'+groupid).find('a').attr("id",cgroupid);
@@ -773,18 +827,29 @@ function update_group(groupid, parentid, named, desc, longi, lati) {
 			latitude: lati
 		}
 	}
-	
 	$.getJSON(url_group, getparam, function(data) {
-		alert(data);
 		if(data == 0) {alert("Edit Group failed");}
 		else {
 			alert("Edit Group success");
-			alert(parentid+','+groupid+','+named);
 			//update tree
-			if(parentid == 0) {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid, "before");}
+			if(parentid == 0) {$("#trees").jstree("move_node","#group-"+groupid,"#group-0");}
 			else {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);}
-			
 			$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
+			
+			var idxgroup = get_index_groupObjects(groupid);
+			closeOtherCtxMenu(null);
+			
+			//update array deviceObjects
+			groupObjects[idxgroup].group_id = groupid;
+			groupObjects[idxgroup].parent_id = parentid;
+			groupObjects[idxgroup].name = named;
+			groupObjects[idxgroup].description = desc;
+			groupObjects[idxgroup].longitude = longi;
+			groupObjects[idxgroup].latitude = lati;
+			
+			//update map change
+			var newlatlng = new google.maps.LatLng(lati,longi);
+			groupMarkers[idxgroup].setOptions({position:newlatlng,title:named});
 		}
 	});
 }
@@ -795,10 +860,16 @@ function delete_group(id, callback) {
 		data: {
 			group_id: id
 		}
-	}	
+	}
 	$.getJSON(url_group, getparam, callback);
+	var idxgroup = get_index_groupObjects(id);
+	//update tree change
 	$("#trees").jstree("remove","#group-"+id);
+	closeOtherCtxMenu(null);
 	
+	//update map change
+	groupMarkers[idxgroup].setMap(null);
+	groupObjects[idxgroup].group_id = -999;
 }
 
 //CONTROL AUTO SETCENTERZOOM
