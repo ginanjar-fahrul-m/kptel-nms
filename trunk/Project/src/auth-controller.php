@@ -14,15 +14,15 @@ if($_GET) {
 	session_db_open();
 	
 	switch($action) {
-		case 'accountlogin':
+		case 'account_login':
 			echo account_login($data['username'], $data['password']);
 			break;
 		
-		case 'accountlogout':
+		case 'account_logout':
 			account_logout();
 			break;
 		
-		case 'accountisloggedin':
+		case 'account_is_logged_in':
 			echo account_is_logged_in();
 			break;
 	}

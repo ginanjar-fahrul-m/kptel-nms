@@ -15,15 +15,15 @@ if($_GET) {
 	session_db_open();
 	
 	switch($action) {
-		case 'getgroup':
+		case 'group_get':
 			echo json_encode(group_get($data['group_id']));
 			break;
 		
-		case 'getgrouplist':
+		case 'group_get_all':
 			echo json_encode(group_get_all());
 			break;
 		
-		case 'addgroup':
+		case 'group_add':
 			if(!account_is_logged_in()) {
 				echo $config['function']['return']['fail'];
 			} else {
@@ -37,7 +37,7 @@ if($_GET) {
 			}
 			break;
 		
-		case 'updategroup':
+		case 'group_update':
 			if(!account_is_logged_in()) {
 				echo $config['function']['return']['fail'];
 			} else {
@@ -53,7 +53,7 @@ if($_GET) {
 			
 			break;
 		
-		case 'deletegroup':
+		case 'group_delete':
 			if(!account_is_logged_in()) {
 				echo $config['function']['return']['fail'];
 			} else {
@@ -62,7 +62,7 @@ if($_GET) {
 			
 			break;
 		
-		case 'getgrouppossibleparentlist':
+		case 'group_get_possible_parent_list':
 			echo json_encode(group_get_possible_parent_list($data['group_id']));
 			break;
 	}
