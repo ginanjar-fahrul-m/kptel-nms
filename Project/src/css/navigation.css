@@ -1,292 +1,178 @@
-a:visited , a:link {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-.fluid {
-	position: absolute;
-    min-width: 940px;
-	/*opacity: 0.9;*/
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	z-index: 102;
-	color: #999;
-	border-top: 2px solid #444;
-	border-bottom: 2px solid #444;
-	border-left: 0px;
-	border-right: 0px;
-	text-align: left;
-}
-.clearboth, #top, #header {
-    clear: both;
-}
-.toggler {  
-	top: 42px;
-	max-height: 500px; 
-	position: absolute;
-	z-index: 100;
-	width: 300px;
-}
-.togglerleft {
-	left: 0;
-}
-.togglerright {
-	right: 0;
-}
-.scroll {
-	max-height: 500px;
-	overflow: auto;
-}
-.notif-clear {
-	clear: both;
-}
-.notif-label {
-	cursor: pointer;
-}
-.notif-img {
-	border : none;
-	padding : 10px 0;
-	margin : 0;
-	float:left;
-}
-.notif-cont {
-	border : none;
-	padding : 0;
-	margin : 0;
-	float : left;
-}
-.notif-box {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0 auto;
-	padding: 2px;
-	display: block;
-	color: #eeeeee;
-	text-decoration: none;
-}
-.notif-box:hover {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0;
-	padding: 2px;
-	display: block;
-	color: #ffffff;
-	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
-	cursor: pointer;
-	text-decoration: none;
-}
-.notif-box:active {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0;
-	padding: 2px;
-	display: block;
-    color: #222222;
-	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
-	cursor: pointer;
-	text-decoration: none;
-}
-#time {
-	font-weight: normal;
-}
-#topleft{
-	margin: 0;
-	float: left;
-	padding: 7px 0;
-}
-#topright {
-	margin: 0;
-	float: right;
-	padding: 7px 0;
-}
-#topleft li a {
-	margin: 0;
-}
-#top ul {
+/* File   : navigation.css
+ * Role   : Support File
+ * Author : Ginanjar Fahrul M (gin)
+ * E-Mail : ginanjar.fahrul.m@gmail.com
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * CSS Style untuk navigasi pada laman utama
+ * 
+ */
+#menu ul {
     margin: 0;
     padding: 0;
 }
-#top label {
+#menu label {
 	margin: 0;
     padding: 15px 11px 7px 9px;
     color: #eee;
     text-decoration: none;
 	border: none;
 }
-#top li {
+#menu li {
     display: inline;
     margin-left: 0px;
     padding: 0;
     list-style: none;
 }
-#top li a{
+#menu li a {
     margin: 0;
     padding: 15px 11px 7px 9px;
     color: #eee;
     text-decoration: none;
 	border: none;
 }
-#top li a:hover {
+#menu li a:hover {
 	margin: 0;
     padding: 15px 11px 7px 9px;
     color: #ffffff;
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	border: none;
 }
-#top li a:active{
+#menu li a:active{
 	margin: 0;
     padding: 15px 11px 7px 9px;
     color: #222222;
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
 	border: none;
 }
-#effectleft, #effectright {
+#menu-date {
+	font-weight: normal;
+}
+#menu-left{
+	margin: 0;
+	float: left;
+	padding: 7px 0;
+}
+#menu-right {
+	margin: 0;
+	float: right;
+	padding: 7px 0;
+}
+#menu-left li a {
+	margin: 0;
+}
+#panel-tree, #panel-notif {
 	padding: 0.4em; 
-	position: relative; 
 	z-index: 100;
 }
-#effectleft h3, #effectright h3 {
+#panel-tree h3, #panel-notif h3 {
 	margin: 0;
 	padding: 0.4em;
 	text-align: center;
 }
-#loginform, #deviceform, #groupform {
+#form-login, #form-device, #form-group {
 	font-size: 11px;
 	font-weight: normal;
 }
-
-#loginform input.text {
+#form-login input.text {
 	margin-bottom:12px; 
 	color: #555;
 	width:100%; 
 	padding: .4em 0;
 }
-#loginform fieldset { 
+#form-login fieldset { 
 	padding:0; 
 	border:0; 
 	margin-top:25px;
 }
-#loginform h1 { 
+#form-login h1 { 
 	font-size: 1.2em; 
 	margin: .6em 0; 
 }
-#loginform div, #users-contain { 
+#form-login div, #users-contain { 
 	width: 350px; 
 	margin: 20px 0; 
 }
-#loginform div, #users-contain table { 
+#form-login div, #users-contain table { 
 	margin: 1em 0; 
 	border-collapse: collapse; 
 	width: 100%; 
 }
-#loginform div#users-contain table td, #loginform div, #users-contain table th { 
+#form-login div#users-contain table td, #form-login div, #users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
 }
-#loginform .ui-dialog .ui-state-error { 
+#form-login .ui-dialog .ui-state-error { 
 	padding: .3em; 
 }
-#loginform .validateTips { 
+#form-login .validateTips { 
 	border: 1px solid transparent; 
 	padding: 0.3em; 
 }
-#mapctxmenu label, #devicectxmenu label, #groupctxmenu label, #panelrrd label {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0 auto;
-	padding: 5px;
-	display: block;
-	color: #eeeeee;
-	text-decoration: none;
-	cursor: pointer;
-}
-#mapctxmenu label:hover, #devicectxmenu label:hover, #groupctxmenu label:hover, #panelrrd label:hover {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0;
-	padding: 5px;
-	display: block;
-	color: #ffffff;
-	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
-	cursor: pointer;
-	text-decoration: none;
-}
-#mapctxmenu label:active, #devicectxmenu label:active, #groupctxmenu label:active, #panelrrd label:active {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0;
-	padding: 5px;
-	display: block;
-    color: #222222;
-	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
-	cursor: pointer;
-	text-decoration: none;
-}
-#deviceform input.text, #deviceform select {
+#form-device input.text, #form-device select {
 	font-weight: normal;
 	margin-bottom:12px;
 	padding: .4em 0;
 	color: #555;
 }
-#devicelng, #devicelat {
+#device-lng, #device-lat {
 	width:30%; 
 }
-#devicename, #deviceparent, #groupname, #groupparent, #devicecacti {
+#device-name, #device-parent, #group-name, #group-parent, #device-cacti {
 	width:100%; 
 }
-#deviceform fieldset { 
+#form-device fieldset { 
 	padding:0; 
 	border:0; 
 	margin-top:25px;
 }
-#deviceform h1 { 
+#form-device h1 { 
 	font-size: 1.2em; 
 	margin: .6em 0; 
 }
-#deviceform div#users-contain { 
+#form-device div#users-contain { 
 	width: 350px; 
 	margin: 20px 0; 
 }
-#deviceform div#users-contain table { 
+#form-device div#users-contain table { 
 	margin: 1em 0; 
 	border-collapse: collapse; 
 	width: 100%; 
 }
-#deviceform div#users-contain table td, #deviceform div#users-contain table th { 
+#form-device div#users-contain table td, #form-device div#users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
 }
-#groupform input.text, #groupform select {
+#form-group input.text, #form-group select {
 	color: #555;
 	margin-bottom:12px;
 	padding: .4em 0; 
 }
-#grouplng, #grouplat {
+#group-lng, #group-lat {
 	width:30%; 
 }
-#groupform fieldset { 
+#form-group fieldset { 
 	padding:0; 
 	border:0; 
 	margin-top:25px;
 }
-#groupform h1 { 
+#form-group h1 { 
 	font-size: 1.2em; 
 	margin: .6em 0; 
 }
-#groupform div#users-contain { 
+#form-group div#users-contain { 
 	width: 350px; 
 	margin: 20px 0; 
 }
-#groupform div#users-contain table { 
+#form-group div#users-contain table { 
 	margin: 1em 0; 
 	border-collapse: collapse; 
 	width: 100%; 
 }
-#groupform div#users-contain table td, #groupform div#users-contain table th { 
+#form-group div#users-contain table td, #form-group div#users-contain table th { 
 	border: 1px solid #eee; 
 	padding: .6em 10px; 
 	text-align: left; 
@@ -294,10 +180,10 @@ a:hover {
 #cactidetail {
 	text-decoration: none;
 }
-#devicelocation, #grouplocation {
+#device-location, #group-location {
 	cursor:pointer;
 }
-#coordinate input {
+#form-coord input {
 	font-size: 10px;
 	font-weight: normal;
 	color: #555;
@@ -307,4 +193,36 @@ a:hover {
 #trees {
 	overflow:auto;
 	max-height:400px;
+}
+#ctxmenu-map label, #ctxmenu-device label, #ctxmenu-group label, #panel-rrd label {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	padding: 5px;
+	display: block;
+	color: #eeeeee;
+	text-decoration: none;
+	cursor: pointer;
+}
+#ctxmenu-map label:hover, #ctxmenu-device label:hover, #ctxmenu-group label:hover, #panel-rrd label:hover {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0;
+	padding: 5px;
+	display: block;
+	color: #ffffff;
+	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
+}
+#ctxmenu-map label:active, #ctxmenu-device label:active, #ctxmenu-group label:active, #panel-rrd label:active {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0;
+	padding: 5px;
+	display: block;
+    color: #222222;
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
 }
