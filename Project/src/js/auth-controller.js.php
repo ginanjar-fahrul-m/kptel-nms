@@ -1,6 +1,8 @@
 <?php
 /* File   : auth-controller.js
  * Role   : Controller (MVC)
+ * Author : Ginanjar Fahrul M (gin)
+ * E-Mail : ginanjar.fahrul.m@gmail.com
  * Team   : Mahasiswa Kerja Praktek Teknik Informatika
  *          Institut Teknologi Bandung, Juni - Juli 2010
  * 
