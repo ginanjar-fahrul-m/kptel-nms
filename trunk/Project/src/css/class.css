@@ -1,0 +1,94 @@
+/* File   : class.css
+ * Role   : Support File
+ * Author : Ginanjar Fahrul M (gin)
+ * E-Mail : ginanjar.fahrul.m@gmail.com
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * Class CSS Style untuk navigasi pada laman utama
+ * 
+ */
+ 
+.fluid {
+	position: absolute;
+    min-width: 940px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	z-index: 102;
+	color: #999;
+	border-top: 2px solid #444;
+	border-bottom: 2px solid #444;
+	border-left: 0px;
+	border-right: 0px;
+	text-align: left;
+}
+.clearboth, #menu, #header {
+    clear: both;
+}
+.toggler {  
+	top: 42px;
+	max-height: 500px; 
+	position: absolute;
+	z-index: 100;
+	width: 300px;
+}
+.togglerleft {
+	left: 0;
+}
+.togglerright {
+	right: 0;
+}
+.scroll {
+	max-height: 500px;
+	overflow: auto;
+}
+.notif-clear {
+	clear: both;
+}
+.notif-label {
+	cursor: pointer;
+}
+.notif-img {
+	border : none;
+	padding : 10px 0;
+	margin : 0;
+	float:left;
+}
+.notif-cont {
+	border : none;
+	padding : 0;
+	margin : 0;
+	float : left;
+}
+.notif-box {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	padding: 2px;
+	display: block;
+	color: #eeeeee;
+	text-decoration: none;
+}
+.notif-box:hover {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0;
+	padding: 2px;
+	display: block;
+	color: #ffffff;
+	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
+}
+.notif-box:active {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0;
+	padding: 2px;
+	display: block;
+    color: #222222;
+	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
+	cursor: pointer;
+	text-decoration: none;
+}
