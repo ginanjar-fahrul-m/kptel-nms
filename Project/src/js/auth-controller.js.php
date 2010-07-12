@@ -11,7 +11,7 @@
  */
 ?>
 
-var url_auth = "auth-controller.php";
+var url_auth = "account-controller.php";
 
 function login(user, pass, callback) {
 	var getparam = {
