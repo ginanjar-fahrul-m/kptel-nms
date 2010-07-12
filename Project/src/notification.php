@@ -1,9 +1,30 @@
 <?php
 
+/* File   : notification.php
+ * Role   : Model (MVC)
+ * Author : Adityo Jiwandono (jiwo)
+ * E-Mail : jiwandono@arc.itb.ac.id
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * Model ini mengurus semua hal yang berkaitan dengan informasi
+ * notifikasi yang berasal dari Cacti.
+ *
+ * Catatan penting:
+ * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
+ * database aplikasi [KPTEL].
+ */
+
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
+/* Nama Fungsi : notification_get_status
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan notifikasi status device
+ *   yang terdaftar di peta.
+ * Parameter   : Tidak ada.
+ */
 function notification_get_status() {
 	global $config;
 	
@@ -38,6 +59,12 @@ function notification_get_status() {
 	return $notifications;
 }
 
+/* Nama Fungsi : notification_get_status
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan notifikasi threshold
+ *   device yang terdaftar di peta.
+ * Parameter   : Tidak ada.
+ */
 function notification_threshold_status() {
 	global $config;
 	
