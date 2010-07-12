@@ -11,6 +11,7 @@
  *
  */
 ?>
+
 var tempX = 0;
 var tempY = 0;
 var tempXMove = 0;
@@ -94,126 +95,6 @@ $(function(){
 		} else {
 			return true;
 		}
-	}
-
-	function dateTime() {
-		var now      = new Date();
-		var day      = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-		var d        = now.getDay();
-		var date     = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
-		var month    = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
-		var m        = now.getMonth();
-		var year     = now.getFullYear();
-		var hh       = (now.getHours() < 10) ? "0" + now.getHours() : now.getHours(); 
-		var mm       = (now.getMinutes() < 10) ? "0" + now.getMinutes() : now.getMinutes(); 
-		var ss       = (now.getSeconds() < 10) ? "0" + now.getSeconds() : now.getSeconds(); 
-		var content = day[d] + ", " + month[m] + " " + date + ", " + year + " " + hh + ":" + mm + ":" + ss;
-		document.getElementById("menu-date").innerHTML = content;
-		setTimeout("dateTime()",1000);
-	}
-	
-	// Detect if the browser is IE or not.
-	// If it is not IE, we assume that the browser is NS.
-	var IE = document.all?true:false
-	// If NS -- that is, !IE -- then set up for mouse capture
-	if (!IE) document.captureEvents(Event.MOUSEMOVE)
-	// Set-up to use getMouseXY function onMouseMove
-	document.onmousedown = getMouseXY;
-	function getMouseXY(e) {
-		if (IE) { // grab the x-y pos.s if browser is IE
-			tempX = event.clientX + document.body.scrollLeft
-			tempY = event.clientY + document.body.scrollTop
-		} else {  // grab the x-y pos.s if browser is NS
-			tempX = e.pageX
-			tempY = e.pageY
-		}  
-		// catch possible negative values in NS4
-		if (tempX < 0){tempX = 0}
-		if (tempY < 0){tempY = 0}  
-		// show the position values in the form named Show
-		// in the text fields named MouseX and MouseY
-		return true
-	}
-	
-	function showWarningDevice(data){
-		$('#notif').html('');
-			var li;
-			for(var i = 0; i < data.length; i++){
-				li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
-				switch(data[i]['status']){
-					case '1': {
-						li += "flag-alert.png'";
-						break;
-					}
-					case '2': {
-						li += "flag-recover.png'";
-						break;
-					}
-					case '4': {
-						li += "flag-warning.png'";
-						break;
-					}
-				}
-				li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
-				li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
-				$('#notif').append(li);
-			}
-			if(data.length == 0){
-				li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-				li += "flag-ok.png'";
-				li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
-				li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-				$('#notif').append(li);
-			}
-			$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
-			getThresholdNotification(function(th){
-				if(th != null){
-					for(var i = 0; i < th.length; i++){
-						li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
-						li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
-						li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
-						$('#notif').append(li);
-					}
-					if(th.length == 0){
-						li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-						li += "flag-ok.png'";
-						li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
-						li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-						$('#notif').append(li);
-					}
-					showAlert(true,data.length + th.length);
-				}
-			});
-	}
-
-	function showAlert(bool,n){
-		if(n > 0){
-			$('#notif-icon').attr("src",'images/alert.gif');
-			$('#notif-label').html(" Notifications (" + n + ") ");
-		}
-		else
-		{
-			$('#notif-icon').attr("src",'images/flag-ok.png');
-			$('#notif-label').html(" Notifications ");
-		}
-	}
-
-	function showPanelRRD(){
-		if(infoMarkers.length > 0) {
-				var lastinfo = infoMarkers.pop();
-				lastinfo.close();
-		}
-		$('#panel-rrd').dialog('open');
-	}
-	
-	function closeOtherCtxMenu(id){
-		for(var i = 0; i < listctxmenu.length; i++)
-			if(listctxmenu[i]!=id){
-				$(listctxmenu[i]).dialog('close');
-			}	
-	}
-	function initTopUp(){
-		$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
 	}
 	
 	function checkRegexp(tips,o,regexp,n) {
@@ -355,9 +236,11 @@ $(function(){
 					$(".device-tips").text('All form fields are required.');
 					allfieldsdevice.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
+					current.isEditForm = false;
 				}
 			},
 			Cancel: function() {
+				current.isEditForm = false;
 				$(".device-tips").text('All form fields are required.');
 				$(this).dialog('close');
 			}
@@ -367,44 +250,52 @@ $(function(){
 		},
 		open: function() {
 			$("#device-name").val('');
-			current.isFinish1 = false;
-			current.isFinish2 = false;
-			getGroupList(function(data){
-				current.isFinish1 = true;
+			getGroupList(function(posData){
 				$("#device-parent").find('option').remove();
 				$("#device-parent").append($("<option></option>").attr("value",'0').text('<none>'));
-				for (var i = 0; i < data.length; i++){
-					$("#device-parent").append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
+				for (var i = 0; i < posData.length; i++){
+					$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
 				}
-				if(current.isFindLoc){
-					$('#device-name').val(current.tempName);
-					$('#device-parent').val(current.tempParent);
-					$('#device-cacti').val(current.tempDevice);
-					if(current.isConfirm){
-						$('#device-lng').val($('#coord-lng').val());
-						$('#device-lat').val($('#coord-lat').val());
+				getCactiUnlistedDeviceList(function(data){
+					$("#device-cacti").find('option').remove();
+					$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
+					for (var i = 0; i < data.length; i++){
+						$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
 					}
-					else {
-						$('#device-lng').val(current.tempLng);
-						$('#device-lat').val(current.tempLat);
+					if(current.isFindLoc){
+						$('#device-name').val(current.tempName);
+						$('#device-parent').val(current.tempParent);
+						getCactiDevice(current.tempDevice,function(tempData){
+							$('#device-cacti').append($("<option></option>").attr("value",current.tempDevice).text(tempData['description']));
+							$('#device-cacti').val(current.tempDevice);
+						});
+						if(current.isConfirm){
+							$('#device-lng').val($('#coord-lng').val());
+							$('#device-lat').val($('#coord-lat').val());
+						}
+						else {
+							$('#device-lng').val(current.tempLng);
+							$('#device-lat').val(current.tempLat);
+						}
+						current.isFindLoc = false;
+					} else {
+						if(current.isEditForm){
+							getDevice(current.deviceId,function(devicedata){
+								$('#device-name').val(devicedata['name']);
+								$('#device-parent').val(devicedata['group_id']);
+								getCactiDevice(devicedata['cacti_id'],function(cactidata){
+									$('#device-cacti').append($("<option></option>").attr("value",devicedata['cacti_id']).text(cactidata['description']));
+									$('#device-cacti').val(devicedata['cacti_id']);
+								});
+								$('#device-lng').val(devicedata['longitude']);
+								$('#device-lat').val(devicedata['latitude']);
+							});
+						} else {
+							$('#device-lng').val(current.longitude);
+							$('#device-lat').val(current.latitude);
+						}
 					}
-					if(current.isFinish1 && current.isFinish2) current.isFindLoc = false;
-				} else {
-					$('#device-lng').val(current.longitude);
-					$('#device-lat').val(current.latitude);
-				}
-			});
-			getCactiUnlistedDeviceList(function(data){
-				current.isFinish2 = true;
-				$("#device-cacti").find('option').remove();
-				$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
-				for (var i = 0; i < data.length; i++){
-					$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
-				}
-				if(current.isFindLoc){
-					$('#device-cacti').val(current.tempDevice);
-					if(current.isFinish1 && current.isFinish2) current.isFindLoc = false;
-				}
+				});
 			});
 			closeOtherCtxMenu("#form-device");
 		}
@@ -454,38 +345,58 @@ $(function(){
 		},
 		open: function() {
 			$("#group-name").val('');
-			getGroupList(function(data){
-				$("#group-parent").find('option').remove();
-				$("#group-parent").append($("<option></option>").attr("value",'0').text('<none>'));
-				if(current.isEditForm){
-					getPossibleParentList(current.groupId, function(posData){
-						for (var i = 0; i < posData.length; i++){
-							$("#group-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+			if(current.isEditForm){
+				getPossibleParentList(current.groupId, function(posData){
+					$("#group-parent").find('option').remove();
+					$("#group-parent").append($("<option></option>").attr("value",'0').text('<none>'));
+					for (var i = 0; i < posData.length; i++){
+						$("#group-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+					}
+					if(current.isFindLoc){
+						$('#group-name').val(current.tempName);
+						$('#group-parent').val(current.tempParent);
+						if(current.isConfirm){
+							$('#group-lng').val($('#coord-lng').val());
+							$('#group-lat').val($('#coord-lat').val());
+						} else{
+							$('#group-lng').val(current.tempLng);
+							$('#group-lat').val(current.tempLat);
 						}
-					});
-				}
-				else {
+						current.isFindLoc = false;
+					} else{
+						getGroup(current.groupId,function(data){
+							$('#group-name').val(data['name']);
+							$('#group-parent').val(data['parent_id']);
+							$('#group-lng').val(data['longitude']);
+							$('#group-lat').val(data['latitude']);
+						});
+					}
+				});
+			}
+			else {
+				getGroupList(function(data){
+					$("#group-parent").find('option').remove();
+					$("#group-parent").append($("<option></option>").attr("value",'0').text('<none>'));
 					for (var i = 0; i < data.length; i++){
 						$("#group-parent").append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
 					}
-				}
-				if(current.isFindLoc){
-					$('#group-name').val(current.tempName);
-					$('#group-parent').val(current.tempParent);
-					if(current.isConfirm){
-						$('#group-lng').val($('#coord-lng').val());
-						$('#group-lat').val($('#coord-lat').val());
+					if(current.isFindLoc){
+						$('#group-name').val(current.tempName);
+						$('#group-parent').val(current.tempParent);
+						if(current.isConfirm){
+							$('#group-lng').val($('#coord-lng').val());
+							$('#group-lat').val($('#coord-lat').val());
+						} else{
+							$('#group-lng').val(current.tempLng);
+							$('#group-lat').val(current.tempLat);
+						}
+						current.isFindLoc = false;
 					} else{
-						$('#group-lng').val(current.tempLng);
-						$('#group-lat').val(current.tempLat);
+						$('#group-lng').val(current.longitude);
+						$('#group-lat').val(current.latitude);
 					}
-					current.isFindLoc = false;
-				} else{
-					$('#group-lng').val(current.longitude);
-					$('#group-lat').val(current.latitude);
-				}
-			});
-			
+				});
+			}
 			closeOtherCtxMenu("#form-group");
 		}
 	});
@@ -603,16 +514,6 @@ $(function(){
 	$('#device-edit').click(function() {
 		current.isEditForm = true;
 		$('#form-device').dialog('open');
-		getDevice(current.deviceId,function(devicedata){
-			$('#device-name').val(devicedata['name']);
-			$('#device-parent').val(devicedata['group_id']);
-			getCactiDevice(devicedata['cacti_id'],function(cactidata){
-				$('#device-cacti').append($("<option></option>").attr("value",devicedata['cacti_id']).text(cactidata['description']));
-				$('#device-cacti').val(devicedata['cacti_id']);
-			});
-			$('#device-lng').val(devicedata['longitude']);
-			$('#device-lat').val(devicedata['latitude']);
-		});
 	});
 	
 	$('#device-delete').click(function() {
@@ -623,12 +524,6 @@ $(function(){
 	$('#group-edit').click(function() {
 		current.isEditForm = true;
 		$('#form-group').dialog('open');
-		getGroup(current.groupId,function(data){
-			$('#group-name').val(data['name']);
-			$('#group-parent').val(data['parent_id']);
-			$('#group-lng').val(data['longitude']);
-			$('#group-lat').val(data['latitude']);
-		});
 	});
 	
 	$('#group-delete').click(function() {
@@ -673,3 +568,123 @@ $(function(){
 		if($('#panel-rrd').dialog('isOpen')) $('#panel-rrd').dialog('close');
 	});
 });
+
+function dateTime() {
+	var now      = new Date();
+	var day      = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+	var d        = now.getDay();
+	var date     = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
+	var month    = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+	var m        = now.getMonth();
+	var year     = now.getFullYear();
+	var hh       = (now.getHours() < 10) ? "0" + now.getHours() : now.getHours(); 
+	var mm       = (now.getMinutes() < 10) ? "0" + now.getMinutes() : now.getMinutes(); 
+	var ss       = (now.getSeconds() < 10) ? "0" + now.getSeconds() : now.getSeconds(); 
+	var content = day[d] + ", " + month[m] + " " + date + ", " + year + " " + hh + ":" + mm + ":" + ss;
+	document.getElementById("menu-date").innerHTML = content;
+	setTimeout("dateTime()",1000);
+}
+
+// Detect if the browser is IE or not.
+// If it is not IE, we assume that the browser is NS.
+var IE = document.all?true:false
+// If NS -- that is, !IE -- then set up for mouse capture
+if (!IE) document.captureEvents(Event.MOUSEMOVE)
+// Set-up to use getMouseXY function onMouseMove
+document.onmousedown = getMouseXY;
+function getMouseXY(e) {
+	if (IE) { // grab the x-y pos.s if browser is IE
+		tempX = event.clientX + document.body.scrollLeft
+		tempY = event.clientY + document.body.scrollTop
+	} else {  // grab the x-y pos.s if browser is NS
+		tempX = e.pageX
+		tempY = e.pageY
+	}  
+	// catch possible negative values in NS4
+	if (tempX < 0){tempX = 0}
+	if (tempY < 0){tempY = 0}  
+	// show the position values in the form named Show
+	// in the text fields named MouseX and MouseY
+	return true
+}
+
+function showWarningDevice(data){
+	$('#notif').html('');
+		var li;
+		for(var i = 0; i < data.length; i++){
+			li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
+			switch(data[i]['status']){
+				case '1': {
+					li += "flag-alert.png'";
+					break;
+				}
+				case '2': {
+					li += "flag-recover.png'";
+					break;
+				}
+				case '4': {
+					li += "flag-warning.png'";
+					break;
+				}
+			}
+			li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
+			li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
+			$('#notif').append(li);
+		}
+		if(data.length == 0){
+			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+			li += "flag-ok.png'";
+			li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
+			li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+			$('#notif').append(li);
+		}
+		$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
+		getThresholdNotification(function(th){
+			if(th != null){
+				for(var i = 0; i < th.length; i++){
+					li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
+					li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
+					li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
+					$('#notif').append(li);
+				}
+				if(th.length == 0){
+					li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+					li += "flag-ok.png'";
+					li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
+					li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+					$('#notif').append(li);
+				}
+				showAlert(true,data.length + th.length);
+			}
+		});
+}
+
+function showAlert(bool,n){
+	if(n > 0){
+		$('#notif-icon').attr("src",'images/alert.gif');
+		$('#notif-label').html(" Notifications (" + n + ") ");
+	}
+	else
+	{
+		$('#notif-icon').attr("src",'images/flag-ok.png');
+		$('#notif-label').html(" Notifications ");
+	}
+}
+
+function showPanelRRD(){
+	if(infoMarkers.length > 0) {
+			var lastinfo = infoMarkers.pop();
+			lastinfo.close();
+	}
+	$('#panel-rrd').dialog('open');
+}
+
+function closeOtherCtxMenu(id){
+	for(var i = 0; i < listctxmenu.length; i++)
+		if(listctxmenu[i]!=id){
+			$(listctxmenu[i]).dialog('close');
+		}	
+}
+function initTopUp(){
+	$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
+}

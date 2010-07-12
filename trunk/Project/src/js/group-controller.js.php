@@ -15,7 +15,7 @@ var url_group = "group-controller.php";
 
 function getGroup(id, callback) {
 	var getparam = {
-		action: 'group_add',
+		action: 'group_get',
 		data: {
 			group_id: id
 		}
