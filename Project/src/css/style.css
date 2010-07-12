@@ -1,0 +1,24 @@
+@import "map.css";
+@import "navigation.css";
+@import "class.css";
+
+html, body, td, input, textarea {
+	font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif; 
+	font-size: 11px;
+	font-weight: bold;
+}
+img {  
+	border-style: none;
+}
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 940px;
+    color: #666;
+}
+a:visited , a:link {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
