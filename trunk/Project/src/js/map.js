@@ -1,4 +1,3 @@
-
 /*
  * File   : map.js
  * Role   : Controller (MVC)
@@ -10,25 +9,34 @@
  */
 
 var map= null;
+var infoElement;
 var default_device = 0;
 var groupMarkers = [];
 var groupObjects = [];
 var deviceMarkers = [];
 var deviceObjects = [];
-var infoMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var iconDeviceError = 'images/form-device-a.png';
 var iconGroupError = 'images/form-group-a.png';
-var indonesiaCenter = new google.maps.LatLng(-1, 118);
-var minZoom = 5;
-var maxZoom = 15;
-var centeringZoom = minZoom + 2;
-var additioncentering = 0;
+var iconDeviceInfo = 'images/icon-device2.png';
+var iconGroupInfo = 'images/icon-group2.png';
+var iconStatusUnknown = 'images/menu-help.png';
+var iconStatusDown = 'images/flag-alert.png';
+var iconStatusRecover = 'images/flag-recover.png';
+var iconStatusUp = 'images/flag-ok.png';
+var iconStatusThreshold = 'images/flag-warning.png';
+var iconStatusDefault = 'images/menu-help.png';
 var url_device = "device-controller.php";
 var url_group = "group-controller.php";
 var url_notif = "notification-controller.php";
 var url_auth = "auth-controller.php";
+var indonesiaCenter = new google.maps.LatLng(-1, 118);
+var indonesiaBounds;
+var minZoom = 5;
+var maxZoom = 15;
+var centeringZoom = minZoom + 2;
+var additioncentering = 0;
 var tempX = 0;
 var tempY = 0;
 var tempXMove = 0;
@@ -51,46 +59,79 @@ var current = {
 	tempParent : 0,
 	tempDevice : 0,
 	tempLng : 0,
-	tempLat : 0
+	tempLat : 0,
+	tempBounds : indonesiaBounds
 };
 var listctxmenu = [];
-
 listctxmenu.push('#mapctxmenu', '#devicectxmenu', '#groupctxmenu');
 
+function setSizes() {
+   var menuHeight = $("#top").height() + 12;
+   var viewportHeight = $(window).height();
+   var mapHeight = viewportHeight - menuHeight;
+   $("#map_canvas").height(mapHeight);
+}
+
 function kptel_init() {
+	setSizes();
 	var myOptions = {
 		zoom: minZoom,
 		center: indonesiaCenter,
-		mapTypeControl: false,
-		navigationControl: false,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		disableDefaultUI: true
 	};
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	map.setOptions({
+		mapTypeControl: true,
+		scaleControl: true,
+		navigationControl: true,
+		mapTypeId: google.maps.MapTypeId.SATELLITE,
+		navigationControlOptions: {style: google.maps.NavigationControlStyle.ZOOM_PAN},
+		mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU}
+	});
+	infoElement =  new google.maps.InfoWindow();
+	indonesiaBounds = map.getBounds();
 	dateTime();
+	
+	//limit the map zoom
+	google.maps.event.addListenerOnce(map, 'idle', function() {
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.HYBRID].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.HYBRID].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.TERRAIN].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.TERRAIN].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.SATELLITE].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.SATELLITE].maxZoom = maxZoom;
+    });
 	
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < minZoom) { 
-			map.setZoom(minZoom); 
+			map.setZoom(minZoom);
 		}
 		if (map.getZoom() == minZoom) { 
 			map.setCenter(indonesiaCenter);
+			infoElement.close();
 		}
-		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
 	
 	google.maps.event.addListener(map, 'drag', function(event) {
+		current.tempBounds = map.getBounds();
+    });	
+	
+	google.maps.event.addListener(map, 'bounds_changed', function(event) {
 		if(map.getZoom() == minZoom){
 			map.setCenter(indonesiaCenter);
+		}else{
+			if(indonesiaBounds.contains(current.tempBounds)){
+				map.panTo(indonesiaCenter);
+			}
 		}
     });
 
 	isLoggedIn(function(data){
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
-				if(infoMarkers.length > 0) {
-					var lastinfo = infoMarkers.pop();
-					lastinfo.close();
-				}
+				infoElement.close();
 				if($('#panelrrd').dialog('isOpen'))	{$('#panelrrd').dialog('close');}
 				
 				closeOtherCtxMenu($('#mapctxmenu'));
@@ -103,52 +144,15 @@ function kptel_init() {
 	
 	google.maps.event.addListener(map, 'click', function(event) {
 		check_point(event.latLng);
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		if($('#panelrrd').dialog('isOpen'))	{$('#panelrrd').dialog('close');}
-		
 		closeOtherCtxMenu(null);	
 		$('#coord-lng').val(current.longitude);
 		$('#coord-lat').val(current.latitude);
     });
 	
-	//limit the map zoom
-	google.maps.event.addListenerOnce(map, 'idle', function() {
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
-    });
-	
 	updateMap();
 	
-	//jQuery Addition
-	$(function() {
-		//Add Zoom Slider
-		$("#slider").slider({
-			orientation: "vertical",
-			value:minZoom,
-			min: minZoom,
-			max: maxZoom,
-			step: 1,
-			slide: function(event, ui) {
-				map.setZoom(ui.value);
-			}
-		});
-		
-		//Add Zoom Button
-		$(".demo button:first").button({
-            icons: {
-                primary: 'ui-icon-plushthick'
-            },
-            text: false
-        }).next().button({
-            icons: {
-                primary: 'ui-icon-minusthick'
-            },
-            text: false
-        });
-	});	
 	//Init tree
 	$("#trees").jstree({
 		"plugins" : [ "themes", "crrm", "types", "ui", "html_data"],
@@ -325,7 +329,7 @@ function tree_device_processing(data){
 			else parentnode = "#group-"+datum.group_id;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
-				set_center_and_zoom(datum.latitude, datum.longitude);
+				showInfoDevice(datum.device_id,datum.latitude,datum.longitude,datum.cacti_id);
 			});
 	});
 }
@@ -381,16 +385,11 @@ function render_device(location,devname,cacid,devid) {
 	  zIndex : 10
     });
     deviceMarkers.push(marker);
-	//alert(devid);
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		isLoggedIn(function(data){
 			if(data == 1){
-				//alert(current.deviceId +"vs" + devid);
 				current.cactiId = cacid;
 				current.deviceId = devid;
 				current.mouseX = tempX;
@@ -406,12 +405,6 @@ function render_device(location,devname,cacid,devid) {
 		action: 'getcactidevice',
 		data: {cacti_id: cacid}
 	}
-	var content='';
-	var infowindow = new google.maps.InfoWindow({
-		content: content
-		,maxWidth: 800
-	});
-	
 	google.maps.event.addListener(marker, 'click', function(e) {
 		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		$.getJSON(url_device, getparam, function(cactidata){
@@ -420,33 +413,33 @@ function render_device(location,devname,cacid,devid) {
 			switch(cactidata.status)
 			{
 				case '0':
-				  imgstat = 'images/menu-help.png';
+				  imgstat = iconStatusUnknown;
 				  textstat = 'unknown';
 				  break;
 				case '1':
-				  imgstat = 'images/flag-alert.png';
+				  imgstat = iconStatusDown;
 				  textstat = 'down';
 				  break;
 				case '2':
-				  imgstat = 'images/flag-recover.png';
+				  imgstat = iconStatusRecover;
 				  textstat = 'recover';
 				  break;
 				case '3':
-				  imgstat = 'images/flag-ok.png';
+				  imgstat = iconStatusUp;
 				  textstat = 'up';
 				  break;
 				case '4':
-				  imgstat = 'images/flag-warning.png';
+				  imgstat = iconStatusThreshold;
 				  textstat = 'threshold';
 				  break;
 				default:
-				  imgstat = 'images/menu-help.png';
+				  imgstat = iconStatusDefault;
 				  textstat = 'unknown 2';
 			}
 			
 			var text = '<div id="devinfowindow">'
 							+'<div id="imginfowindow">'
-							+'<img id="imglogo" src="images/icon-device2.png" />'
+							+'<img id="imglogo" src="'+iconDeviceInfo+'" />'
 							+'<img id="imgstat" src="'+imgstat+'" /></div>'
 							+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
 							+'Hostname<br>Description<br>'
@@ -457,22 +450,16 @@ function render_device(location,devname,cacid,devid) {
 							+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
 							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
 						;
-			infowindow.setContent(text);
+			infoElement.setContent(text);
 		});
-	
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		closeOtherCtxMenu(null);
-		
 		current.cactiId = cacid;
 		additioncentering = 2 - ((map.getZoom()+6)/10);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+additioncentering,this.getPosition().lng());
-		map.setCenter(selectedCenter);
-		infowindow.open(map,this);
-		infoMarkers.push(infowindow);
+		infoElement.setPosition(location);
+		infoElement.open(map);
 	});
 }
 
@@ -515,11 +502,71 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 				else parentnode = "#group-"+groupid;
 				$("#trees").jstree("create",parentnode,"last",info,false,true);
 				$('#'+devid).click(function() {
-					set_center_and_zoom(devlat,devlng);
+					showInfoDevice(data,devlat,devlng);
 				});
 			}
 		}
 	);
+}
+
+//function to show info windows
+function showInfoDevice(devid,lat,lng,cactiid){
+	if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
+	closeOtherCtxMenu(null);
+	infoElement.close();
+	get_cacti_device(url_device,function(cactidata){
+		var imgstat = '';
+		var textstat = '';
+		switch(cactidata.status)
+		{
+			case '0':
+			  imgstat = 'images/menu-help.png';
+			  textstat = 'unknown';
+			  break;
+			case '1':
+			  imgstat = 'images/flag-alert.png';
+			  textstat = 'down';
+			  break;
+			case '2':
+			  imgstat = 'images/flag-recover.png';
+			  textstat = 'recover';
+			  break;
+			case '3':
+			  imgstat = 'images/flag-ok.png';
+			  textstat = 'up';
+			  break;
+			case '4':
+			  imgstat = 'images/flag-warning.png';
+			  textstat = 'threshold';
+			  break;
+			default:
+			  imgstat = 'images/menu-help.png';
+			  textstat = 'unknown 2';
+		}
+		
+		var text = '<div id="devinfowindow">'
+						+'<div id="imginfowindow">'
+						+'<img id="imglogo" src="images/icon-device2.png" />'
+						+'<img id="imgstat" src="'+imgstat+'" /></div>'
+						+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
+						+'Hostname<br>Description<br>'
+						+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
+						+'</div><div id="devinfovalue">: '
+						+cactidata.hostname + '<br>: '+ cactidata.description+ '<br>: '
+						+textstat + '<br>: '+ cactidata.status_fail_date+ '<br>: '+  cactidata.status_rec_date+ '<br>: '
+						+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
+						+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
+					;
+		infoElement.setContent(text);
+	});
+	
+	var markeridx = get_index_deviceObjects(devid);
+	current.cactiId = cactiid;
+	additioncentering = 2 - ((map.getZoom()+6)/10);
+	if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+	var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat()+additioncentering,deviceMarkers[markeridx].getPosition().lng());
+	infoElement.setPosition(selectedCenter);
+	infoElement.open(map);
 }
 
 function get_device(id,callback) {	
@@ -705,10 +752,7 @@ function render_group(location,groupname,groupid){
     groupMarkers.push(marker);
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		isLoggedIn(function(data){
 			if(data == 1){
 				current.mouseX = tempX
@@ -720,24 +764,16 @@ function render_group(location,groupname,groupid){
 			}
 		});
 	});
-	var content = '<img src="images/icon-group.png" style="float:left;"/>This is group '+groupname;
-	var infowindow = new google.maps.InfoWindow({
-		content: content,
-		maxWidth: 200,
-		maxHeight: 100
-	});
 	google.maps.event.addListener(marker, 'click', function(e) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 		
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat(),this.getPosition().lng());
-		if(map.getZoom() > minZoom) map.setCenter(selectedCenter);
 		closeOtherCtxMenu(null);
-		infowindow.open(map,this);
-		infoMarkers.push(infowindow);
+		var text = '<img src="'+iconGroupInfo+'" style="float:left;"/>This is group '+groupname;
+		infoElement.setPosition(selectedCenter);
+		infoElement.setContent(text);
+		infoElement.open(map);
 	});
 }
 
@@ -875,7 +911,7 @@ function delete_group(id, callback) {
 //CONTROL AUTO SETCENTERZOOM
 function set_center_and_zoom(lat,lng){	
 	var selectedCenter = new google.maps.LatLng(lat, lng);
-	map.setCenter(selectedCenter);
+	map.panTo(selectedCenter);
 	map.setZoom(centeringZoom);
 }
 
@@ -885,22 +921,6 @@ function check_point(position){
 	current.mouseY = tempY;
 	current.longitude = position.lng();
 	current.latitude = position.lat();
-}
-
-//CONTROL UNTUK BUTTOM MAP ZOOM SLIDER
-function zoom_in_btn(){
-	if(map.getZoom() < maxZoom) {
-		var val = map.getZoom()+1;
-		map.setZoom(val);
-		$( "#slider" ).slider( "option", "value", val);
-	}
-}
-function zoom_out_btn(){
-	if(map.getZoom() > minZoom) {
-		var val = map.getZoom()-1;
-		map.setZoom(val);
-		$( "#slider" ).slider( "option", "value", val);
-	}
 }
 
 //FUNGSI MENAMPILKAN DATETIME MENUBAR
@@ -1054,10 +1074,7 @@ function showAlert(bool,n){
 }
 
 function showPanelRRD(){
-	if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-	}
+	infoElement.close();
 	$('#panelrrd').dialog('open');
 }
 
