@@ -136,11 +136,6 @@ session_db_init();
 				</div>
 			</div>
 			<div id="panel-rrd" title="Device Graph"></div>
-			<div id="panel-zoom">
-				<button onclick="zoom_in_btn()">+</button>
-				<div id="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"></div>
-				<button onclick="zoom_out_btn()">-</button>
-			</div>
 		</div>
 		<div id="form">
 			<div id="form-login" title="Login">
