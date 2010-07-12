@@ -66,8 +66,8 @@ session_db_init();
 		<script type="text/javascript" src="js/device-controller.js.php"></script>
 		<script type="text/javascript" src="js/group-controller.js.php"></script>
 		<script type="text/javascript" src="js/notification-controller.js.php"></script>
-		<script type="text/javascript" src="js/map.js.php"></script>
 		<script type="text/javascript" src="js/navigation.js.php"></script>
+		<script type="text/javascript" src="js/map.js.php"></script>
 
 	</head>	
 	<body>
