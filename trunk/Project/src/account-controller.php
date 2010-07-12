@@ -1,20 +1,14 @@
 <?php
 
-/* File   : account.php
- * Role   : Model (MVC)
+/* File   : account-controller.php
+ * Role   : Controller (MVC)
  * Author : Adityo Jiwandono (jiwo)
  * E-Mail : jiwandono@arc.itb.ac.id
  * Team   : Mahasiswa Kerja Praktek Teknik Informatika
  *          Institut Teknologi Bandung, Juni - Juli 2010
  * 
- * Model ini mengurus semua hal yang user account terutama urusan
- * otentikasi. Database user yang digunakan adalah database user
- * dari Cacti.
- *
- * Catatan penting:
- * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
- * database aplikasi [KPTEL].
- * Password disimpan dalam bentuk MD5, sesuai dengan Cacti.
+ * Controller ini menerima aksi dari View dan memanggil fungsi
+ * dari Model yang sesuai.
  */
 
 require_once('includes/config.php');
