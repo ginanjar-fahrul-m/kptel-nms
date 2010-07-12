@@ -17,7 +17,6 @@ var groupObjects = [];
 var deviceMarkers = [];
 var deviceObjects = [];
 var infoMarkers = [];
-var listctxmenu = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var iconDeviceError = 'images/form-device-a.png';
@@ -27,33 +26,6 @@ var minZoom = 5;
 var maxZoom = 15;
 var centeringZoom = minZoom + 2;
 var additioncentering = 0;
-var tempX = 0;
-var tempY = 0;
-var tempXMove = 0;
-var tempYMove = 0;
-var current = {
-    mouseX : -999,
-    mouseY : -999,
-    longitude : 0,
-	latitude : 0,
-	cactiId : -999,
-	deviceId : -999,
-	groupId : -999,
-	isEditForm : false,
-	isConfirm : false,
-	isFindLoc : false,
-	isFinish1 : false,
-	isFinish2 : false,
-	inWhichForm: null,
-	tempName : "",
-	tempParent : 0,
-	tempDevice : 0,
-	tempLng : 0,
-	tempLat : 0
-};
-
-
-listctxmenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
 
 function kptel_init() {
 	var myOptions = {
@@ -744,172 +716,7 @@ function zoom_out_btn(){
 	}
 }
 
-//FUNGSI MENAMPILKAN DATETIME MENUBAR
-function dateTime() {
-   var now      = new Date();
-   var day      = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-   var d        = now.getDay();
-   var date     = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
-   var month    = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
-   var m        = now.getMonth();
-   var year     = now.getFullYear();
-   var hh       = (now.getHours() < 10) ? "0" + now.getHours() : now.getHours(); 
-   var mm       = (now.getMinutes() < 10) ? "0" + now.getMinutes() : now.getMinutes(); 
-   var ss       = (now.getSeconds() < 10) ? "0" + now.getSeconds() : now.getSeconds(); 
-   var content = day[d] + ", " + month[m] + " " + date + ", " + year + " " + hh + ":" + mm + ":" + ss;
-   document.getElementById("menu-date").innerHTML = content;
-   setTimeout("dateTime()",1000);
-}
-
-// Detect if the browser is IE or not.
-// If it is not IE, we assume that the browser is NS.
-var IE = document.all?true:false
-// If NS -- that is, !IE -- then set up for mouse capture
-if (!IE) document.captureEvents(Event.MOUSEMOVE)
-// Set-up to use getMouseXY function onMouseMove
-document.onmousedown = getMouseXY;
-function getMouseXY(e) {
-	if (IE) { // grab the x-y pos.s if browser is IE
-	tempX = event.clientX + document.body.scrollLeft
-	tempY = event.clientY + document.body.scrollTop
-	} else {  // grab the x-y pos.s if browser is NS
-	tempX = e.pageX
-	tempY = e.pageY
-	}  
-	// catch possible negative values in NS4
-	if (tempX < 0){tempX = 0}
-	if (tempY < 0){tempY = 0}  
-	// show the position values in the form named Show
-	// in the text fields named MouseX and MouseY
-	return true
-}
-
-function vardump(variable, maxDeep)
-{
-    var deep = 0;
-    var maxDeep = maxDeep || 0;
-
-    function fetch(object, parent)
-    {
-        var buffer = '';
-        deep++;
-
-        for (var i in object) {
-            if (parent) {
-                objectPath = parent + '.' + i;
-            } else {
-                objectPath = i;
-            }
-
-            buffer += objectPath + ' (' + typeof object[i] + ')';
-
-            if (typeof object[i] == 'object') {
-                buffer += "\n";
-                if (deep < maxDeep) {
-                    buffer += fetch(object[i], objectPath);
-                }
-            } else if (typeof object[i] == 'function') {
-                buffer += "\n";
-            } else if (typeof object[i] == 'string') {
-                buffer += ': "' + object[i] + "\"\n";
-            } else {
-                buffer += ': ' + object[i] + "\n";
-            }
-        }
-
-        deep--;
-        return buffer;
-    }
-
-    if (typeof variable == 'object') {
-        return fetch(variable);
-    }
-
-    return '(' + typeof variable + '): ' + variable + "\n";
-}
-
-function showWarningDevice(data){
-	$('#notif').html('');
-		var li;
-		for(var i = 0; i < data.length; i++){
-			li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
-			switch(data[i]['status']){
-				case '1': {
-					li += "flag-alert.png'";
-					break;
-				}
-				case '2': {
-					li += "flag-recover.png'";
-					break;
-				}
-				case '4': {
-					li += "flag-warning.png'";
-					break;
-				}
-			}
-			li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
-			li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
-			$('#notif').append(li);
-		}
-		if(data.length == 0){
-			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-			li += "flag-ok.png'";
-			li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
-			li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-			$('#notif').append(li);
-		}
-		$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
-		getThresholdNotification(function(th){
-			if(th != null){
-				for(var i = 0; i < th.length; i++){
-					li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
-					li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
-					li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
-					$('#notif').append(li);
-				}
-				if(th.length == 0){
-					li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-					li += "flag-ok.png'";
-					li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
-					li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-					$('#notif').append(li);
-				}
-				showAlert(true,data.length + th.length);
-			}
-		});
-}
-
-function showAlert(bool,n){
-	if(n > 0){
-		$('#notif-icon').attr("src",'images/alert.gif');
-		$('#notif-label').html(" Notifications (" + n + ") ");
-	}
-	else
-	{
-		$('#notif-icon').attr("src",'images/flag-ok.png');
-		$('#notif-label').html(" Notifications ");
-	}
-}
-
-function showPanelRRD(){
-	if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-	}
-	$('#panel-rrd').dialog('open');
-}
-
 function showCactiDevice(id){
 	var curdev = get_device_by_cacti_id_from_temp(id);
 	set_center_and_zoom(curdev['latitude'],curdev['longitude']);
-}
-
-function closeOtherCtxMenu(id){
-	for(var i = 0; i < listctxmenu.length; i++)
-		if(listctxmenu[i]!=id){
-			$(listctxmenu[i]).dialog('close');
-		}	
-}
-function initTopUp(){
-	$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
 }
