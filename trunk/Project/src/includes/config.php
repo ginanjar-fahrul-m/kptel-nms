@@ -12,21 +12,21 @@
  */
 
 /* Variabel konfigurasi koneksi database MySQL. */
-$config['db']['hostname'] = '10.37.22.194';			// Alamat server MySQL.
-$config['db']['username'] = 'appmonitor';				// Username akses MySQL.
+$config['db']['hostname'] = '10.37.22.194';	        // Alamat server MySQL.
+$config['db']['username'] = 'appmonitor';           // Username akses MySQL.
 $config['db']['password'] = 'telkom';				// Password akses MySQL.
-$config['db']['app_db'] = 'appmonitor';			// Nama database untuk aplikasi [KPTEL].
-$config['db']['cacti_db'] = 'cacti';				// Nama database untuk aplikasi Cacti.
+$config['db']['app_db'] = 'appmonitor';             // Nama database untuk aplikasi [KPTEL].
+$config['db']['cacti_db'] = 'cacti';                // Nama database untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan aplikasi Cacti. */
-$config['cacti']['url'] = "http://10.37.22.194/cacti";	// Alamat URL untuk aplikasi Cacti.
+$config['cacti']['url'] = "http://10.37.22.194/cacti";    // Alamat URL untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan session. */
-$config['session']['prefix']  = 'kptel-nms-';		// Prefiks untuk setiap nama session yang digunakan dalam aplikasi ini untuk mencegah munculnya konflik nama variabel session.
-$config['session']['db_sess'] = 'db_sess';			// Nama session untuk variabel penyimpanan informasi koneksi database.
+$config['session']['prefix']  = 'kptel-nms-';       // Prefiks untuk setiap nama session yang digunakan dalam aplikasi ini untuk mencegah munculnya konflik nama variabel session.
+$config['session']['db_sess'] = 'db_sess';          // Nama session untuk variabel penyimpanan informasi koneksi database.
 
 /* Variabel yang berkaitan dengan fungsi-fungsi. */
-$config['function']['return']['fail']    = 0;		// Return value untuk kasus 'gagal'.
-$config['function']['return']['success'] = 1;		// Return value untuk kasus 'sukses'.
+$config['function']['return']['fail']    = 0;       // Return value untuk kasus 'gagal'.
+$config['function']['return']['success'] = 1;       // Return value untuk kasus 'sukses'.
 
 ?>

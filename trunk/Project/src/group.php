@@ -1,11 +1,33 @@
 <?php
 
+/* File   : group.php
+ * Role   : Model (MVC)
+ * Author : Adityo Jiwandono (jiwo)
+ * E-Mail : jiwandono@arc.itb.ac.id
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * Model ini mengurus semua hal yang berkaitan dengan data-data group
+ * dari database aplikasi.
+ *
+ * Catatan penting:
+ * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
+ * database aplikasi [KPTEL].
+ */
+
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : group_add
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk menambahkan group baru ke database.
+ * Parameter   :
+ *   parent_id           ID group parent.
+ *   name                Nama group.
+ *   description         Keterangan group.
+ *   longitude           Derajat bujur barat/timur.
+ *   latitude            Derajat lintang selatan/utara.
  */
 function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
@@ -37,8 +59,16 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : group_update
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mengedit informasi group di database.
+ * Parameter   :
+ *   group_id            ID group yang akan diedit.
+ *   parent_id           ID group parent.
+ *   name                Nama group.
+ *   description         Keterangan group.
+ *   longitude           Derajat bujur barat/timur.
+ *   latitude            Derajat lintang selatan/utara.
  */
 function group_update($group_id, $parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
@@ -67,8 +97,12 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 	}
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : group_delete
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk menghapus group dan anak-anaknya
+ *   di database.
+ * Parameter   :
+ *   group_id           ID group yang akan dihapus.
  */
 function group_delete($group_id) {
 	global $config;
@@ -121,8 +155,11 @@ function group_get($group_id) {
 	return mysql_fetch_assoc($result);
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : group_get
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi sebuah group.
+ * Parameter   :
+ *   group_id           ID group yang akan diambil.
  */
 function group_get_all() {
 	global $config;
@@ -141,12 +178,19 @@ function group_get_all() {
 	return $group_list;
 }
 
+/* Nama Fungsi : group_get_possible_parent_list
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan daftar group yang bisa
+ *   dijadikan parent.
+ * Parameter   :
+ *   group_id           ID group yang akan diset parent ID-nya.
+ */
 function group_get_possible_parent_list($group_id) {
 	global $config;
 	
 	$group_id = mysql_real_escape_string($group_id);
 	
-	$forbidden_list = group_get_possible_parent_list_recursive($group_id);
+	$forbidden_list = group_get_impossible_parent_list_recursive($group_id);
 	
 	$group_list = array();
 	$sql = "SELECT *
@@ -163,7 +207,13 @@ function group_get_possible_parent_list($group_id) {
 	return $group_list;
 }
 
-function group_get_possible_parent_list_recursive($group_id) {
+/* Nama Fungsi : group_get_impossible_parent_list_recursive
+ * Penjelasan  :
+ *   Fungsi bantuan untuk fungsi group_get_possible_parent_list.
+ * Parameter   :
+ *   group_id           ID group yang akan dicari anak-anaknya.
+ */
+function group_get_impossible_parent_list_recursive($group_id) {
 	global $config;
 	
 	$group_id = mysql_real_escape_string($group_id);
