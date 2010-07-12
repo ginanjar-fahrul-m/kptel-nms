@@ -11,6 +11,33 @@
  *
  */
 ?>
+var tempX = 0;
+var tempY = 0;
+var tempXMove = 0;
+var tempYMove = 0;
+var listctxmenu = [];
+var current = {
+    mouseX : -999,
+    mouseY : -999,
+    longitude : 0,
+	latitude : 0,
+	cactiId : -999,
+	deviceId : -999,
+	groupId : -999,
+	isEditForm : false,
+	isConfirm : false,
+	isFindLoc : false,
+	isFinish1 : false,
+	isFinish2 : false,
+	inWhichForm: null,
+	tempName : "",
+	tempParent : 0,
+	tempDevice : 0,
+	tempLng : 0,
+	tempLat : 0
+};
+
+listctxmenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
 
 $(document).ready(function () {
 	$("#panel-tree").toggle(false);
@@ -33,6 +60,11 @@ $(document).ready(function () {
 }); 
 
 $(function(){
+	var 
+		allfieldslogin = $([]).add($("#login-name")).add($("#login-pass")),
+		allfieldsdevice = $([]).add($("#device-name")).add($("#device-parent")).add($("#device-cacti")).add($("#device-lng")).add($("#device-lat")),
+		allfieldsgroup = $([]).add($("#group-name")).add($("#group-parent")).add($("#group-lng")).add($("#group-lat"));
+
 	function runEffect(effectId,effect){
 		var selectedEffect = effect;
 		var options = {};
@@ -44,11 +76,6 @@ $(function(){
 		}
 		$(effectId).toggle(selectedEffect,options,300);
 	};
-	
-	var 
-		allfieldslogin = $([]).add($("#login-name")).add($("#login-pass")),
-		allfieldsdevice = $([]).add($("#device-name")).add($("#device-parent")).add($("#device-cacti")).add($("#device-lng")).add($("#device-lat")),
-		allfieldsgroup = $([]).add($("#group-name")).add($("#group-parent")).add($("#group-lng")).add($("#group-lat"));
 		
 	function updateTips(tips,t) {
 		tips
@@ -69,6 +96,126 @@ $(function(){
 		}
 	}
 
+	function dateTime() {
+		var now      = new Date();
+		var day      = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+		var d        = now.getDay();
+		var date     = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
+		var month    = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+		var m        = now.getMonth();
+		var year     = now.getFullYear();
+		var hh       = (now.getHours() < 10) ? "0" + now.getHours() : now.getHours(); 
+		var mm       = (now.getMinutes() < 10) ? "0" + now.getMinutes() : now.getMinutes(); 
+		var ss       = (now.getSeconds() < 10) ? "0" + now.getSeconds() : now.getSeconds(); 
+		var content = day[d] + ", " + month[m] + " " + date + ", " + year + " " + hh + ":" + mm + ":" + ss;
+		document.getElementById("menu-date").innerHTML = content;
+		setTimeout("dateTime()",1000);
+	}
+	
+	// Detect if the browser is IE or not.
+	// If it is not IE, we assume that the browser is NS.
+	var IE = document.all?true:false
+	// If NS -- that is, !IE -- then set up for mouse capture
+	if (!IE) document.captureEvents(Event.MOUSEMOVE)
+	// Set-up to use getMouseXY function onMouseMove
+	document.onmousedown = getMouseXY;
+	function getMouseXY(e) {
+		if (IE) { // grab the x-y pos.s if browser is IE
+			tempX = event.clientX + document.body.scrollLeft
+			tempY = event.clientY + document.body.scrollTop
+		} else {  // grab the x-y pos.s if browser is NS
+			tempX = e.pageX
+			tempY = e.pageY
+		}  
+		// catch possible negative values in NS4
+		if (tempX < 0){tempX = 0}
+		if (tempY < 0){tempY = 0}  
+		// show the position values in the form named Show
+		// in the text fields named MouseX and MouseY
+		return true
+	}
+	
+	function showWarningDevice(data){
+		$('#notif').html('');
+			var li;
+			for(var i = 0; i < data.length; i++){
+				li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
+				switch(data[i]['status']){
+					case '1': {
+						li += "flag-alert.png'";
+						break;
+					}
+					case '2': {
+						li += "flag-recover.png'";
+						break;
+					}
+					case '4': {
+						li += "flag-warning.png'";
+						break;
+					}
+				}
+				li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
+				li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
+				$('#notif').append(li);
+			}
+			if(data.length == 0){
+				li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+				li += "flag-ok.png'";
+				li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
+				li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+				$('#notif').append(li);
+			}
+			$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
+			getThresholdNotification(function(th){
+				if(th != null){
+					for(var i = 0; i < th.length; i++){
+						li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
+						li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
+						li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
+						$('#notif').append(li);
+					}
+					if(th.length == 0){
+						li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+						li += "flag-ok.png'";
+						li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
+						li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+						$('#notif').append(li);
+					}
+					showAlert(true,data.length + th.length);
+				}
+			});
+	}
+
+	function showAlert(bool,n){
+		if(n > 0){
+			$('#notif-icon').attr("src",'images/alert.gif');
+			$('#notif-label').html(" Notifications (" + n + ") ");
+		}
+		else
+		{
+			$('#notif-icon').attr("src",'images/flag-ok.png');
+			$('#notif-label').html(" Notifications ");
+		}
+	}
+
+	function showPanelRRD(){
+		if(infoMarkers.length > 0) {
+				var lastinfo = infoMarkers.pop();
+				lastinfo.close();
+		}
+		$('#panel-rrd').dialog('open');
+	}
+	
+	function closeOtherCtxMenu(id){
+		for(var i = 0; i < listctxmenu.length; i++)
+			if(listctxmenu[i]!=id){
+				$(listctxmenu[i]).dialog('close');
+			}	
+	}
+	function initTopUp(){
+		$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
+	}
+	
 	function checkRegexp(tips,o,regexp,n) {
 
 		if ( !( regexp.test( o.val() ) ) ) {
@@ -79,6 +226,7 @@ $(function(){
 			return true;
 		}
 	}
+	
 	function checkSelect(tips,o) {
 		var n = "Select one ";
 		if (o.val() != '0') {
@@ -171,89 +319,6 @@ $(function(){
 		open: function() {
 			$("#login-name").focus();
 			closeOtherCtxMenu("#form-login");
-		}
-	});
-	
-	$("#form-coord").dialog({	
-		autoOpen: false,
-		modal: false,
-		draggable: true,
-		resizable: false,
-		show: "clip",
-		hide: "clip",
-		buttons: {
-			'OK': function() {
-				$("#form-coord").dialog('close');
-				current.isConfirm = true;
-				if(current.inWhichForm == 'form-device'){
-					$("#form-device").dialog('open');
-				} else
-				if(current.inWhichForm == 'form-group'){
-					$("#form-group").dialog('open');
-				}
-			},
-			Cancel: function() {
-				$("#form-coord").dialog('close');
-				current.isConfirm = false;
-				if(current.inWhichForm == 'form-device'){
-					$("#form-device").dialog('open');
-				} else
-				if(current.inWhichForm == 'form-group'){
-					$("#form-group").dialog('open');
-				}
-			}
-		},
-		close: function() {
-			
-		},
-		open: function() {
-			
-		}
-	});
-	
-	$("#ctxmenu-map").dialog({
-		autoOpen: false,
-		height: 55,
-		width: 125,
-		modal: false,
-		draggable: false,
-		resizable: false,
-		close: function() {
-			
-		},
-		open: function() {
-			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
-			closeOtherCtxMenu("#ctxmenu-map");
-		}
-	});
-	
-	$("#ctxmenu-device").dialog({
-		autoOpen: false,
-		height: 55,
-		width: 130,
-		modal: false,
-		draggable: false,
-		resizable: false,
-		close: function() {
-			
-		},
-		open: function() {
-			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
-		}
-	});
-	
-	$("#ctxmenu-group").dialog({
-		autoOpen: false,
-		height: 55,
-		width: 130,
-		modal: false,
-		draggable: false,
-		resizable: false,
-		close: function() {
-			
-		},
-		open: function() {
-			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
 		}
 	});
 	
@@ -424,22 +489,117 @@ $(function(){
 			closeOtherCtxMenu("#form-group");
 		}
 	});
+	
+	$("#form-coord").dialog({	
+		autoOpen: false,
+		modal: false,
+		draggable: true,
+		resizable: false,
+		show: "clip",
+		hide: "clip",
+		buttons: {
+			'OK': function() {
+				$("#form-coord").dialog('close');
+				current.isConfirm = true;
+				if(current.inWhichForm == 'form-device'){
+					$("#form-device").dialog('open');
+				} else
+				if(current.inWhichForm == 'form-group'){
+					$("#form-group").dialog('open');
+				}
+			},
+			Cancel: function() {
+				$("#form-coord").dialog('close');
+				current.isConfirm = false;
+				if(current.inWhichForm == 'form-device'){
+					$("#form-device").dialog('open');
+				} else
+				if(current.inWhichForm == 'form-group'){
+					$("#form-group").dialog('open');
+				}
+			}
+		},
+		close: function() {
+			
+		},
+		open: function() {
+			
+		}
+	});
+	
+	$("#ctxmenu-map").dialog({
+		autoOpen: false,
+		height: 55,
+		width: 125,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
+			closeOtherCtxMenu("#ctxmenu-map");
+		}
+	});
+	
+	$("#ctxmenu-device").dialog({
+		autoOpen: false,
+		height: 55,
+		width: 130,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
+		}
+	});
+	
+	$("#ctxmenu-group").dialog({
+		autoOpen: false,
+		height: 55,
+		width: 130,
+		modal: false,
+		draggable: false,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
+		}
+	});
+	
 	$('#menu-help').click(function() {
 		
 	});
+	
+	$("#menu-tree").click(function() {
+		runEffect("#panel-tree",'blind');
+		return false;
+	});
+	
+	$("#menu-notif").click(function() {
+		runEffect("#panel-notif",'blind');
+		return false;
+	});
+	
 	$('#device-add').click(function() {
 		$('#form-device').dialog('open');
 	});
+	
 	$('#group-add').click(function() {
 		$('#form-group').dialog('open');
 	});
-	$('#showdetail').click(function() {
-		
-	});
+	
 	$('#device-cacti').change(function() {
 		if($('#device-cacti').val()!='0')$('#device-name').val($.trim($('#device-cacti :selected').html()));
 		else $('#device-name').val("");
 	});
+	
 	$('#device-edit').click(function() {
 		current.isEditForm = true;
 		$('#form-device').dialog('open');
@@ -454,10 +614,12 @@ $(function(){
 			$('#device-lat').val(devicedata['latitude']);
 		});
 	});
+	
 	$('#device-delete').click(function() {
 		delete_device(current.deviceId, function(){alert("deleted")});
 		closeOtherCtxMenu(null);
 	});
+	
 	$('#group-edit').click(function() {
 		current.isEditForm = true;
 		$('#form-group').dialog('open');
@@ -468,6 +630,7 @@ $(function(){
 			$('#group-lat').val(data['latitude']);
 		});
 	});
+	
 	$('#group-delete').click(function() {
 		deleteGroup(current.groupId, function(result){
 			if(result==1) alert("deleted");
@@ -476,6 +639,7 @@ $(function(){
 		});
 		closeOtherCtxMenu(null);
 	});
+	
 	$('#device-location').click(function() {
 		current.tempName = $('#device-name').val();
 		current.tempParent = $('#device-parent').val();
@@ -490,6 +654,7 @@ $(function(){
 		current.isFindLoc = true;
 		return false;
 	});
+	
 	$('#group-location').click(function() {
 		current.tempName = $('#group-name').val();
 		current.tempParent = $('#group-parent').val();
@@ -503,15 +668,8 @@ $(function(){
 		current.isFindLoc = true;
 		return false;
 	});
+	
 	$('#cacti').click(function() {	
 		if($('#panel-rrd').dialog('isOpen')) $('#panel-rrd').dialog('close');
-	});
-	$("#menu-tree").click(function() {
-		runEffect("#panel-tree",'blind');
-		return false;
-	});
-	$("#menu-notif").click(function() {
-		runEffect("#panel-notif",'blind');
-		return false;
 	});
 });
