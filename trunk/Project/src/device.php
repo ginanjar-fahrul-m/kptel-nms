@@ -186,10 +186,9 @@ function device_get_all() {
 			ORDER BY `name` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
-	$i = 0;
+	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
-		$device_list[$i] = $row;
-		$i++;
+		$device_list[] = $row;
 	}
 	
 	return $device_list;
@@ -249,10 +248,9 @@ function device_cacti_get_all() {
 			ORDER BY `description` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
-	$i = 0;
+	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
-		$device_list[$i] = $row;
-		$i++;
+		$device_list[] = $row;
 	}
 	
 	return $device_list;
@@ -286,10 +284,9 @@ function device_cacti_get_all_unlisted() {
 			ORDER BY `description` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
-	$i = 0;
+	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
-		$device_list[$i] = $row;
-		$i++;
+		$device_list[] = $row;
 	}
 	
 	return $device_list;
@@ -304,6 +301,8 @@ function device_cacti_get_all_unlisted() {
  */
 function device_cacti_get_graph_list($cacti_id) {
 	global $config;
+	
+	$graph_list = array();
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	

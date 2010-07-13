@@ -55,7 +55,7 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	if(session_get($config['session']['db_sess'])->query($sql)) {
 		return session_get($config['session']['db_sess'])->get_last_insert_id();;
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
@@ -91,9 +91,9 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 			WHERE `group_id` = ".$group_id;
 	
 	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return 1;
+		return $config['function']['return']['success'];
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
@@ -113,7 +113,7 @@ function group_delete($group_id) {
 	$sql = "DELETE FROM `".$config['db']['app_db']."`.`device`
 			WHERE `group_id` = ".$group_id;
 	if(!session_get($config['session']['db_sess'])->query($sql)) {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 	
 	// Recursively delete children groups
@@ -121,7 +121,7 @@ function group_delete($group_id) {
 			FROM `".$config['db']['app_db']."`.`group`
 			WHERE `parent_id` = ".$group_id;
 	if(!$result = session_get($config['session']['db_sess'])->query($sql)) {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 	
 	while($data = mysql_fetch_assoc($result)) {
@@ -133,9 +133,9 @@ function group_delete($group_id) {
 			WHERE `group_id` = ".$group_id;
 	
 	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return 1;
+		return $config['function']['return']['success'];
 	} else {
-		return 0;
+		return $config['function']['return']['fail'];
 	}
 }
 
@@ -169,10 +169,9 @@ function group_get_all() {
 			ORDER BY `name` ASC";
 	$result = session_get($config['session']['db_sess'])->query($sql);
 	
-	$i = 0;
+	$group_list = array();
 	while($row = mysql_fetch_assoc($result)) {
-		$group_list[$i] = $row;
-		$i++;
+		$group_list[] = $row;
 	}
 	
 	return $group_list;
@@ -193,6 +192,7 @@ function group_get_possible_parent_list($group_id) {
 	$forbidden_list = group_get_impossible_parent_list_recursive($group_id);
 	
 	$group_list = array();
+	
 	$sql = "SELECT *
 			FROM `".$config['db']['app_db']."`.`group`
 			ORDER BY `name` ASC";
