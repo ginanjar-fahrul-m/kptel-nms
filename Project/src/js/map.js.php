@@ -439,7 +439,7 @@ function renderDevice(location,devname,cacid,devid) {
 function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	//add to map
 	var newLatLng = new google.maps.LatLng(devlat,devlng);
-	renderDevice(newLatLng,devname,cactiid);
+	renderDevice(newLatLng,devname,cactiid,newDeviceID);
 	
 	//add to deviceObjects
 	deviceObjects.push({
@@ -468,47 +468,29 @@ function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cacti
 	});
 }
 
-function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
-	var getparam = {
-		action: 'device_update',
-		data: {
-			device_id: devid,
-			group_id: groupid,
-			device_type_id: devtypeid,
-			name: named,
-			description: desc,
-			longitude: longi,
-			latitude: lati,
-			cacti_id: cactiid
-		}
-	}
-	$.getJSON(url_device, getparam, function(data) {
-		if(data == 0) {alert("Edit Device failed");}
-		else {
-			alert("Edit Device success");
-			//update tree
-			if(groupid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-0");}
-			else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + groupid);}						
-			$('#device-'+devid+' a').html('<ins class="jstree-icon"></ins>' + named);
-			
-			var idxdev = getIndexOfDeviceObjects(devid);
-			closeOtherCtxMenu(null);
-			
-			//update array deviceObjects
-			deviceObjects[idxdev].device_id = devid;
-			deviceObjects[idxdev].group_id = groupid;
-			deviceObjects[idxdev].device_type_id = devtypeid;
-			deviceObjects[idxdev].name = named;
-			deviceObjects[idxdev].description = desc;
-			deviceObjects[idxdev].longitude = longi;
-			deviceObjects[idxdev].latitude = lati;
-			deviceObjects[idxdev].cacti_id = cactiid;
-			
-			//update map change
-			var newlatlng = new google.maps.LatLng(lati,longi);
-			deviceMarkers[idxdev].setOptions({position:newlatlng,title:named});
-		}
-	});
+function actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
+	//update tree
+	if(groupid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-0");}
+	else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + groupid);}						
+	$('#device-'+devid+' a').html('<ins class="jstree-icon"></ins>' + named);
+	
+	//close other
+	closeOtherCtxMenu(null);
+	
+	//update array deviceObjects
+	var idxdev = getIndexOfDeviceObjects(devid);
+	deviceObjects[idxdev].device_id = devid;
+	deviceObjects[idxdev].group_id = groupid;
+	deviceObjects[idxdev].device_type_id = devtypeid;
+	deviceObjects[idxdev].name = named;
+	deviceObjects[idxdev].description = desc;
+	deviceObjects[idxdev].longitude = longi;
+	deviceObjects[idxdev].latitude = lati;
+	deviceObjects[idxdev].cacti_id = cactiid;
+	
+	//update map change
+	var newlatlng = new google.maps.LatLng(lati,longi);
+	deviceMarkers[idxdev].setOptions({position:newlatlng,title:named});
 }
 
 function actionDeleteDevice(devid) {	

@@ -116,6 +116,29 @@ function addDevice(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	});
 }
 
+function updateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
+	var getparam = {
+		action: 'device_update',
+		data: {
+			device_id: devid,
+			group_id: groupid,
+			device_type_id: devtypeid,
+			name: named,
+			description: desc,
+			longitude: longi,
+			latitude: lati,
+			cacti_id: cactiid
+		}
+	}
+	$.getJSON(url_device, getparam, function(data) {
+		if(data == 0) {alert("Edit Device failed");}
+		else {
+			actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid);
+			alert("Edit Device success");
+		}
+	});
+}
+
 function deleteDevice(id) {
 	var getparam = {
 		action: 'device_delete',
@@ -123,7 +146,6 @@ function deleteDevice(id) {
 			device_id: id
 		}
 	}
-	
 	$.getJSON(url_device, getparam, function(data){
 		if(data==1){
 			actionDeleteDevice(id);

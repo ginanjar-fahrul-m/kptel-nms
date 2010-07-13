@@ -231,7 +231,7 @@ $(function(){
 						addDevice($("#device-parent").val(),default_device,$('#device-name').val(),
 									$('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val(),"Ini device");
 					else
-						update_device(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
+						updateDevice(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
 									"", $('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val());
 					$(".device-tips").text('All form fields are required.');
 					allfieldsdevice.val('').removeClass('ui-state-error');
