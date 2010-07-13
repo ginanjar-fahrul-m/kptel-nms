@@ -171,8 +171,8 @@ $(function(){
 				var bValid = true;
 				allfieldslogin.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength($(".login-tips"),$("#login-name"),"username",3,16);
-				bValid = bValid && checkLength($(".login-tips"),$("#login-pass"),"password",5,16);
+				bValid = bValid && checkLength($(".login-tips"),$("#login-name"),"username",0,50);
+				bValid = bValid && checkLength($(".login-tips"),$("#login-pass"),"password",0,50);
 
 				bValid = bValid && checkRegexp($(".login-tips"),$("#login-name"),/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
 				bValid = bValid && checkRegexp($(".login-tips"),$("#login-pass"),/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
@@ -217,7 +217,7 @@ $(function(){
 				var bValid = true;
 				allfieldsdevice.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength($(".device-tips"),$("#device-name"),"name",3,16);
+				bValid = bValid && checkLength($(".device-tips"),$("#device-name"),"name",0,64);
 
 				bValid = bValid && checkRegexp($(".device-tips"),$("#device-name"),/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
 				bValid = bValid && checkSelect($(".device-tips"),$("#device-cacti"));
@@ -315,7 +315,7 @@ $(function(){
 				var bValid = true;
 				allfieldsgroup.removeClass('ui-state-error');
 
-				bValid = bValid && checkLength($(".group-tips"),$("#group-name"),"name",3,16);
+				bValid = bValid && checkLength($(".group-tips"),$("#group-name"),"name",0,64);
 
 				bValid = bValid && checkRegexp($(".group-tips"),$("#group-name"),/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
 				bValid = bValid && checkRegexp($(".group-tips"),$("#group-lng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
