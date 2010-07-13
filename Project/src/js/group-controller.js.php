@@ -43,12 +43,60 @@ function getPossibleParentList(groupid, callback) {
 	$.getJSON(url_group, getparam, callback);
 }
 
-function deleteGroup(id, callback) {
+function addGroup(parentid, grpname, grplng, grplat, grpdesc) {
+	var getparam = {
+		action: 'group_add',
+		data: {
+			parent_id: parentid,
+			name: grpname,
+			description: grpdesc,
+			longitude: grplng,
+			latitude: grplat
+		}
+	}
+	$.getJSON(url_group, getparam, function(data) {
+		if(data == 0){alert('Add Failed');}
+		else{
+			actionAddGroup(data, parentid, grpname, grplng, grplat, grpdesc);
+			alert('Add Group success');
+		}
+	});
+}
+
+function updateGroup(groupid, parentid, named, desc, longi, lati) {
+	var getparam = {
+		action: 'group_update',
+		data: {
+			group_id: groupid,
+			parent_id: parentid,
+			name: named,
+			description: desc,
+			longitude: longi,
+			latitude: lati
+		}
+	}
+
+	$.getJSON(url_group, getparam, function(data) {
+		if(data == 0) {alert("Edit Group failed");}
+		else {
+			actionUpdateGroup(groupid, parentid, named, desc, longi, lati);
+			alert("Edit Group success");
+		}
+	});
+}
+
+function deleteGroup(id) {
 	var getparam = {
 		action: 'group_delete',
 		data: {
 			group_id: id
 		}
 	}	
-	$.getJSON(url_group, getparam, callback);
+	$.getJSON(url_group, getparam, function(data){
+		if(data == 1) {
+			actionDeleteGroup(id);
+			alert("Group and its child have successfully deleted");
+		}
+		else{alert('delete failed');}
+	});
 }
