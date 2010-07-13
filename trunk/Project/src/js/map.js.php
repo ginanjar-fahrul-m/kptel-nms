@@ -11,60 +11,104 @@
 ?>
 
 var map= null;
+var infoElement;
 var default_device = 0;
 var groupMarkers = [];
 var groupObjects = [];
 var deviceMarkers = [];
 var deviceObjects = [];
-var infoMarkers = [];
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var iconDeviceError = 'images/form-device-a.png';
 var iconGroupError = 'images/form-group-a.png';
+var iconDeviceInfo = 'images/icon-device2.png';
+var iconGroupInfo = 'images/icon-group2.png';
+var iconStatusUnknown = 'images/menu-help.png';
+var iconStatusDown = 'images/flag-alert.png';
+var iconStatusRecover = 'images/flag-recover.png';
+var iconStatusUp = 'images/flag-ok.png';
+var iconStatusThreshold = 'images/flag-warning.png';
+var iconStatusDefault = 'images/menu-help.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
+var indonesiaBounds;
 var minZoom = 5;
 var maxZoom = 15;
 var centeringZoom = minZoom + 2;
-var additioncentering = 0;
+var additionCentering = 0;
 
-function kptel_init() {
+function setSizes() {
+   var menuHeight = 44;
+   var viewportHeight = $(window).height();
+   var mapHeight = viewportHeight - menuHeight;
+   $("#map-canvas").height(mapHeight);
+}
+
+function kptelInit() {
+	setSizes();
 	var myOptions = {
 		zoom: minZoom,
 		center: indonesiaCenter,
-		mapTypeControl: false,
-		navigationControl: false,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		disableDefaultUI: true
 	};
 	map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	map.setOptions({
+		mapTypeControl: true,
+		scaleControl: true,
+		navigationControl: true,
+		mapTypeId: google.maps.MapTypeId.SATELLITE,
+		navigationControlOptions: {style: google.maps.NavigationControlStyle.ZOOM_PAN},
+		mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU}
+	});
+	
+	infoElement =  new google.maps.InfoWindow();
+	indonesiaBounds = map.getBounds();
 	dateTime();
+	
+	//limit the map zoom
+	google.maps.event.addListenerOnce(map, 'idle', function() {
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.HYBRID].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.HYBRID].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.TERRAIN].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.TERRAIN].maxZoom = maxZoom;
+		map.mapTypes[google.maps.MapTypeId.SATELLITE].minZoom = minZoom;
+		map.mapTypes[google.maps.MapTypeId.SATELLITE].maxZoom = maxZoom;
+    });
 	
 	google.maps.event.addListener(map, 'zoom_changed', function() { 
 		if (map.getZoom() < minZoom) { 
-			map.setZoom(minZoom); 
+			map.setZoom(minZoom);
 		}
 		if (map.getZoom() == minZoom) { 
 			map.setCenter(indonesiaCenter);
+			infoElement.close();
 		}
-		$( "#slider" ).slider( "option", "value", map.getZoom());
     });
 	
-	google.maps.event.addListener(map, 'drag', function(event) {
+	// google.maps.event.addListener(map, 'drag', function(event) {
+		// current.tempBounds = map.getBounds();
+    // });	
+	
+	google.maps.event.addListener(map, 'bounds_changed', function(event) {
 		if(map.getZoom() == minZoom){
 			map.setCenter(indonesiaCenter);
 		}
+		// else{
+			// if(indonesiaBounds.contains(current.tempBounds)){
+				// map.panTo(indonesiaCenter);
+			// }
+		// }
     });
 
 	isLoggedIn(function(data){
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
-				if(infoMarkers.length > 0) {
-					var lastinfo = infoMarkers.pop();
-					lastinfo.close();
-				}
+				infoElement.close();
 				if($('#panel-rrd').dialog('isOpen'))	{$('#panel-rrd').dialog('close');}
 				
 				closeOtherCtxMenu($('#ctxmenu-map'));
-				check_point(event.latLng);
+				checkPoint(event.latLng);
 				$('#ctxmenu-map').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
 				$('#ctxmenu-map').dialog('open');
 			});
@@ -72,11 +116,8 @@ function kptel_init() {
     });
 	
 	google.maps.event.addListener(map, 'click', function(event) {
-		check_point(event.latLng);
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		checkPoint(event.latLng);
+		infoElement.close();
 		if($('#panel-rrd').dialog('isOpen'))	{$('#panel-rrd').dialog('close');}
 		
 		closeOtherCtxMenu(null);	
@@ -84,42 +125,9 @@ function kptel_init() {
 		$('#coord-lat').val(current.latitude);
     });
 	
-	//limit the map zoom
-	google.maps.event.addListenerOnce(map, 'idle', function() {
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].minZoom = minZoom;
-		map.mapTypes[google.maps.MapTypeId.ROADMAP].maxZoom = maxZoom;
-    });
-	
 	updateMap();
 	
-	//jQuery Addition
-	$(function() {
-		//Add Zoom Slider
-		$("#slider").slider({
-			orientation: "vertical",
-			value:minZoom,
-			min: minZoom,
-			max: maxZoom,
-			step: 1,
-			slide: function(event, ui) {
-				map.setZoom(ui.value);
-			}
-		});
-		
-		//Add Zoom Button
-		$(".demo button:first").button({
-            icons: {
-                primary: 'ui-icon-plushthick'
-            },
-            text: false
-        }).next().button({
-            icons: {
-                primary: 'ui-icon-minusthick'
-            },
-            text: false
-        });
-	});	
-	//Init menu-tree
+	//Init tree
 	$("#trees").jstree({
 		"plugins" : [ "themes", "crrm", "types", "ui", "html_data"],
 		"types" : {
@@ -166,7 +174,7 @@ function kptel_init() {
 //INITIALIZATION FUNCTION
 
 $(function(){
-	kptel_init();
+	kptelInit();
 });
 
 function updateMap(){
@@ -207,32 +215,32 @@ function buildMapComponent(){
 			//create root node
 			$("#trees").jstree("create",-1,"first",{"attr":{"id":"group-0", "rel":"group"},"data":{"title":"root"}},false,true);
 			if(data1 !== null){	
-				tree_group_processing(groupnode,0);
-				$.each(data1, function(index, datum){
-					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
-					render_group(newPos, datum.name, datum.group_id);
-					groupObjects.push(datum);
+				treeGroupProcessing(groupnode,0);
+				$.each(data1, function(index, datum1){
+					var newPos = new google.maps.LatLng(datum1.latitude, datum1.longitude);
+					renderGroup(newPos, datum1.name, datum1.group_id);
+					groupObjects.push(datum1);
 				});
 			}
 			if(data2 !== null){
-				tree_device_processing(devicenode);
-				$.each(data2, function(index, datum){
-					var newPos = new google.maps.LatLng(datum.latitude, datum.longitude);
-					render_device(newPos, datum.name, datum.cacti_id, datum.device_id);
-					deviceObjects.push(datum);
+				treeDeviceProcessing(devicenode);
+				$.each(data2, function(index, datum2){
+					var newPos = new google.maps.LatLng(datum2.latitude, datum2.longitude);
+					renderDevice(newPos, datum2.name, datum2.cacti_id, datum2.device_id);
+					deviceObjects.push(datum2);
 				});
 			}
 	
 			getStatusNotification(function(data3){
-				$.each(data3, function(index,datum){
-					var curdev = get_device_by_cacti_id_from_temp(datum.id);
+				$.each(data3, function(index,datum3){
+					var curdev = getElementDeviceObjectsByCactiId(datum3.id);
 					//alert(curdev.
 					//update alert device icon in menu-tree column
 					$('#device-'+curdev.device_id).attr('rel','device-error');
 					if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
 					
 					//update alert device icon in google maps
-					var updateIconIndex = get_index_deviceObjects(curdev.device_id);
+					var updateIconIndex = getIndexOfDeviceObjects(curdev.device_id);
 					deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
 					
 				});
@@ -243,7 +251,7 @@ function buildMapComponent(){
 	});
 }
 
-function tree_group_processing(data,x){
+function treeGroupProcessing(data,x){
 	var queueid = [];
 	$.each(data, function(index,datum){
 		if(datum.parent_id == x){
@@ -260,18 +268,19 @@ function tree_group_processing(data,x){
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+groupid).find('a').attr("id",cgroupid);
 			$('#'+cgroupid).click(function() {
-				set_center_and_zoom(datum.latitude, datum.longitude);
+				//setCenterAndZoom(datum.latitude, datum.longitude);
+				showInfoGroup(datum.group_id,datum.latitude,datum.longitude);
 			});
 			queueid.push(datum.group_id);
 		}
 	});
 	
 	while(queueid.length >= 1){
-		tree_group_processing(data, queueid.pop());
+		treeGroupProcessing(data, queueid.pop());
 	}
 }
 
-function tree_device_processing(data){
+function treeDeviceProcessing(data){
 	$.each(data, function(index,datum){
 			var parentnode=null;
 			var devid = "device-"+datum.device_id;
@@ -284,18 +293,19 @@ function tree_device_processing(data){
 			else parentnode = "#group-"+datum.group_id;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
-				set_center_and_zoom(datum.latitude, datum.longitude);
+				showInfoDevice(datum.device_id,datum.latitude,datum.longitude,datum.cacti_id);
 			});
 	});
 }
 
 function changeParentTreeStatus(parentid){
-	var curgroup = get_element_groupObjects(parentid);
+	var curgroup = getElementGroupObjects(parentid);
 	$('#group-'+curgroup.group_id).attr('rel','group-error');
 	if(curgroup.parent_id != 0) {changeParentTreeStatus(curgroup.parent_id);}
 }
 
-function get_element_groupObjects(groupid){
+//return element by group_id from groupObjects
+function getElementGroupObjects(groupid){
 	var retval;
 	for(var i = 0; i < groupObjects.length; i++){
 		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
@@ -303,23 +313,35 @@ function get_element_groupObjects(groupid){
 	return retval;
 }
 
-function get_element_deviceObjects(devid){
+//return element by device_id from deviceObjects
+function getElementDeviceObjects(devid){
 	var retval;
 	for(var i = 0; i < deviceObjects.length; i++){
 		if(deviceObjects[i].device_id == devid) retval = deviceObjects[i];
 	}
 	return retval;
 }
+
+//return element by cacti_id from deviceObjects
+function getElementDeviceObjectsByCactiId(cacid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
+	}
+	return retval;
+}
+
 //return id of array deviceObjects
-function get_index_deviceObjects(devid){
+function getIndexOfDeviceObjects(devid){
 	var retval;
 	for(var i = 0; i < deviceObjects.length; i++){
 		if(deviceObjects[i].device_id == devid) retval = i;
 	}
 	return retval;
 }
+
 //return id of array groupObjects
-function get_index_groupObjects(groupid){
+function getIndexOfGroupObjects(groupid){
 	var retval;
 	for(var i = 0; i < groupObjects.length; i++){
 		if(groupObjects[i].group_id == groupid) retval = i;
@@ -327,9 +349,9 @@ function get_index_groupObjects(groupid){
 	return retval;
 }
 
-//DEVICE MODEL-CONTROL
+//DEVICE-CONTROLLER
 
-function render_device(location,devname,cacid,devid) {
+function renderDevice(location,devname,cacid,devid) {
     marker = new google.maps.Marker({
       position: location,
 	  icon : iconDevice,
@@ -338,13 +360,9 @@ function render_device(location,devname,cacid,devid) {
 	  zIndex : 10
     });
     deviceMarkers.push(marker);
-	
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
 		isLoggedIn(function(data){
 			if(data == 1){
@@ -359,11 +377,6 @@ function render_device(location,devname,cacid,devid) {
 		});
 	});
 	
-	var content='';
-	var infowindow = new google.maps.InfoWindow({
-		content: content
-		,maxWidth: 800
-	});
 	
 	google.maps.event.addListener(marker, 'click', function(e) {
 		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
@@ -373,33 +386,33 @@ function render_device(location,devname,cacid,devid) {
 			switch(cactidata.status)
 			{
 				case '0':
-				  imgstat = 'images/menu-help.png';
+				  imgstat = iconStatusUnknown;
 				  textstat = 'unknown';
 				  break;
 				case '1':
-				  imgstat = 'images/flag-alert.png';
+				  imgstat = iconStatusDown;
 				  textstat = 'down';
 				  break;
 				case '2':
-				  imgstat = 'images/flag-recover.png';
+				  imgstat = iconStatusRecover;
 				  textstat = 'recover';
 				  break;
 				case '3':
-				  imgstat = 'images/flag-ok.png';
+				  imgstat = iconStatusUp;
 				  textstat = 'up';
 				  break;
 				case '4':
-				  imgstat = 'images/flag-warning.png';
+				  imgstat = iconStatusThreshold;
 				  textstat = 'threshold';
 				  break;
 				default:
-				  imgstat = 'images/menu-help.png';
+				  imgstat = iconStatusDefault;
 				  textstat = 'unknown 2';
 			}
 			
 			var text = '<div id="devinfowindow">'
 							+'<div id="imginfowindow">'
-							+'<img id="imglogo" src="images/icon-device2.png" />'
+							+'<img id="imglogo" src="'+iconDeviceInfo+'" />'
 							+'<img id="imgstat" src="'+imgstat+'" /></div>'
 							+'<h1>'+devname+'</h1><div class="clearboth"></div><div id="devinfolabel">'
 							+'Hostname<br>Description<br>'
@@ -410,78 +423,49 @@ function render_device(location,devname,cacid,devid) {
 							+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
 							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
 						;
-			infowindow.setContent(text);
+			infoElement.setContent(text);
 		});
-	
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		closeOtherCtxMenu(null);
-		
 		current.cactiId = cacid;
-		additioncentering = 2 - ((map.getZoom()+6)/10);
+		additionCentering = 2 - ((map.getZoom()+6)/10);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
-		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+additioncentering,this.getPosition().lng());
-		map.setCenter(selectedCenter);
-		infowindow.open(map,this);
-		infoMarkers.push(infowindow);
+		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+additionCentering,this.getPosition().lng());
+		infoElement.setPosition(location);
+		infoElement.open(map);
 	});
 }
 
-function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
-	var getparam = {
-		action: 'device_add',
-		data: {
-			group_id: groupid,
-			device_type_id: devtype,
-			name: devname,
-			description: devdesc,
-			longitude: devlng,
-			latitude: devlat,
-			cacti_id: cactiid
-		}
-	}
-
+function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
+	//add to map
 	var newLatLng = new google.maps.LatLng(devlat,devlng);
-	$.getJSON(url_device, getparam, function(data) {
-			if(data == 0) alert("Add Device failed");
-			else {
-				render_device(newLatLng,devname,cactiid);
-				deviceObjects.push({
-					device_id: data,
-					group_id: groupid,
-					device_type_id: devtype,
-					name: devname,
-					description: devdesc,
-					longitude: devlng,
-					latitude: devlat,
-					cacti_id: cactiid
-				});
-				alert("Add Device success");
-				var parentnode=null;
-				var devid = "device-"+data;
-				var info = {
-						  "attr":{"id":devid, "rel":"device"}
-						 ,"data":{"title":devname}
-				 };
-				if(groupid == 0) parentnode = "#group-0";
-				else parentnode = "#group-"+groupid;
-				$("#trees").jstree("create",parentnode,"last",info,false,true);
-				$('#'+devid).click(function() {
-					set_center_and_zoom(devlat,devlng);
-				});
-			}
-		}
-	);
-}
-
-function get_device_by_cacti_id_from_temp(cacid){
-	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
-	}
-	return retval;
+	renderDevice(newLatLng,devname,cactiid);
+	
+	//add to deviceObjects
+	deviceObjects.push({
+		device_id: newDeviceID,
+		group_id: groupid,
+		device_type_id: devtype,
+		name: devname,
+		description: devdesc,
+		longitude: devlng,
+		latitude: devlat,
+		cacti_id: cactiid
+	});
+	
+	//add device to tree
+	var parentnode=null;
+	var devid = "device-"+newDeviceID;
+	var info = {
+			  "attr":{"id":devid, "rel":"device"}
+			 ,"data":{"title":devname}
+	 };
+	if(groupid == 0) parentnode = "#group-0";
+	else parentnode = "#group-"+groupid;
+	$("#trees").jstree("create",parentnode,"last",info,false,true);
+	$('#'+devid).click(function() {
+		showInfoDevice(newDeviceID,devlat,devlng,cactiid);
+	});
 }
 
 function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
@@ -507,13 +491,9 @@ function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cact
 			else {$("#trees").jstree("move_node", "#device-" + devid, "#group-" + groupid);}						
 			$('#device-'+devid+' a').html('<ins class="jstree-icon"></ins>' + named);
 			
-
-
-
-			var idxdev = get_index_deviceObjects(devid);
+			var idxdev = getIndexOfDeviceObjects(devid);
 			closeOtherCtxMenu(null);
 			
-
 			//update array deviceObjects
 			deviceObjects[idxdev].device_id = devid;
 			deviceObjects[idxdev].group_id = groupid;
@@ -531,18 +511,10 @@ function update_device(devid, groupid, devtypeid, named, desc, longi, lati, cact
 	});
 }
 
-function delete_device(id, callback) {
-	var getparam = {
-		action: 'device_delete',
-		data: {
-			device_id: id
-		}
-	}
-	
-	$.getJSON(url_device, getparam, callback);
-	var idxdev = get_index_deviceObjects(id);
+function actionDeleteDevice(devid) {	
+	var idxdev = getIndexOfDeviceObjects(devid);
 	//update tree change
-	$("#trees").jstree("remove","#device-"+id);
+	$("#trees").jstree("remove","#device-"+devid);
 	closeOtherCtxMenu(null);
 	
 	//update map change
@@ -550,9 +522,74 @@ function delete_device(id, callback) {
 	deviceObjects[idxdev].device_id = -999;
 }
 
-//GROUP MODEL-CONTROL
+//function to show info windows of device
+function showInfoDevice(devid,lat,lng,cactiid){
+	//close others
+	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+	closeOtherCtxMenu(null);
+	infoElement.close();
+	
+	//init device info window
+	getCactiDevice(cactiid,function(cactidata){
+		var imgstat = '';
+		var textstat = '';
+		switch(cactidata.status)
+			{
+				case '0':
+				  imgstat = iconStatusUnknown;
+				  textstat = 'unknown';
+				  break;
+				case '1':
+				  imgstat = iconStatusDown;
+				  textstat = 'down';
+				  break;
+				case '2':
+				  imgstat = iconStatusRecover;
+				  textstat = 'recover';
+				  break;
+				case '3':
+				  imgstat = iconStatusUp;
+				  textstat = 'up';
+				  break;
+				case '4':
+				  imgstat = iconStatusThreshold;
+				  textstat = 'threshold';
+				  break;
+				default:
+				  imgstat = iconStatusDefault;
+				  textstat = 'unknown 2';
+			}
+		var devObject = getElementDeviceObjects(devid);
+		
+		var text = '<div id="devinfowindow">'
+						+'<div id="imginfowindow">'
+						+'<img id="imglogo" src="'+iconDeviceInfo+'" />'
+						+'<img id="imgstat" src="'+imgstat+'" /></div>'
+						+'<h1>'+devObject.name+'</h1><div class="clearboth"></div><div id="devinfolabel">'
+						+'Hostname<br>Description<br>'
+						+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
+						+'</div><div id="devinfovalue">: '
+						+cactidata.hostname + '<br>: '+ cactidata.description+ '<br>: '
+						+textstat + '<br>: '+ cactidata.status_fail_date+ '<br>: '+  cactidata.status_rec_date+ '<br>: '
+						+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
+						+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
+					;
+		infoElement.setContent(text);
+	});
+	
+	//show device info window
+	var markeridx = getIndexOfDeviceObjects(devid);
+	current.cactiId = cactiid;
+	additionCentering = 2 - ((map.getZoom()+6)/10);
+	if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+	var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat(),deviceMarkers[markeridx].getPosition().lng());
+	infoElement.setPosition(selectedCenter);
+	infoElement.open(map);
+}
 
-function render_group(location,groupname,groupid){
+//GROUP-CONTROLLER
+//show group on the map
+function renderGroup(location,groupname,groupid){
 	marker = new google.maps.Marker({
       position: location,
 	  icon : iconGroup,
@@ -562,10 +599,7 @@ function render_group(location,groupname,groupid){
     groupMarkers.push(marker);
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		isLoggedIn(function(data){
 			if(data == 1){
 				current.mouseX = tempX
@@ -577,146 +611,157 @@ function render_group(location,groupname,groupid){
 			}
 		});
 	});
-	var content = '<img src="images/icon-group.png" style="float:left;"/>This is group '+groupname;
-	var infowindow = new google.maps.InfoWindow({
-		content: content,
-		maxWidth: 200,
-		maxHeight: 100
-	});
 	google.maps.event.addListener(marker, 'click', function(e) {
-		if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-		}
+		infoElement.close();
 		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
 		
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat(),this.getPosition().lng());
-		if(map.getZoom() > minZoom) map.setCenter(selectedCenter);
 		closeOtherCtxMenu(null);
-		infowindow.open(map,this);
-		infoMarkers.push(infowindow);
+		var text = '<img src="'+iconGroupInfo+'" style="float:left;"/>This is group '+groupname;
+		infoElement.setPosition(selectedCenter);
+		infoElement.setContent(text);
+		infoElement.open(map);
 	});
 }
 
-function add_group(parentid, grpname, grplng, grplat, grpdesc) {
-	var getparam = {
-		action: 'group_add',
-		data: {
-			parent_id: parentid,
-			name: grpname,
-			description: grpdesc,
-			longitude: grplng,
-			latitude: grplat
-		}
-	}
+function actionAddGroup(newGroupID,parentid, grpname, grplng, grplat, grpdesc) {
+	//add to map
 	var newLatLng = new google.maps.LatLng(grplat,grplng);
-	$.getJSON(url_group, getparam, function(data) {
-			if(data == 0) alert("Add Group failed");
-			else {
-				render_group(newLatLng,grpname,data);
-				groupObjects.push({
-					group_id: data,
-					parent_id: parentid,
-					name: grpname,
-					description: grpdesc,
-					longitude: grplng,
-					latitude: grplat
-				});
-				alert("Add Group success");
-				var parentnode=null;
-				var groupid = "group-"+data;
-				var cgroupid = "cgroup-"+data; //id for clicked
-				var info = {
-						  "attr":{"id":groupid, "rel":"group"}
-						 ,"data":{"title":grpname}
-				 };
-				if(parentid == 0) parentnode = "#group-0";
-				else parentnode = "#group-"+parentid;
-				$("#trees").jstree("create",parentnode,"last",info,false,true);
-				$('#'+groupid).find('a').attr("id",cgroupid);
-				$('#'+cgroupid).click(function() {
-					set_center_and_zoom(grplat,grplng);
-				});
+	renderGroup(newLatLng,grpname,newGroupID);
+	
+	//add to groupObjects
+	groupObjects.push({
+		group_id: newGroupID,
+		parent_id: parentid,
+		name: grpname,
+		description: grpdesc,
+		longitude: grplng,
+		latitude: grplat
+	});
+	
+	//add group to tree
+	var parentnode=null;
+	var groupid = "group-"+newGroupID;
+	var cgroupid = "cgroup-"+newGroupID; //id for clicked
+	var info = {
+			  "attr":{"id":groupid, "rel":"group"}
+			 ,"data":{"title":grpname}
+	 };
+	if(parentid == 0) parentnode = "#group-0";
+	else parentnode = "#group-"+parentid;
+	$("#trees").jstree("create",parentnode,"last",info,false,true);
+	$('#'+groupid).find('a').attr("id",cgroupid);
+	$('#'+cgroupid).click(function() {
+		showInfoGroup(newGroupID,grplat,grplng);
+	});
+}
+
+function actionUpdateGroup(groupid, parentid, named, desc, longi, lati) {
+	//update tree
+	if(parentid == 0) {$("#trees").jstree("move_node","#group-"+groupid,"#group-0");}
+	else {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);}
+	$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
+	
+	var idxgroup = getIndexOfGroupObjects(groupid);
+	closeOtherCtxMenu(null);
+	
+	//update array deviceObjects
+	groupObjects[idxgroup].group_id = groupid;
+	groupObjects[idxgroup].parent_id = parentid;
+	groupObjects[idxgroup].name = named;
+	groupObjects[idxgroup].description = desc;
+	groupObjects[idxgroup].longitude = longi;
+	groupObjects[idxgroup].latitude = lati;
+	
+	//update map change
+	var newlatlng = new google.maps.LatLng(lati,longi);
+	groupMarkers[idxgroup].setOptions({position:newlatlng,title:named});
+}
+
+function actionDeleteGroup(groupid){
+	//update tree change
+	$("#trees").jstree("remove","#group-"+groupid);
+	closeOtherCtxMenu(null);
+	
+	//update map change
+	var delGroup;
+	var idxGroup;
+	var delDevice;
+	var idxDevice;
+	var queueDelGroup = [];
+	var queueDelDevice = [];
+	queueDelGroup.push(groupid);
+	var igg = 0;
+	var ihh = 0;
+	while(queueDelGroup.length > 0){
+		delGroup = queueDelGroup.shift();
+		idxGroup = getIndexOfGroupObjects(delGroup);
+		//delete group on the map
+		groupMarkers[idxGroup].setMap(null);
+		groupObjects[idxGroup].group_id = -999;
+		for(i=0; i < groupObjects.length; i++)
+		{
+			if(groupObjects[i].parent_id == delGroup){
+				queueDelGroup.push(groupObjects[i].group_id);
 			}
 		}
-	);
-}
-
-function update_group(groupid, parentid, named, desc, longi, lati) {
-	var getparam = {
-		action: 'group_update',
-		data: {
-			group_id: groupid,
-			parent_id: parentid,
-			name: named,
-			description: desc,
-			longitude: longi,
-			latitude: lati
+		//get all device that corelate with deleted group
+		for(i=0; i < deviceObjects.length; i++)
+		{
+			if(deviceObjects[i].group_id == delGroup){
+				queueDelDevice.push(deviceObjects[i].device_id);
+			}
 		}
 	}
+	while(queueDelDevice.length > 0){
+		//delete All device on the map that corelate with deleted group
+		delDevice = queueDelDevice.shift();
+		idxDevice = getIndexOfDeviceObjects(delDevice);
+		deviceMarkers[idxDevice].setMap(null);
+		deviceObjects[idxDevice].device_id = -999;
+	}
+}
 
-	$.getJSON(url_group, getparam, function(data) {
-
-		if(data == 0) {alert("Edit Group failed");}
-		else {
-			alert("Edit Group success");
-
-			//update tree
-			if(parentid == 0) {$("#trees").jstree("move_node","#group-"+groupid,"#group-0");}
-			else {$("#trees").jstree("move_node","#group-"+groupid,"#group-"+parentid);}
-
-			$('#cgroup-'+groupid).html('<ins class="jstree-icon"></ins>'+named);
-			
-			var idxgroup = get_index_groupObjects(groupid);
-			closeOtherCtxMenu(null);
-			
-			//update array deviceObjects
-			groupObjects[idxgroup].group_id = groupid;
-			groupObjects[idxgroup].parent_id = parentid;
-			groupObjects[idxgroup].name = named;
-			groupObjects[idxgroup].description = desc;
-			groupObjects[idxgroup].longitude = longi;
-			groupObjects[idxgroup].latitude = lati;
-			
-			//update map change
-			var newlatlng = new google.maps.LatLng(lati,longi);
-			groupMarkers[idxgroup].setOptions({position:newlatlng,title:named});
-		}
-	});
+function showInfoGroup(groupid,lat,longi){
+	//close others
+	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+	closeOtherCtxMenu(null);
+	infoElement.close();
+	
+	//init the info group window
+	var grpObject = getElementGroupObjects(groupid);
+	var text = '<img src="'+iconGroupInfo+'" style="float:left;"/>This is group '+grpObject.name;
+	infoElement.setContent(text);
+	
+	//show info group
+	var markeridx = getIndexOfGroupObjects(groupid);
+	if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+	var selectedCenter = new google.maps.LatLng(groupMarkers[markeridx].getPosition().lat(),groupMarkers[markeridx].getPosition().lng());
+	infoElement.setPosition(selectedCenter);
+	infoElement.open(map);
 }
 
 //CONTROL AUTO SETCENTERZOOM
-function set_center_and_zoom(lat,lng){	
+function setCenterAndZoom(lat,lng){	
 	var selectedCenter = new google.maps.LatLng(lat, lng);
-	map.setCenter(selectedCenter);
+	map.panTo(selectedCenter);
 	map.setZoom(centeringZoom);
 }
 
-//CONTROL CONTEXT MENU
-function check_point(position){
+//GET COORDINATE
+function checkPoint(position){
 	current.mouseX = tempX;
 	current.mouseY = tempY;
 	current.longitude = position.lng();
 	current.latitude = position.lat();
 }
-
-//CONTROL UNTUK BUTTOM MAP ZOOM SLIDER
-function zoom_in_btn(){
-	if(map.getZoom() < maxZoom) {
-		var val = map.getZoom()+1;
-		map.setZoom(val);
-		$( "#slider" ).slider( "option", "value", val);
-	}
-}
-function zoom_out_btn(){
-	if(map.getZoom() > minZoom) {
-		var val = map.getZoom()-1;
-		map.setZoom(val);
-		$( "#slider" ).slider( "option", "value", val);
-	}
-}
-
+//SHOW DEVICE ON THE MAP BY ID
 function showCactiDevice(id){
-	var curdev = get_device_by_cacti_id_from_temp(id);
-	set_center_and_zoom(curdev['latitude'],curdev['longitude']);
+	var curdev = getElementDeviceObjectsByCactiId(id);
+	showInfoDevice(curdev.device_id,curdev.latitude,curdev.longitude,curdev.cacti_id);
+}
+
+function showPanelRRD(){
+	infoElement.close();
+	$('#panel-rrd').dialog('open');
 }

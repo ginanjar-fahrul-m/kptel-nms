@@ -228,7 +228,7 @@ $(function(){
 				
 				if (bValid) {
 					if(!current.isEditForm)
-						add_device($("#device-parent").val(),default_device,$('#device-name').val(),
+						addDevice($("#device-parent").val(),default_device,$('#device-name').val(),
 									$('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val(),"Ini device");
 					else
 						update_device(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
@@ -325,9 +325,9 @@ $(function(){
 				
 				if (bValid) {
 					if(!current.isEditForm)
-						add_group($("#group-parent").val(),$('#group-name').val(),$('#group-lng').val(),$("#group-lat").val(),"ini group");
+						addGroup($("#group-parent").val(),$('#group-name').val(),$('#group-lng').val(),$("#group-lat").val(),"ini group");
 					else
-						update_group(current.groupId, $("#group-parent").val(), $('#group-name').val(), "", $('#group-lng').val(),$('#group-lat').val());
+						updateGroup(current.groupId, $("#group-parent").val(), $('#group-name').val(), "", $('#group-lng').val(),$('#group-lat').val());
 					$(".group-tips").text('All form fields are required.');
 					allfieldsgroup.val('').removeClass('ui-state-error');
 					$(this).dialog('close');
@@ -517,7 +517,7 @@ $(function(){
 	});
 	
 	$('#device-delete').click(function() {
-		delete_device(current.deviceId, function(){alert("deleted")});
+		deleteDevice(current.deviceId);
 		closeOtherCtxMenu(null);
 	});
 	
@@ -527,11 +527,7 @@ $(function(){
 	});
 	
 	$('#group-delete').click(function() {
-		deleteGroup(current.groupId, function(result){
-			if(result==1) alert("deleted");
-
-			else alert("delete failed");
-		});
+		deleteGroup(current.groupId);
 		closeOtherCtxMenu(null);
 	});
 	

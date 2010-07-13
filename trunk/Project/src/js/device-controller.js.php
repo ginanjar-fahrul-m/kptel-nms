@@ -94,3 +94,40 @@ function getCactiGraphList(id_cacti, callback){
 	$.getJSON(url_device, getparam, callback);
 }
 
+function addDevice(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
+	var getparam = {
+		action: 'device_add',
+		data: {
+			group_id: groupid,
+			device_type_id: devtype,
+			name: devname,
+			description: devdesc,
+			longitude: devlng,
+			latitude: devlat,
+			cacti_id: cactiid
+		}
+	}
+	$.getJSON(url_device, getparam, function(data) {
+		if(data == 0) {alert("Add Device failed");}
+		else {
+			actionAddDevice(data,groupid,devtype,devname,devlng,devlat,cactiid,devdesc);
+			alert("Add Device success");
+		}
+	});
+}
+
+function deleteDevice(id) {
+	var getparam = {
+		action: 'device_delete',
+		data: {
+			device_id: id
+		}
+	}
+	
+	$.getJSON(url_device, getparam, function(data){
+		if(data==1){
+			actionDeleteDevice(id);
+			alert("Device has successfully deleted");
+		}else{alert('delete failed');}
+	});
+}

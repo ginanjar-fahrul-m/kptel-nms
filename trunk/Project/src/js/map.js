@@ -509,7 +509,7 @@ function add_device(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	);
 }
 
-//function to show info windows
+//function to show info windows of device
 function showInfoDevice(devid,lat,lng,cactiid){
 	if($('#panelrrd').dialog('isOpen'))	$('#panelrrd').dialog('close');
 	closeOtherCtxMenu(null);
@@ -901,6 +901,17 @@ function delete_group(id, callback) {
 	var idxgroup = get_index_groupObjects(id);
 	//update tree change
 	$("#trees").jstree("remove","#group-"+id);
+	closeOtherCtxMenu(null);
+	
+	//update map change
+	groupMarkers[idxgroup].setMap(null);
+	groupObjects[idxgroup].group_id = -999;
+}
+
+function actionDeleteGroup(data){
+	var idxgroup = get_index_groupObjects(current.groupId);
+	//update tree change
+	$("#trees").jstree("remove","#group-"+current.groupId);
 	closeOtherCtxMenu(null);
 	
 	//update map change
