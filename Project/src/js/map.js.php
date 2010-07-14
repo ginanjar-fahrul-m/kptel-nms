@@ -470,6 +470,19 @@ function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cacti
 	$('#'+devid).click(function() {
 		showInfoDevice(newDeviceID);
 	});
+	
+	//check if the device doesn't have status 'up'
+	getCactiDevice(cactiid,function(newCacti){
+		if((newCacti.status != 2)||(newCacti.status != 3)){
+			//update alert device icon in menu-tree column
+			$('#device-'+newDeviceID).attr('rel','device-error');
+			if(groupid != 0) {changeParentTreeStatus(groupid);}
+			
+			//update alert device icon in google maps
+			var updateIconIndex = getIndexOfDeviceObjects(newDeviceID);
+			deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
+		}
+	});
 }
 
 //this function called when device is updated
