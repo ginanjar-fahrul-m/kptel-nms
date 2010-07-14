@@ -37,7 +37,7 @@ var centeringZoom = minZoom + 2;
 var additionCentering = 0;
 
 function setSizes() {
-   var menuHeight = 44;
+   var menuHeight = 42;
    var viewportHeight = $(window).height();
    var mapHeight = viewportHeight - menuHeight;
    $("#map-canvas").height(mapHeight);
@@ -508,6 +508,11 @@ function actionDeleteDevice(devid) {
 	//update map change
 	deviceMarkers[idxdev].setMap(null);
 	deviceObjects[idxdev].device_id = -999;
+	
+	
+	//update notif box
+	$("#notif-"+deviceObjects[idxdev].cacti_id).remove();
+	$(".threshold-"+deviceObjects[idxdev].cacti_id).remove();
 }
 
 //show info windows of device on the map by device_id
