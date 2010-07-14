@@ -139,8 +139,14 @@ $(function(){
 			allfieldslogin.val('').removeClass('ui-state-error');
 			$('#form-login').dialog('close');
 			login(user, pass, function(data){
-				if(data == 1) window.location = ".";
-				else $('#form-login').dialog('open');
+				if(data == 1) {
+					current.inWhichForm = 'form-login-success';
+					openDialogBox("Login successful!");
+				}
+				else {
+					current.inWhichForm = 'form-login-failed';
+					openDialogBox("Login failed!");
+				}
 			});
 		}
 	}
@@ -483,7 +489,7 @@ $(function(){
 				} else
 				if(current.inWhichForm == 'form-group'){
 					deleteGroup(current.groupId);
-				}
+				} 
 				$(this).dialog('close');
 			},
 			Cancel: function() {
@@ -499,6 +505,9 @@ $(function(){
 		modal: true,
 		buttons: {
 			'OK': function() {
+				if(current.inWhichForm == 'form-login-success'){
+					window.location = ".";
+				}
 				$(this).dialog('close');
 			}
 		}
