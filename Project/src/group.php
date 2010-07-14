@@ -229,7 +229,7 @@ function group_get_impossible_parent_list_recursive($group_id) {
 	
 	if(session_get($config['session']['db_sess'])->num_rows($result) > 0) {
 		while($row = mysql_fetch_assoc($result)) {
-			$group_list = array_merge($group_list, group_get_possible_parent_list_recursive($row['group_id']));
+			$group_list = array_merge($group_list, group_get_impossible_parent_list_recursive($row['group_id']));
 		}
 	}
 	
