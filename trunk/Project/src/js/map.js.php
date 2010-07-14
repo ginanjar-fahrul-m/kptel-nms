@@ -431,10 +431,10 @@ function renderDevice(location,devname,cacid,devid) {
 		infoElement.close();
 		closeOtherCtxMenu(null);
 		current.cactiId = cacid;
-		additionCentering = 2 - ((map.getZoom()+6)/10);
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
-		var selectedCenter = new google.maps.LatLng(this.getPosition().lat()+additionCentering,this.getPosition().lng());
-		infoElement.setPosition(location);
+		var markeridx = getIndexOfDeviceObjects(devid);
+		var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat(),deviceMarkers[markeridx].getPosition().lng());
+		infoElement.setPosition(selectedCenter);
 		infoElement.open(map);
 	});
 }
@@ -575,10 +575,10 @@ function showInfoDevice(devid){
 	});
 	
 	//show info window device
-	var markeridx = getIndexOfDeviceObjects(devid);
 	current.cactiId = cactiid;
 	additionCentering = 2 - ((map.getZoom()+6)/10);
 	if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
+	var markeridx = getIndexOfDeviceObjects(devid);
 	var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat(),deviceMarkers[markeridx].getPosition().lng());
 	infoElement.setPosition(selectedCenter);
 	infoElement.open(map);
