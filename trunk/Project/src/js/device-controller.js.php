@@ -108,10 +108,10 @@ function addDevice(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 		}
 	}
 	$.getJSON(url_device, getparam, function(data) {
-		if(data == 0) {alert("Add Device failed");}
+		if(data == 0) {openDialogBox("Add Device failed");}
 		else {
 			actionAddDevice(data,groupid,devtype,devname,devlng,devlat,cactiid,devdesc);
-			alert("Add Device success");
+			openDialogBox("Add Device success");
 		}
 	});
 }
@@ -131,10 +131,10 @@ function updateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cacti
 		}
 	}
 	$.getJSON(url_device, getparam, function(data) {
-		if(data == 0) {alert("Edit Device failed");}
+		if(data == 0) {openDialogBox("Edit Device failed");}
 		else {
 			actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid);
-			alert("Edit Device success");
+			openDialogBox("Edit Device success");
 		}
 	});
 }
@@ -149,7 +149,7 @@ function deleteDevice(id) {
 	$.getJSON(url_device, getparam, function(data){
 		if(data==1){
 			actionDeleteDevice(id);
-			alert("Device has successfully deleted");
-		}else{alert('delete failed');}
+			openDialogBox("Device has successfully deleted");
+		}else{openDialogBox('delete failed');}
 	});
 }
