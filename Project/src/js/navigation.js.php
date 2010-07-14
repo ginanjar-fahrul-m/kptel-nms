@@ -289,18 +289,56 @@ $(function(){
 		open: function() {
 			$("#device-name").val('');
 			if(current.isEditForm){
-				getGroupList(function(posData){
-					$("#device-parent").find('option').remove();
-					$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
-					for (var i = 0; i < posData.length; i++){
-						$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+				$("#device-parent").find('option').remove();
+				$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
+				for (var i = 0; i < groupObjects.length; i++){
+					$("#device-parent").append($("<option></option>").attr("value",groupObjects[i]['group_id']).text(groupObjects[i]['name']));
+				}
+				$('#device-cacti').css("display","none");
+				$('#cacti-label').css("display","none");
+				if(current.isFindLoc){
+					$('#device-name').val(current.tempName);
+					$('#device-parent').val(current.tempParent);
+					$('#device-cacti').val(current.tempDevice);
+					if(current.isConfirm){
+						$('#device-lng').val($('#coord-lng').val());
+						$('#device-lat').val($('#coord-lat').val());
 					}
-					$('#device-cacti').css("display","none");
-					$('#cacti-label').css("display","none");
+					else {
+						$('#device-lng').val(current.tempLng);
+						$('#device-lat').val(current.tempLat);
+					}
+					current.isFindLoc = false;
+				} else {
+					devicedata = getElementDeviceObjects(current.deviceId);
+					$('#device-name').val(devicedata['name']);
+					$('#device-parent').val(devicedata['group_id']);
+					$('#device-lng').val(devicedata['longitude']);
+					$('#device-lat').val(devicedata['latitude']);
+					$('#device-parent').val(devicedata['cacti_id']);
+				}
+			} else{
+				$('#device-cacti').css("display","block");
+				$('#cacti-label').css("display","block");
+				
+				$("#device-parent").find('option').remove();
+				$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
+				for (var i = 0; i < groupObjects.length; i++){
+					$("#device-parent").append($("<option></option>").attr("value",groupObjects[i]['group_id']).text(groupObjects[i]['name']));
+				}
+				getCactiUnlistedDeviceList(function(data){
+					$("#device-cacti").find('option').remove();
+					$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
+					for (var i = 0; i < data.length; i++){
+						$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+					}
 					if(current.isFindLoc){
 						$('#device-name').val(current.tempName);
 						$('#device-parent').val(current.tempParent);
-						$('#device-cacti').val(current.tempDevice);
+						getCactiDevice(current.tempDevice,function(tempData){
+							$('#device-cacti').append($("<option></option>").attr("value",current.tempDevice).text(tempData['description']));
+							$('#device-cacti').val(current.tempDevice);
+						});
 						if(current.isConfirm){
 							$('#device-lng').val($('#coord-lng').val());
 							$('#device-lat').val($('#coord-lat').val());
@@ -310,52 +348,10 @@ $(function(){
 							$('#device-lat').val(current.tempLat);
 						}
 						current.isFindLoc = false;
-					} else {
-						getDevice(current.deviceId,function(devicedata){
-							$('#device-name').val(devicedata['name']);
-							$('#device-parent').val(devicedata['group_id']);
-							$('#device-lng').val(devicedata['longitude']);
-							$('#device-lat').val(devicedata['latitude']);
-							$('#device-parent').val(devicedata['cacti_id']);
-						});
+					} else {							
+						$('#device-lng').val(current.longitude);
+						$('#device-lat').val(current.latitude);
 					}
-				});
-			} else{
-				$('#device-cacti').css("display","block");
-				$('#cacti-label').css("display","block");
-				getGroupList(function(posData){
-					$("#device-parent").find('option').remove();
-					$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
-					for (var i = 0; i < posData.length; i++){
-						$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
-					}
-					getCactiUnlistedDeviceList(function(data){
-						$("#device-cacti").find('option').remove();
-						$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
-						for (var i = 0; i < data.length; i++){
-							$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
-						}
-						if(current.isFindLoc){
-							$('#device-name').val(current.tempName);
-							$('#device-parent').val(current.tempParent);
-							getCactiDevice(current.tempDevice,function(tempData){
-								$('#device-cacti').append($("<option></option>").attr("value",current.tempDevice).text(tempData['description']));
-								$('#device-cacti').val(current.tempDevice);
-							});
-							if(current.isConfirm){
-								$('#device-lng').val($('#coord-lng').val());
-								$('#device-lat').val($('#coord-lat').val());
-							}
-							else {
-								$('#device-lng').val(current.tempLng);
-								$('#device-lat').val(current.tempLat);
-							}
-							current.isFindLoc = false;
-						} else {							
-							$('#device-lng').val(current.longitude);
-							$('#device-lat').val(current.latitude);
-						}
-					});
 				});
 			}
 			closeOtherCtxMenu("#form-device");
@@ -405,38 +401,35 @@ $(function(){
 						}
 						current.isFindLoc = false;
 					} else{
-						getGroup(current.groupId,function(data){
-							$('#group-name').val(data['name']);
-							$('#group-parent').val(data['parent_id']);
-							$('#group-lng').val(data['longitude']);
-							$('#group-lat').val(data['latitude']);
-						});
+						data = getElementGroupObjects(current.groupId)
+						$('#group-name').val(data['name']);
+						$('#group-parent').val(data['parent_id']);
+						$('#group-lng').val(data['longitude']);
+						$('#group-lat').val(data['latitude']);
 					}
 				});
 			}
 			else {
-				getGroupList(function(data){
-					$("#group-parent").find('option').remove();
-					$("#group-parent").append($("<option></option>").attr("value",'0').text('<none>'));
-					for (var i = 0; i < data.length; i++){
-						$("#group-parent").append($("<option></option>").attr("value",data[i]['group_id']).text(data[i]['name']));
-					}
-					if(current.isFindLoc){
-						$('#group-name').val(current.tempName);
-						$('#group-parent').val(current.tempParent);
-						if(current.isConfirm){
-							$('#group-lng').val($('#coord-lng').val());
-							$('#group-lat').val($('#coord-lat').val());
-						} else{
-							$('#group-lng').val(current.tempLng);
-							$('#group-lat').val(current.tempLat);
-						}
-						current.isFindLoc = false;
+				$("#group-parent").find('option').remove();
+				$("#group-parent").append($("<option></option>").attr("value",'0').text('<none>'));
+				for (var i = 0; i < groupObjects.length; i++){
+					$("#group-parent").append($("<option></option>").attr("value",groupObjects[i]['group_id']).text(groupObjects[i]['name']));
+				}
+				if(current.isFindLoc){
+					$('#group-name').val(current.tempName);
+					$('#group-parent').val(current.tempParent);
+					if(current.isConfirm){
+						$('#group-lng').val($('#coord-lng').val());
+						$('#group-lat').val($('#coord-lat').val());
 					} else{
-						$('#group-lng').val(current.longitude);
-						$('#group-lat').val(current.latitude);
+						$('#group-lng').val(current.tempLng);
+						$('#group-lat').val(current.tempLat);
 					}
-				});
+					current.isFindLoc = false;
+				} else{
+					$('#group-lng').val(current.longitude);
+					$('#group-lat').val(current.latitude);
+				}
 			}
 			closeOtherCtxMenu("#form-group");
 		}
