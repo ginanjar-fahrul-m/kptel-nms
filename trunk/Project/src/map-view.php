@@ -75,7 +75,7 @@ session_db_init();
 			<div id="menu-left"> 
 				<ul>
 					<li>
-						<a class="ui-widget-header" href="" title="Return to home">
+						<a class="ui-widget-header" href="." title="Return to home">
 							<img alt="menu-home" src="images/menu-home.png"/> Home </a>
 					</li> 
 					<li>
