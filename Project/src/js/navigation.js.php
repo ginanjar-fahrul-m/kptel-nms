@@ -479,7 +479,12 @@ $(function(){
 		modal: true,
 		buttons: {
 			'Delete all items': function() {
-				deleteGroup(current.groupId);
+				if(current.inWhichForm == 'form-device'){
+					deleteDevice(current.deviceId);
+				} else
+				if(current.inWhichForm == 'form-group'){
+					deleteGroup(current.groupId);
+				}
 				$(this).dialog('close');
 			},
 			Cancel: function() {
@@ -579,7 +584,8 @@ $(function(){
 	});
 	
 	$('#device-delete').click(function() {
-		deleteDevice(current.deviceId);
+		current.inWhichForm = 'form-device';
+		$('#dialog-confirm').dialog('open');
 		closeOtherCtxMenu(null);
 	});
 	
@@ -589,6 +595,7 @@ $(function(){
 	});
 	
 	$('#group-delete').click(function() {
+		current.inWhichForm = 'form-group';
 		$('#dialog-confirm').dialog('open');
 		closeOtherCtxMenu(null);
 	});
