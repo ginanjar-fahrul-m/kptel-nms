@@ -150,15 +150,15 @@ session_db_init();
 			<div id="form-device" title="device form">
 				<p class="device-tips">All form fields are required.</p>
 				<fieldset>
+					<label id="cacti-label">Device: </label>
+					<select id="device-cacti" class="text ui-widget-content ui-corner-all">
+						<option value="0">&lt;---&gt;</option>
+					</select>
 					<label>Name: </label>
 					<input type="text" id="device-name" class="text ui-widget-content ui-corner-all" />
 					<label>Parent: </label>
 					<select id="device-parent" class="text ui-widget-content ui-corner-all">
 						<option value="0">&lt;root&gt;</option>
-					</select>
-					<label>Device: </label>
-					<select id="device-cacti" class="text ui-widget-content ui-corner-all">
-						<option value="0">&lt;---&gt;</option>
 					</select>
 					<label>Location: </label>
 					<input type="text" id="device-lng" class="text ui-widget-content ui-corner-all" />&nbsp;&deg;
@@ -185,6 +185,13 @@ session_db_init();
 				<label>Location: </label>
 				<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
 				<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
+			</div>
+			<div id="dialog-confirm" title="Delete Group?">
+				<p><span class="ui-icon ui-icon-alert dialog-text"></span>
+				These group will be permanently deleted and cannot be recovered. Are you sure?</p>
+			</div>
+			<div id="dialog-box" title="Dialog">
+				<div id='dialog-text' class="dialog-text"></div>
 			</div>
 		</div>
 		<div id="ctxmenu">

@@ -90,3 +90,7 @@
 	cursor: pointer;
 	text-decoration: none;
 }
+.dialog-text {
+	float:left; 
+	margin:0 7px 20px 0;
+}
