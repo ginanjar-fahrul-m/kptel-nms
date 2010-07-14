@@ -186,7 +186,7 @@ function updateMap(){
 function buildMapComponent(){
 	var groupnode;
 	var devicenode;
-	
+	infoElement.close();
 	// Refresh all nodes' menu-tree and map component
 	// data1 is data that contain list of all group that have been added to database
 	// data2 is data that contain list of all device that have been added to database
@@ -236,17 +236,16 @@ function buildMapComponent(){
 			//add sign to any device that has problem
 			getStatusNotification(function(data3){
 				$.each(data3, function(index,datum3){
-					var curdev = getElementDeviceObjectsByCactiId(datum3.id);
-					//update alert device icon in menu-tree column
-					$('#device-'+curdev.device_id).attr('rel','device-error');
-					if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
-					
-					//update alert device icon in google maps
-					var updateIconIndex = getIndexOfDeviceObjects(curdev.device_id);
 					if(datum3.status != 2){
+						var curdev = getElementDeviceObjectsByCactiId(datum3.id);
+						//update alert device icon in menu-tree column
+						$('#device-'+curdev.device_id).attr('rel','device-error');
+						if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
+						
+						//update alert device icon in google maps
+						var updateIconIndex = getIndexOfDeviceObjects(curdev.device_id);
 						deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
 					}
-					
 				});
 				//udpate notification column
 				showWarningDevice(data3);
@@ -301,6 +300,7 @@ function treeDeviceProcessing(data){
 	});
 }
 
+//change all group that contain problematic device
 function changeParentTreeStatus(parentid){
 	var curgroup = getElementGroupObjects(parentid);
 	$('#group-'+curgroup.group_id).attr('rel','group-error');
