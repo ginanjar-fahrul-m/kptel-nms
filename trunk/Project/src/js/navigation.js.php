@@ -212,11 +212,10 @@ $(function(){
 		hide: "slide",
 		position: [0,42],
 		close: function() {
-			$('#panel-zoom').css('z-index','10');
+			
 		},
 		open: function() {
 			closeOtherCtxMenu(null);
-			$('#panel-zoom').css('z-index','0');
 			getCactiGraphList(current.cactiId, function(data){
 				var rrdText = "";
 				$('#panel-rrd').html('');
