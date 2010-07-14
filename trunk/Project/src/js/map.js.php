@@ -186,33 +186,33 @@ function updateMap(){
 function buildMapComponent(){
 	var groupnode;
 	var devicenode;
-	//Reset all component
-	$('#trees').html('');
-	
-	if (deviceMarkers) {
-		for (idx = 0; idx < deviceMarkers.length; idx++) {
-		  deviceMarkers[idx].setMap(null);
-		}
-		deviceMarkers.length = 0;
-	}
-	
-	if (groupMarkers) {
-		for (idx = 0; idx < groupMarkers.length; idx++) {
-		  groupMarkers[idx].setMap(null);
-		}
-		groupMarkers.length = 0;
-	}
-	
-	if (deviceObjects) {deviceObjects.length = 0;}
-	if (groupObjects) {groupObjects.length = 0;}
 	
 	//Refresh all nodes' menu-tree and map component
 	getGroupList(function(data1) {
 		groupnode = data1;
 		getDeviceList(function(data2) {
-			devicenode = data2;		
+			devicenode = data2;	
+			//reset tree
+			$('#trees').html('');	
 			//create root node
-			$("#trees").jstree("create",-1,"first",{"attr":{"id":"group-0", "rel":"group"},"data":{"title":"root"}},false,true);
+			$("#trees").jstree("create",-1,"first",{"attr":{"id":"group-0", "rel":"group"},"data":{"title":"root"}},false,true);			
+			//Reset all group and device component on the map
+			if (deviceMarkers) {
+				for (idx = 0; idx < deviceMarkers.length; idx++) {
+				  deviceMarkers[idx].setMap(null);
+				}
+				deviceMarkers.length = 0;
+			}
+			if (groupMarkers) {
+				for (idx = 0; idx < groupMarkers.length; idx++) {
+				  groupMarkers[idx].setMap(null);
+				}
+				groupMarkers.length = 0;
+			}
+			if (deviceObjects) {deviceObjects.length = 0;}
+			if (groupObjects) {groupObjects.length = 0;}
+			
+			//refresh all group on map and tree
 			if(data1 !== null){	
 				treeGroupProcessing(groupnode,0);
 				$.each(data1, function(index, datum1){
@@ -221,6 +221,7 @@ function buildMapComponent(){
 					groupObjects.push(datum1);
 				});
 			}
+			//refresh all device on map and tree
 			if(data2 !== null){
 				treeDeviceProcessing(devicenode);
 				$.each(data2, function(index, datum2){
@@ -229,7 +230,7 @@ function buildMapComponent(){
 					deviceObjects.push(datum2);
 				});
 			}
-	
+			//add sign to any device that has problem
 			getStatusNotification(function(data3){
 				$.each(data3, function(index,datum3){
 					var curdev = getElementDeviceObjectsByCactiId(datum3.id);
@@ -243,7 +244,7 @@ function buildMapComponent(){
 					deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
 					
 				});
-				//udpate notif column
+				//udpate notification column
 				showWarningDevice(data3);
 			});				
 		});
