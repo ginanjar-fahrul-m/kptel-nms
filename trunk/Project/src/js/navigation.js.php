@@ -66,6 +66,8 @@ $(function(){
 		allfieldsdevice = $([]).add($("#device-name")).add($("#device-parent")).add($("#device-cacti")).add($("#device-lng")).add($("#device-lat")),
 		allfieldsgroup = $([]).add($("#group-name")).add($("#group-parent")).add($("#group-lng")).add($("#group-lat"));
 
+	$("#dialog").dialog("destroy");
+	
 	function runEffect(effectId,effect){
 		var selectedEffect = effect;
 		var options = {};
@@ -120,6 +122,84 @@ $(function(){
 		}
 	}
 	
+	function formLoginConfirm(){
+		var bValid = true;
+		allfieldslogin.removeClass('ui-state-error');
+
+		bValid = bValid && checkLength($(".login-tips"),$("#login-name"),"username",0,50);
+		bValid = bValid && checkLength($(".login-tips"),$("#login-pass"),"password",0,50);
+
+		bValid = bValid && checkRegexp($(".login-tips"),$("#login-name"),/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
+		bValid = bValid && checkRegexp($(".login-tips"),$("#login-pass"),/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
+		
+		if (bValid) {
+			var user = $("#login-name").val();
+			var pass = $("#login-pass").val();
+			$(".login-tips").text('All form fields are required.');
+			allfieldslogin.val('').removeClass('ui-state-error');
+			$('#form-login').dialog('close');
+			login(user, pass, function(data){
+				if(data == 1) window.location = ".";
+				else $('#form-login').dialog('open');
+			});
+		}
+	}
+	
+	function formDeviceConfirm(){
+		var bValid = true;
+		allfieldsdevice.removeClass('ui-state-error');
+
+		bValid = bValid && checkLength($(".device-tips"),$("#device-name"),"name",0,64);
+
+		bValid = bValid && checkRegexp($(".device-tips"),$("#device-name"),/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+		if(!current.isEditForm) bValid = bValid && checkSelect($(".device-tips"),$("#device-cacti"));
+		bValid = bValid && checkRegexp($(".device-tips"),$("#device-lng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
+		bValid = bValid && checkRegexp($(".device-tips"),$("#device-lat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
+		bValid = bValid && checkLength($(".device-tips"),$("#device-lng"),"longitude",-90,90);
+		bValid = bValid && checkLength($(".device-tips"),$("#device-lat"),"latitude",-180,180);
+		
+		if (bValid) {
+			if(!current.isEditForm) {
+				addDevice($("#device-parent").val(),default_device,$('#device-name').val(),
+							$('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val(),"Ini device");
+			}
+			else {
+				updateDevice(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
+							"", $('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val());
+			}
+			$(".device-tips").text('All form fields are required.');
+			allfieldsdevice.val('').removeClass('ui-state-error');
+			$('#form-device').dialog('close');
+			current.isEditForm = false;
+		}
+	}
+	
+	function formGroupConfirm(){
+		var bValid = true;
+		allfieldsgroup.removeClass('ui-state-error');
+
+		bValid = bValid && checkLength($(".group-tips"),$("#group-name"),"name",0,64);
+
+		bValid = bValid && checkRegexp($(".group-tips"),$("#group-name"),/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
+		bValid = bValid && checkRegexp($(".group-tips"),$("#group-lng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
+		bValid = bValid && checkRegexp($(".group-tips"),$("#group-lat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
+		bValid = bValid && checkLength($(".group-tips"),$("#group-lng"),"longitude",-90,90);
+		bValid = bValid && checkLength($(".group-tips"),$("#group-lat"),"latitude",-180,180);
+		
+		if (bValid) {
+			if(!current.isEditForm) {
+				addGroup($("#group-parent").val(),$('#group-name').val(),$('#group-lng').val(),$("#group-lat").val(),"ini group");
+			}
+			else {
+				updateGroup(current.groupId, $("#group-parent").val(), $('#group-name').val(), "", $('#group-lng').val(),$('#group-lat').val());
+			}
+			$(".group-tips").text('All form fields are required.');
+			allfieldsgroup.val('').removeClass('ui-state-error');
+			$('#form-group').dialog('close');
+			current.isEditForm = false;
+		}
+	}
+	
 	$("#panel-rrd").dialog({
 		autoOpen: false,
 		height: 500,
@@ -167,27 +247,8 @@ $(function(){
 		show: "clip",
 		hide: "clip",
 		buttons: {
-			'Login': function() {
-				var bValid = true;
-				allfieldslogin.removeClass('ui-state-error');
-
-				bValid = bValid && checkLength($(".login-tips"),$("#login-name"),"username",0,50);
-				bValid = bValid && checkLength($(".login-tips"),$("#login-pass"),"password",0,50);
-
-				bValid = bValid && checkRegexp($(".login-tips"),$("#login-name"),/^[a-z]([0-9a-z_])+$/i,"Username may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkRegexp($(".login-tips"),$("#login-pass"),/^([0-9a-zA-Z])+$/,"Password field only allow : a-z 0-9");
-				
-				if (bValid) {
-					var user = $("#login-name").val();
-					var pass = $("#login-pass").val();
-					$(".login-tips").text('All form fields are required.');
-					allfieldslogin.val('').removeClass('ui-state-error');
-					$(this).dialog('close');
-					login(user, pass, function(data){
-						if(data == 1) window.location = ".";
-						else $('#form-login').dialog('open');
-					});
-				}
+			'Login': function(){
+				formLoginConfirm();
 			},
 			Cancel: function() {
 				$(".login-tips").text('All form fields are required.');
@@ -214,30 +275,7 @@ $(function(){
 		hide: "clip",
 		buttons: {
 			'OK': function() {
-				var bValid = true;
-				allfieldsdevice.removeClass('ui-state-error');
-
-				bValid = bValid && checkLength($(".device-tips"),$("#device-name"),"name",0,64);
-
-				bValid = bValid && checkRegexp($(".device-tips"),$("#device-name"),/^[a-z]([0-9a-z_\- ])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkSelect($(".device-tips"),$("#device-cacti"));
-				bValid = bValid && checkRegexp($(".device-tips"),$("#device-lng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
-				bValid = bValid && checkRegexp($(".device-tips"),$("#device-lat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
-				bValid = bValid && checkLength($(".device-tips"),$("#device-lng"),"longitude",-90,90);
-				bValid = bValid && checkLength($(".device-tips"),$("#device-lat"),"latitude",-180,180);
-				
-				if (bValid) {
-					if(!current.isEditForm)
-						addDevice($("#device-parent").val(),default_device,$('#device-name').val(),
-									$('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val(),"Ini device");
-					else
-						updateDevice(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
-									"", $('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val());
-					$(".device-tips").text('All form fields are required.');
-					allfieldsdevice.val('').removeClass('ui-state-error');
-					$(this).dialog('close');
-					current.isEditForm = false;
-				}
+				formDeviceConfirm();
 			},
 			Cancel: function() {
 				current.isEditForm = false;
@@ -250,25 +288,19 @@ $(function(){
 		},
 		open: function() {
 			$("#device-name").val('');
-			getGroupList(function(posData){
-				$("#device-parent").find('option').remove();
-				$("#device-parent").append($("<option></option>").attr("value",'0').text('<none>'));
-				for (var i = 0; i < posData.length; i++){
-					$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
-				}
-				getCactiUnlistedDeviceList(function(data){
-					$("#device-cacti").find('option').remove();
-					$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
-					for (var i = 0; i < data.length; i++){
-						$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+			if(current.isEditForm){
+				getGroupList(function(posData){
+					$("#device-parent").find('option').remove();
+					$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
+					for (var i = 0; i < posData.length; i++){
+						$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
 					}
+					$('#device-cacti').css("display","none");
+					$('#cacti-label').css("display","none");
 					if(current.isFindLoc){
 						$('#device-name').val(current.tempName);
 						$('#device-parent').val(current.tempParent);
-						getCactiDevice(current.tempDevice,function(tempData){
-							$('#device-cacti').append($("<option></option>").attr("value",current.tempDevice).text(tempData['description']));
-							$('#device-cacti').val(current.tempDevice);
-						});
+						$('#device-cacti').val(current.tempDevice);
 						if(current.isConfirm){
 							$('#device-lng').val($('#coord-lng').val());
 							$('#device-lat').val($('#coord-lat').val());
@@ -279,24 +311,53 @@ $(function(){
 						}
 						current.isFindLoc = false;
 					} else {
-						if(current.isEditForm){
-							getDevice(current.deviceId,function(devicedata){
-								$('#device-name').val(devicedata['name']);
-								$('#device-parent').val(devicedata['group_id']);
-								getCactiDevice(devicedata['cacti_id'],function(cactidata){
-									$('#device-cacti').append($("<option></option>").attr("value",devicedata['cacti_id']).text(cactidata['description']));
-									$('#device-cacti').val(devicedata['cacti_id']);
-								});
-								$('#device-lng').val(devicedata['longitude']);
-								$('#device-lat').val(devicedata['latitude']);
+						getDevice(current.deviceId,function(devicedata){
+							$('#device-name').val(devicedata['name']);
+							$('#device-parent').val(devicedata['group_id']);
+							$('#device-lng').val(devicedata['longitude']);
+							$('#device-lat').val(devicedata['latitude']);
+							$('#device-parent').val(devicedata['cacti_id']);
+						});
+					}
+				});
+			} else{
+				$('#device-cacti').css("display","block");
+				$('#cacti-label').css("display","block");
+				getGroupList(function(posData){
+					$("#device-parent").find('option').remove();
+					$("#device-parent").append($("<option></option>").attr("value",'0').text('root'));
+					for (var i = 0; i < posData.length; i++){
+						$("#device-parent").append($("<option></option>").attr("value",posData[i]['group_id']).text(posData[i]['name']));
+					}
+					getCactiUnlistedDeviceList(function(data){
+						$("#device-cacti").find('option').remove();
+						$("#device-cacti").append($("<option></option>").attr("value",'0').text('<none>'));
+						for (var i = 0; i < data.length; i++){
+							$("#device-cacti").append($("<option></option>").attr("value",data[i]['id']).text(data[i]['description']));
+						}
+						if(current.isFindLoc){
+							$('#device-name').val(current.tempName);
+							$('#device-parent').val(current.tempParent);
+							getCactiDevice(current.tempDevice,function(tempData){
+								$('#device-cacti').append($("<option></option>").attr("value",current.tempDevice).text(tempData['description']));
+								$('#device-cacti').val(current.tempDevice);
 							});
-						} else {
+							if(current.isConfirm){
+								$('#device-lng').val($('#coord-lng').val());
+								$('#device-lat').val($('#coord-lat').val());
+							}
+							else {
+								$('#device-lng').val(current.tempLng);
+								$('#device-lat').val(current.tempLat);
+							}
+							current.isFindLoc = false;
+						} else {							
 							$('#device-lng').val(current.longitude);
 							$('#device-lat').val(current.latitude);
 						}
-					}
+					});
 				});
-			});
+			}
 			closeOtherCtxMenu("#form-device");
 		}
 	});
@@ -312,27 +373,7 @@ $(function(){
 		hide: "clip",
 		buttons: {
 			'OK': function() {
-				var bValid = true;
-				allfieldsgroup.removeClass('ui-state-error');
-
-				bValid = bValid && checkLength($(".group-tips"),$("#group-name"),"name",0,64);
-
-				bValid = bValid && checkRegexp($(".group-tips"),$("#group-name"),/^[a-z]([0-9a-z_])+$/i,"Name may consist of a-z, 0-9, underscores, begin with a letter.");
-				bValid = bValid && checkRegexp($(".group-tips"),$("#group-lng"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
-				bValid = bValid && checkRegexp($(".group-tips"),$("#group-lat"),/^([+/-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?))$/,"form-coord must be float : -123.456");
-				bValid = bValid && checkLength($(".group-tips"),$("#group-lng"),"longitude",-90,90);
-				bValid = bValid && checkLength($(".group-tips"),$("#group-lat"),"latitude",-180,180);
-				
-				if (bValid) {
-					if(!current.isEditForm)
-						addGroup($("#group-parent").val(),$('#group-name').val(),$('#group-lng').val(),$("#group-lat").val(),"ini group");
-					else
-						updateGroup(current.groupId, $("#group-parent").val(), $('#group-name').val(), "", $('#group-lng').val(),$('#group-lat').val());
-					$(".group-tips").text('All form fields are required.');
-					allfieldsgroup.val('').removeClass('ui-state-error');
-					$(this).dialog('close');
-					current.isEditForm = false;
-				}
+				formGroupConfirm();
 			},
 			Cancel: function() {
 				current.isEditForm = false;
@@ -438,6 +479,34 @@ $(function(){
 		}
 	});
 	
+	$("#dialog-confirm").dialog({
+		autoOpen: false,
+		resizable: false,
+		height:160,
+		modal: true,
+		buttons: {
+			'Delete all items': function() {
+				deleteGroup(current.groupId);
+				$(this).dialog('close');
+			},
+			Cancel: function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+
+	$("#dialog-box").dialog({
+		autoOpen: false,
+		resizable: false,
+		height:160,
+		modal: true,
+		buttons: {
+			'OK': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+	
 	$("#ctxmenu-map").dialog({
 		autoOpen: false,
 		height: 55,
@@ -485,7 +554,7 @@ $(function(){
 	});
 	
 	$('#menu-help').click(function() {
-		
+		openDialogBox("hahaha");
 	});
 	
 	$("#menu-tree").click(function() {
@@ -527,7 +596,7 @@ $(function(){
 	});
 	
 	$('#group-delete').click(function() {
-		deleteGroup(current.groupId);
+		$('#dialog-confirm').dialog('open');
 		closeOtherCtxMenu(null);
 	});
 	
@@ -562,6 +631,18 @@ $(function(){
 	
 	$('#cacti').click(function() {	
 		if($('#panel-rrd').dialog('isOpen')) $('#panel-rrd').dialog('close');
+	});
+	
+	$('#login-pass').change(function() {
+		formLoginConfirm()
+	});
+	
+	$('#device-name').change(function() {
+		formDeviceConfirm()
+	});
+	
+	$('#group-name').change(function() {
+		formGroupConfirm()
 	});
 });
 
@@ -606,53 +687,53 @@ function getMouseXY(e) {
 
 function showWarningDevice(data){
 	$('#notif').html('');
-		var li;
-		for(var i = 0; i < data.length; i++){
-			li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
-			switch(data[i]['status']){
-				case '1': {
-					li += "flag-alert.png'";
-					break;
-				}
-				case '2': {
-					li += "flag-recover.png'";
-					break;
-				}
-				case '4': {
-					li += "flag-warning.png'";
-					break;
-				}
+	var li;
+	for(var i = 0; i < data.length; i++){
+		li = "<div class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
+		switch(data[i]['status']){
+			case '1': {
+				li += "flag-alert.png'";
+				break;
 			}
-			li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
-			li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
-			$('#notif').append(li);
-		}
-		if(data.length == 0){
-			li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-			li += "flag-ok.png'";
-			li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
-			li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-			$('#notif').append(li);
-		}
-		$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
-		getThresholdNotification(function(th){
-			if(th != null){
-				for(var i = 0; i < th.length; i++){
-					li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
-					li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
-					li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
-					$('#notif').append(li);
-				}
-				if(th.length == 0){
-					li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
-					li += "flag-ok.png'";
-					li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
-					li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
-					$('#notif').append(li);
-				}
-				showAlert(true,data.length + th.length);
+			case '2': {
+				li += "flag-recover.png'";
+				break;
 			}
-		});
+			case '4': {
+				li += "flag-warning.png'";
+				break;
+			}
+		}
+		li += " /></div><div class='notif-cont'><h3 align='left'>" + data[i]['description'] + "</h3>&nbsp;&nbsp;";
+		li += data[i]['status_fail_date'] + "</div><div class='notif-clear'></div></div>";
+		$('#notif').append(li);
+	}
+	if(data.length == 0){
+		li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+		li += "flag-ok.png'";
+		li += " /></div><div class='notif-cont'><h3 align='left'>" + "All device ok!" + "</h3>";
+		li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+		$('#notif').append(li);
+	}
+	$('#notif').append("<hr/><div align='center'>Threshold</div><hr/>");
+	getThresholdNotification(function(th){
+		if(th != null){
+			for(var i = 0; i < th.length; i++){
+				li = "<div class='notif-box' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
+				li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
+				li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
+				$('#notif').append(li);
+			}
+			if(th.length == 0){
+				li = "<div class='notif-box'><div class='notif-img'><img alt='menu-ok' src='images/";
+				li += "flag-ok.png'";
+				li += " /></div><div class='notif-cont'><h3 align='left'>" + "No threshold found!" + "</h3>";
+				li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
+				$('#notif').append(li);
+			}
+			showAlert(true,data.length + th.length);
+		}
+	});
 }
 
 function showAlert(bool,n){
@@ -681,6 +762,12 @@ function closeOtherCtxMenu(id){
 			$(listctxmenu[i]).dialog('close');
 		}	
 }
+
 function initTopUp(){
 	$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
+}
+
+function openDialogBox(text){
+	$('#dialog-box').dialog('open');
+	$('#dialog-text').html("<div style='margin-top: 50; font-weight:normal;'>"+text+"</div>");
 }
