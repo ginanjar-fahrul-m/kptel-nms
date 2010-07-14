@@ -186,9 +186,9 @@ session_db_init();
 				<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
 				<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
 			</div>
-			<div id="dialog-confirm" title="Delete Group?">
+			<div id="dialog-confirm" title="Delete?">
 				<p><span class="ui-icon ui-icon-alert dialog-text"></span>
-				These group will be permanently deleted and cannot be recovered. Are you sure?</p>
+				<div id="confirm-text"></div></p>
 			</div>
 			<div id="dialog-box" title="Dialog">
 				<div id='dialog-text' class="dialog-text"></div>

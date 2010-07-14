@@ -478,7 +478,7 @@ $(function(){
 		height:160,
 		modal: true,
 		buttons: {
-			'Delete all items': function() {
+			'Delete': function() {
 				if(current.inWhichForm == 'form-device'){
 					deleteDevice(current.deviceId);
 				} else
@@ -585,6 +585,7 @@ $(function(){
 	
 	$('#device-delete').click(function() {
 		current.inWhichForm = 'form-device';
+		$('#confirm-text').html('These item will be permanently deleted and cannot be recovered. Are you sure to delete this device?');
 		$('#dialog-confirm').dialog('open');
 		closeOtherCtxMenu(null);
 	});
@@ -596,6 +597,7 @@ $(function(){
 	
 	$('#group-delete').click(function() {
 		current.inWhichForm = 'form-group';
+		$('#confirm-text').html('These item will be permanently deleted and cannot be recovered. Are you sure to delete this group?');
 		$('#dialog-confirm').dialog('open');
 		closeOtherCtxMenu(null);
 	});
@@ -635,14 +637,6 @@ $(function(){
 	
 	$('#login-pass').change(function() {
 		formLoginConfirm()
-	});
-	
-	$('#device-name').change(function() {
-		formDeviceConfirm()
-	});
-	
-	$('#group-name').change(function() {
-		formGroupConfirm()
 	});
 });
 
