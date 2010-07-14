@@ -90,7 +90,14 @@ session_db_init();
 			<div id="menu-right"> 
 				<ul> 
 					<li>
-						<a class="tu_iframe_1200x560" id="cacti" href="device-controller.php?action=device_jump_to_cacti" title="Go to cacti"> 
+						<a class="tu_iframe_600x560" id="menu-test" href="test/" title="Test"> 
+							<img alt="menu-cacti" src="images/form-location2.png"/> Test </a>
+					</li>
+					<li>
+						<label class="ui-widget-header"> | </label> 
+					</li>
+					<li>
+						<a class="tu_iframe_1200x560" id="menu-cacti" href="device-controller.php?action=device_jump_to_cacti" title="Go to cacti"> 
 							<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a>
 					</li>
 					<li>

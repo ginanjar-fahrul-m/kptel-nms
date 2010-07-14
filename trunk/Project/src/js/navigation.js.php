@@ -164,8 +164,9 @@ $(function(){
 							$('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val(),"Ini device");
 			}
 			else {
+				var temp = getElementDeviceObjects(current.deviceId);
 				updateDevice(current.deviceId, $("#device-parent").val(), default_device, $('#device-name').val(), 
-							"", $('#device-lng').val(),$('#device-lat').val(),$("#device-cacti").val());
+							"", $('#device-lng').val(),$('#device-lat').val(),temp['cacti_id']);
 			}
 			$(".device-tips").text('All form fields are required.');
 			allfieldsdevice.val('').removeClass('ui-state-error');
@@ -299,7 +300,6 @@ $(function(){
 				if(current.isFindLoc){
 					$('#device-name').val(current.tempName);
 					$('#device-parent').val(current.tempParent);
-					$('#device-cacti').val(current.tempDevice);
 					if(current.isConfirm){
 						$('#device-lng').val($('#coord-lng').val());
 						$('#device-lat').val($('#coord-lat').val());
@@ -310,7 +310,7 @@ $(function(){
 					}
 					current.isFindLoc = false;
 				} else {
-					devicedata = getElementDeviceObjects(current.deviceId);
+					var devicedata = getElementDeviceObjects(current.deviceId);
 					$('#device-name').val(devicedata['name']);
 					$('#device-parent').val(devicedata['group_id']);
 					$('#device-lng').val(devicedata['longitude']);
@@ -401,7 +401,7 @@ $(function(){
 						}
 						current.isFindLoc = false;
 					} else{
-						data = getElementGroupObjects(current.groupId)
+						var data = getElementGroupObjects(current.groupId)
 						$('#group-name').val(data['name']);
 						$('#group-parent').val(data['parent_id']);
 						$('#group-lng').val(data['longitude']);
@@ -758,7 +758,7 @@ function closeOtherCtxMenu(id){
 }
 
 function initTopUp(){
-	$('#cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
+	$('#menu-cacti').attr('toption', 'shaded=1, effect=clip, layout=dashboard, modal=1');
 }
 
 function openDialogBox(text){
