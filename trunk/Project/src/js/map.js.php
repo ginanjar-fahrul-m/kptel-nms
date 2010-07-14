@@ -187,7 +187,10 @@ function buildMapComponent(){
 	var groupnode;
 	var devicenode;
 	
-	//Refresh all nodes' menu-tree and map component
+	// Refresh all nodes' menu-tree and map component
+	// data1 is data that contain list of all group that have been added to database
+	// data2 is data that contain list of all device that have been added to database
+	// data3 is data that contain list of all device that don't have status up
 	getGroupList(function(data1) {
 		groupnode = data1;
 		getDeviceList(function(data2) {
@@ -241,7 +244,10 @@ function buildMapComponent(){
 					
 					//update alert device icon in google maps
 					var updateIconIndex = getIndexOfDeviceObjects(curdev.device_id);
-					deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
+					//alert(data3.status);
+					if(datum3.status != 2){
+						deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
+					}
 					
 				});
 				//udpate notification column
@@ -268,8 +274,7 @@ function treeGroupProcessing(data,x){
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+groupid).find('a').attr("id",cgroupid);
 			$('#'+cgroupid).click(function() {
-				//setCenterAndZoom(datum.latitude, datum.longitude);
-				showInfoGroup(datum.group_id,datum.latitude,datum.longitude);
+				showInfoGroup(datum.group_id);
 			});
 			queueid.push(datum.group_id);
 		}
@@ -293,7 +298,7 @@ function treeDeviceProcessing(data){
 			else parentnode = "#group-"+datum.group_id;
 			$("#trees").jstree("create",parentnode,"last",info,false,true);
 			$('#'+devid).click(function() {
-				showInfoDevice(datum.device_id,datum.latitude,datum.longitude,datum.cacti_id);
+				showInfoDevice(datum.device_id);
 			});
 	});
 }
@@ -436,6 +441,7 @@ function renderDevice(location,devname,cacid,devid) {
 	});
 }
 
+//this function called when device is added
 function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	//add to map
 	var newLatLng = new google.maps.LatLng(devlat,devlng);
@@ -464,10 +470,11 @@ function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cacti
 	else parentnode = "#group-"+groupid;
 	$("#trees").jstree("create",parentnode,"last",info,false,true);
 	$('#'+devid).click(function() {
-		showInfoDevice(newDeviceID,devlat,devlng,cactiid);
+		showInfoDevice(newDeviceID);
 	});
 }
 
+//this function called when device is updated
 function actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
 	//update tree
 	if(groupid == 0) {$("#trees").jstree("move_node", "#device-" + devid, "#group-0");}
@@ -493,6 +500,7 @@ function actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati,
 	deviceMarkers[idxdev].setOptions({position:newlatlng,title:named});
 }
 
+//this function called when device is deleted
 function actionDeleteDevice(devid) {	
 	var idxdev = getIndexOfDeviceObjects(devid);
 	//update tree change
@@ -504,8 +512,13 @@ function actionDeleteDevice(devid) {
 	deviceObjects[idxdev].device_id = -999;
 }
 
-//function to show info windows of device
-function showInfoDevice(devid,lat,lng,cactiid){
+//show info windows of device on the map by device_id
+function showInfoDevice(devid){
+	var selectedDevice = getElementDeviceObjects(devid);
+	var lat = selectedDevice.latitude;
+	var lng = selectedDevice.longitude;
+	var cactiid = selectedDevice.cacti_id;
+	var name = selectedDevice.name;
 	//close others
 	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
 	closeOtherCtxMenu(null);
@@ -541,13 +554,12 @@ function showInfoDevice(devid,lat,lng,cactiid){
 				  imgstat = iconStatusDefault;
 				  textstat = 'unknown 2';
 			}
-		var devObject = getElementDeviceObjects(devid);
 		
 		var text = '<div id="devinfowindow">'
 						+'<div id="imginfowindow">'
 						+'<img id="imglogo" src="'+iconDeviceInfo+'" />'
 						+'<img id="imgstat" src="'+imgstat+'" /></div>'
-						+'<h1>'+devObject.name+'</h1><div class="clearboth"></div><div id="devinfolabel">'
+						+'<h1>'+name+'</h1><div class="clearboth"></div><div id="devinfolabel">'
 						+'Hostname<br>Description<br>'
 						+'Status<br>Last Failed<br>Last Recovered<br>Last Error<br>Availability<br>Ping Latency'
 						+'</div><div id="devinfovalue">: '
@@ -559,7 +571,7 @@ function showInfoDevice(devid,lat,lng,cactiid){
 		infoElement.setContent(text);
 	});
 	
-	//show device info window
+	//show info window device
 	var markeridx = getIndexOfDeviceObjects(devid);
 	current.cactiId = cactiid;
 	additionCentering = 2 - ((map.getZoom()+6)/10);
@@ -567,6 +579,18 @@ function showInfoDevice(devid,lat,lng,cactiid){
 	var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat(),deviceMarkers[markeridx].getPosition().lng());
 	infoElement.setPosition(selectedCenter);
 	infoElement.open(map);
+}
+
+//show info device on the map by cacti_id
+function showCactiDevice(cactiid){
+	var curdev = getElementDeviceObjectsByCactiId(cactiid);
+	showInfoDevice(curdev.device_id);
+}
+
+//show RRD panel when 'show detail' is clicked
+function showPanelRRD(){
+	infoElement.close();
+	$('#panel-rrd').dialog('open');
 }
 
 //GROUP-CONTROLLER
@@ -634,7 +658,7 @@ function actionAddGroup(newGroupID,parentid, grpname, grplng, grplat, grpdesc) {
 	$("#trees").jstree("create",parentnode,"last",info,false,true);
 	$('#'+groupid).find('a').attr("id",cgroupid);
 	$('#'+cgroupid).click(function() {
-		showInfoGroup(newGroupID,grplat,grplng);
+		showInfoGroup(newGroupID);
 	});
 }
 
@@ -660,6 +684,7 @@ function actionUpdateGroup(groupid, parentid, named, desc, longi, lati) {
 	groupMarkers[idxgroup].setOptions({position:newlatlng,title:named});
 }
 
+//fungsi yang dipanggil 
 function actionDeleteGroup(groupid){
 	//update tree change
 	$("#trees").jstree("remove","#group-"+groupid);
@@ -704,15 +729,19 @@ function actionDeleteGroup(groupid){
 	}
 }
 
-function showInfoGroup(groupid,lat,longi){
+//show info group on the map by group_id
+function showInfoGroup(groupid){
+	var selectedGroup = getElementGroupObjects(groupid);
+	var lat = selectedGroup.latitude;
+	var longi = selectedGroup.longitude;
+	var name = selectedGroup.name;
 	//close others
 	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
 	closeOtherCtxMenu(null);
 	infoElement.close();
 	
 	//init the info group window
-	var grpObject = getElementGroupObjects(groupid);
-	var text = '<img src="'+iconGroupInfo+'" style="float:left;"/>This is group '+grpObject.name;
+	var text = '<img src="'+iconGroupInfo+'" style="float:left;"/>This is group '+name;
 	infoElement.setContent(text);
 	
 	//show info group
@@ -723,7 +752,8 @@ function showInfoGroup(groupid,lat,longi){
 	infoElement.open(map);
 }
 
-//CONTROL AUTO SETCENTERZOOM
+//CONTROL AUTO SETCENTERZOOM 
+//tidak terpakai, namun dapat dipakai suatu waktu
 function setCenterAndZoom(lat,lng){	
 	var selectedCenter = new google.maps.LatLng(lat, lng);
 	map.panTo(selectedCenter);
@@ -736,14 +766,4 @@ function checkPoint(position){
 	current.mouseY = tempY;
 	current.longitude = position.lng();
 	current.latitude = position.lat();
-}
-//SHOW DEVICE ON THE MAP BY ID
-function showCactiDevice(id){
-	var curdev = getElementDeviceObjectsByCactiId(id);
-	showInfoDevice(curdev.device_id,curdev.latitude,curdev.longitude,curdev.cacti_id);
-}
-
-function showPanelRRD(){
-	infoElement.close();
-	$('#panel-rrd').dialog('open');
 }
