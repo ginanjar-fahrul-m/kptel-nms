@@ -237,14 +237,12 @@ function buildMapComponent(){
 			getStatusNotification(function(data3){
 				$.each(data3, function(index,datum3){
 					var curdev = getElementDeviceObjectsByCactiId(datum3.id);
-					//alert(curdev.
 					//update alert device icon in menu-tree column
 					$('#device-'+curdev.device_id).attr('rel','device-error');
 					if(curdev.group_id != 0) {changeParentTreeStatus(curdev.group_id);}
 					
 					//update alert device icon in google maps
 					var updateIconIndex = getIndexOfDeviceObjects(curdev.device_id);
-					//alert(data3.status);
 					if(datum3.status != 2){
 						deviceMarkers[updateIconIndex].setOptions({icon:iconDeviceError});
 					}

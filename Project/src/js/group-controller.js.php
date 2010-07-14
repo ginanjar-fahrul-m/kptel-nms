@@ -55,10 +55,10 @@ function addGroup(parentid, grpname, grplng, grplat, grpdesc) {
 		}
 	}
 	$.getJSON(url_group, getparam, function(data) {
-		if(data == 0){alert('Add Failed');}
+		if(data == 0){openDialogBox('Add Failed');}
 		else{
 			actionAddGroup(data, parentid, grpname, grplng, grplat, grpdesc);
-			alert('Add Group success');
+			openDialogBox('Add Group success');
 		}
 	});
 }
@@ -77,10 +77,10 @@ function updateGroup(groupid, parentid, named, desc, longi, lati) {
 	}
 
 	$.getJSON(url_group, getparam, function(data) {
-		if(data == 0) {alert("Edit Group failed");}
+		if(data == 0) {openDialogBox("Edit Group failed");}
 		else {
 			actionUpdateGroup(groupid, parentid, named, desc, longi, lati);
-			alert("Edit Group success");
+			openDialogBox("Edit Group success");
 		}
 	});
 }
@@ -95,8 +95,8 @@ function deleteGroup(id) {
 	$.getJSON(url_group, getparam, function(data){
 		if(data == 1) {
 			actionDeleteGroup(id);
-			alert("Group and its child have successfully deleted");
+			openDialogBox("Group and its child have successfully deleted");
 		}
-		else{alert('delete failed');}
+		else{openDialogBox('delete failed');}
 	});
 }
