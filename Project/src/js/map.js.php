@@ -186,19 +186,18 @@ function updateMap(){
 function buildMapComponent(){
 	var groupnode;
 	var devicenode;
-	
 	//Reset all component
 	$('#trees').html('');
 	
 	if (deviceMarkers) {
-		for (idx = 0; idx > deviceMarkers.length; idx++) {
+		for (idx = 0; idx < deviceMarkers.length; idx++) {
 		  deviceMarkers[idx].setMap(null);
 		}
 		deviceMarkers.length = 0;
 	}
 	
 	if (groupMarkers) {
-		for (idx = 0; idx > groupMarkers.length; idx++) {
+		for (idx = 0; idx < groupMarkers.length; idx++) {
 		  groupMarkers[idx].setMap(null);
 		}
 		groupMarkers.length = 0;
