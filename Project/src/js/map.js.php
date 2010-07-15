@@ -439,7 +439,7 @@ function renderDevice(location,devname,cacid,devid) {
 	});
 }
 
-//this function called when device is added
+//this function is called when device is added
 function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
 	//add to map
 	var newLatLng = new google.maps.LatLng(devlat,devlng);
