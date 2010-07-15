@@ -560,7 +560,6 @@ $(function(){
 	});
 	
 	$('#menu-help').click(function() {
-		openDialogBox("hahaha");
 	});
 	
 	$("#menu-tree").click(function() {
