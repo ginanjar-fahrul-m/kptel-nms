@@ -229,10 +229,10 @@ $(function(){
 				rrdText += "<div id='rrd-accord'>";
 				for(var i=0; i<data['data'].length; i++){
 					rrdText += "<h3><a href='#'>" + data['data'][i]['name'] + "</a></h3><div>";
-					rrdText += "<label class='tu_iframe_800x500' href='" + data['data'][i]['realtime_url'] + "'>Realtime</label>";
+					rrdText += "<label toption='shaded=1, effect=clip, layout=dashboard, modal=1' class='tu_iframe_800x500' href='" + data['data'][i]['realtime_url'] + "'>Realtime</label>";
 					rrdText += "<hr/>";
 					for(var j=0; j<data['data'][i]['rra_url'].length; j++){
-						rrdText += "<label class='tu_iframe_800x500' href='" + data['data'][i]['rra_url'][j]['url'] + "'> " + data['data'][i]['rra_url'][j]['name'] + " </label>";
+						rrdText += "<label toption='shaded=1, effect=clip, layout=dashboard, modal=1' class='tu_iframe_800x500' href='" + data['data'][i]['rra_url'][j]['url'] + "'> " + data['data'][i]['rra_url'][j]['name'] + " </label>";
 					}
 					rrdText += "</div>";
 				}
@@ -759,10 +759,11 @@ function showPanelRRD(){
 }
 
 function closeOtherCtxMenu(id){
-	for(var i = 0; i < listctxmenu.length; i++)
+	for(var i = 0; i < listctxmenu.length; i++) {
 		if(listctxmenu[i]!=id){
 			$(listctxmenu[i]).dialog('close');
 		}	
+	}
 }
 
 function initTopUp(){
