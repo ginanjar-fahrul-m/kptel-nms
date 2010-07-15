@@ -36,7 +36,7 @@ function account_login($username, $password) {
 	$hash = md5($password);
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['cacti_db']."`.`user_auth`
+			FROM `".$config['db']['app_db']."`.`user`
 			WHERE `username` = '".$username."' AND `password` = '".$hash."'
 			LIMIT 1";
 	

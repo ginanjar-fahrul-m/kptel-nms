@@ -1,16 +1,38 @@
 <html>
 	<head>
 		<title>Help</title>
+		<link type="text/css" href="../css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="../css/style.css" media="screen" rel="stylesheet" />
+		
+		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui-1.8.2.custom.min.js"></script>
+		<script type=text/javascript>
+			$(function() {
+				$("#tabs").tabs();
+			});
+		</script>
 	</head>
 	
 	<body>
-		<div id="help-container">
-			Welcome to the monitoring frontend application! This application provides you an intuitive and easy to use user interface to keep you 'in-touch' with your network devices. This guide allows you to learn the features of this application.
-			<div id="help-getting-started">
-				<div id="help-getting-started-title">
-					Getting Started
-				</div>
+		<div id="tabs">
+			<ul>
+				<li>
+					<a href="#tabs-getting-started">Getting Started</a>
+				</li>
+				<li>
+					<a href="#tabs-using-application">Using this Application</a>
+				</li>
+				<li>
+					<a href="#tabs-faq">FAQ</a>
+				</li>
+				<li>
+					<a href="#tabs-about">About</a>
+				</li>
+			</ul>
+			
+			<div id="tabs-getting-started">
 				<div id="help-getting-started-content">
+					Welcome to the monitoring frontend application! This application provides you an intuitive and easy to use user interface to keep you 'in-touch' with your network devices. This guide allows you to learn the features of this application.
 					<b>Easily Monitor your Network Devices</b>
 						Main interface of this application is the map itself. Your devices and groups will be displayed on the map along with its UP/DOWN/RECOVER status. You can get your servers' health status and metrics with a few clicks only.
 					<b>Menus</b>
@@ -32,11 +54,7 @@
 				</div>
 			</div>
 			
-			<div id="help-using-application">
-				<div id="help-using-application-title">
-					Using this Application
-				</div>
-				
+			<div id="tabs-using-application">
 				<div id="help-using-application-content">
 					<div id="help-using-application-content-displaying-device-details">
 						<b>Displaying Device Details</b>
@@ -52,16 +70,10 @@
 				</div>
 			</div>
 			
-			<div id="help-faq">
-				<div id="help-faq-title">
-					Frequently Asked Questions
-				</div>
+			<div id="tabs-faq">
 			</div>
 			
-			<div id="help-about">
-				<div id="help-about-title">
-					About
-				</div>
+			<div id="tabs-about">
 			</div>
 		</div>
 	</body>
