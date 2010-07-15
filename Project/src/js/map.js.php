@@ -605,7 +605,7 @@ function showCactiDevice(cactiid){
 
 //show RRD panel when 'show detail' is clicked
 function showPanelRRD(){
-	infoElement.close();
+	//infoElement.close();
 	$('#panel-rrd').dialog('open');
 }
 
