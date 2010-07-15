@@ -20,8 +20,7 @@ session_start();
 <?php
 	echo $_POST['posttest'];
 	echo $_SESSION['testkptel'];
-	if($_POST['posttest']){		
-		echo ' ngepos';
+	if($_POST['posttest']){
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
 		mysql_select_db('appmonitor_test',$conn);
 		
@@ -53,7 +52,6 @@ session_start();
 						testername = '".$_SESSION['testkptel']."'
 					";
 		$respost = mysql_query($querypre,$conn);
-		echo ' ngepos'.$respost;
 		if($respost == 1){
 			echo '<META HTTP-EQUIV="Refresh" CONTENT="0.1;URL=pretest.php">';
 		}
