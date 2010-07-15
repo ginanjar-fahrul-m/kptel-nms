@@ -11,6 +11,29 @@
 				$("#tabs").tabs();
 			});
 		</script>
+		<style type="text/css">
+			.helpq{
+				color : #ffffaa;
+			}
+			table{
+				color : white;
+			}
+			td,tr{
+				padding : 2px;
+			}
+			li{
+				margin-bottom: 30px;
+			}
+			img{
+				border : 1px solid white;
+			}
+			#tabs-about{
+				text-align : center;
+			}
+			#kampus,h2,#tabs-about h3{
+				color : #ffff00;
+			}
+		</style>
 	</head>
 	
 	<body>
@@ -35,6 +58,37 @@
 				<h2>Easily Monitor your Network Devices</h2>
 					<img src="../images/help/map.png" />
 					<p>Main interface of this application is the map itself. Your devices and groups will be displayed on the map along with its UP/DOWN/RECOVER status. You can get your servers' health status and metrics with a few clicks only.</p>
+				<h2>Legends</h2>
+				<table>
+					<tr>
+						<td><img src="../images/form-group.png" /></td>
+						<td>Group icon.</td>
+					</tr>
+					<tr>
+						<td><img src="../images/form-device.png" /></td>
+						<td>Device icon (UP).</td>
+					</tr>
+					<tr>
+						<td><img src="../images/form-device-a.png" /></td>
+						<td>Device icon (DOWN).</td>
+					</tr>
+					<tr>
+						<td><img src="../images/flag-ok.png" /></td>
+						<td>Device notification icon (UP).</td>
+					</tr>
+					<tr>
+						<td><img src="../images/flag-alert.png" /></td>
+						<td>Device notification icon (DOWN).</td>
+					</tr>
+					<tr>
+						<td><img src="../images/flag-warning.png" /></td>
+						<td>Device notification icon (THRESHOLD BREACHED).</td>
+					</tr>
+					<tr>
+						<td><img src="../images/flag-recover.png" /></td>
+						<td>Device notification icon (RECOVER).</td>
+					</tr>
+				</table>
 				<h2>Menus</h2>
 				<table>
 					<tr>
@@ -68,37 +122,6 @@
 					<tr>
 						<td align="right"><img src="../images/help/menu-notification.png" /></td>
 						<td>Notify you if there are changes in device status or threshold breaches.</td>
-					</tr>
-				</table>
-				<h2>Legends</h2>
-				<table>
-					<tr>
-						<td><img src="../images/form-group.png" /></td>
-						<td>Group icon.</td>
-					</tr>
-					<tr>
-						<td><img src="../images/form-device.png" /></td>
-						<td>Device icon (UP).</td>
-					</tr>
-					<tr>
-						<td><img src="../images/form-device-a.png" /></td>
-						<td>Device icon (DOWN).</td>
-					</tr>
-					<tr>
-						<td><img src="../images/flag-ok.png" /></td>
-						<td>Device notification icon (UP).</td>
-					</tr>
-					<tr>
-						<td><img src="../images/flag-alert.png" /></td>
-						<td>Device notification icon (DOWN).</td>
-					</tr>
-					<tr>
-						<td><img src="../images/flag-warning.png" /></td>
-						<td>Device notification icon (THRESHOLD BREACHED).</td>
-					</tr>
-					<tr>
-						<td><img src="../images/flag-recover.png" /></td>
-						<td>Device notification icon (RECOVER).</td>
 					</tr>
 				</table>
 			</div>
@@ -149,9 +172,57 @@
 			</div>
 			
 			<div id="tabs-faq">
+			
+				<h2>Frequently Asked Question</h2>
+				<ul>
+					<li>
+						<p class="helpq">Q : What is the main function of this application ?</p>
+						<p class="helpa">A : This application provides you an intuitive and easy to use user interface to keep you 'in-touch' with your network devices. </p>
+					</li>
+					<li>
+						<p class="helpq">Q : What is the meaning of the symbol on the map?</p>
+						<p class="helpa">A : There are two types of element on the map. Devices and Groups. You can read the detail on 'Getting Started'.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : What is the difference between group and device?</p>
+						<p class="helpa">A : A group can contains any devices and any groups. Group is intended for clustering devices. Device have to be contained by other group or root. Device is a representative of any element that monitored by cacti.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : What is the meaning of the red symbol on the map?</p>
+						<p class="helpa">A : Those are any devices that have status down, threshold breached, or unknown.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : There are too many symbol on map, how can I look at any place closer?</p>
+						<p class="helpa">A : You can double click or scroll with your mouse on that place. The other way is to navigate map with navigation control on the upper left of the map.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : Can I change the type of map?</p>
+						<p class="helpa">A : Of course, you can select the type of map on the menu below 'Notifications' button.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : How to get status of any devices?</p>
+						<p class="helpa">A : Left click on that device. Info baloon will pop up above that device.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : I want to see info detail by clicking 'show detail'.After choosing one info, why the form ask me the cacti password?</p>
+						<p class="helpa">A : To show graph from Cacti, you have to login into cacti once. Once you login, you will not be asked anymore for this session.</p>
+					</li>
+					<li>
+						<p class="helpq">Q : How to add, edit, or delete any devices or groups?</p>
+						<p class="helpa">A : You have to login as admin to manipulate any elements on this application. You can see the guide on 'using this application' part of help</p>
+					</li>
+				</ul>
 			</div>
 			
 			<div id="tabs-about">
+				<h2>Developer</h2>
+				<img src="../images/help/developer.JPG" />
+				<h3>Telkom Internship Project</h3>
+				<p>Left to right:</p>
+				<p>Ginanjar Fahrul Muttaqin - ginanjar.fahrul.m@gmail.com</p>
+				<p>Mohammad Rizky Adrian - moh.rizkya@yahoo.com</p>
+				<p>Adityo Jiwandono - jiwandono@arc.itb.ac.id</p>
+				<p id="kampus">Teknik Informatika Institut Teknologi Bandung 2010</p>
 			</div>
 		</div>
 	</body>
