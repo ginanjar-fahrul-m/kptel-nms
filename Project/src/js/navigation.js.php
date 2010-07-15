@@ -750,12 +750,10 @@ function showAlert(bool,n){
 	}
 }
 
+//show RRD panel when 'show detail' is clicked
 function showPanelRRD(){
-	if(infoMarkers.length > 0) {
-			var lastinfo = infoMarkers.pop();
-			lastinfo.close();
-	}
 	$('#panel-rrd').dialog('open');
+	infoElement.close();
 }
 
 function closeOtherCtxMenu(id){

@@ -10,8 +10,8 @@
  */
 ?>
 
-var map= null;
-var infoElement;
+var map = null;
+var infoElement = null;
 var default_device = 0;
 var groupMarkers = [];
 var groupObjects = [];
@@ -382,7 +382,11 @@ function renderDevice(location,devname,cacid,devid) {
 	
 	
 	google.maps.event.addListener(marker, 'click', function(e) {
-		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+		//close other
+		if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
+		infoElement.close();
+		closeOtherCtxMenu(null);
+		
 		getCactiDevice(cacid, function(cactidata){
 			var imgstat = '';
 			var textstat = '';
@@ -424,12 +428,10 @@ function renderDevice(location,devname,cacid,devid) {
 							+cactidata.hostname + '<br>: '+ cactidata.description+ '<br>: '
 							+textstat + '<br>: '+ cactidata.status_fail_date+ '<br>: '+  cactidata.status_rec_date+ '<br>: '
 							+cactidata.status_last_error+ '<br>: '+  cactidata.availability+ ' %<br>: '+  cactidata.cur_time+' ms</div>'
-							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD()">Show Detail</a></div></div>'
+							+'<div class="clearboth" id="showdetail"><a href="#" onclick="showPanelRRD();">Show Detail</a></div></div>'
 						;
 			infoElement.setContent(text);
 		});
-		infoElement.close();
-		closeOtherCtxMenu(null);
 		current.cactiId = cacid;
 		if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
 		var markeridx = getIndexOfDeviceObjects(devid);
@@ -471,9 +473,9 @@ function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cacti
 		showInfoDevice(newDeviceID);
 	});
 	
-	//check if the device doesn't have status 'up'
+	//check if the device doesn't have status 'up' or 'recover'
 	getCactiDevice(cactiid,function(newCacti){
-		if((newCacti.status != 2)||(newCacti.status != 3)){
+		if((newCacti.status != 2)&&(newCacti.status != 3)){
 			//update alert device icon in menu-tree column
 			$('#device-'+newDeviceID).attr('rel','device-error');
 			if(groupid != 0) {changeParentTreeStatus(groupid);}
@@ -536,7 +538,7 @@ function showInfoDevice(devid){
 	var cactiid = selectedDevice.cacti_id;
 	var name = selectedDevice.name;
 	//close others
-	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+	if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
 	closeOtherCtxMenu(null);
 	infoElement.close();
 	
@@ -601,12 +603,6 @@ function showInfoDevice(devid){
 function showCactiDevice(cactiid){
 	var curdev = getElementDeviceObjectsByCactiId(cactiid);
 	showInfoDevice(curdev.device_id);
-}
-
-//show RRD panel when 'show detail' is clicked
-function showPanelRRD(){
-	//infoElement.close();
-	$('#panel-rrd').dialog('open');
 }
 
 //GROUP-CONTROLLER
