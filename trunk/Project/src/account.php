@@ -31,6 +31,9 @@ require_once('includes/session.php');
 function account_login($username, $password) {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
+	
 	$username = mysql_real_escape_string($username);
 	$password = mysql_real_escape_string($password);
 	$hash = md5($password);
@@ -40,19 +43,20 @@ function account_login($username, $password) {
 			WHERE `username` = '".$username."' AND `password` = '".$hash."'
 			LIMIT 1";
 	
-	if($result = session_get($config['session']['db_sess'])->query($sql)) {
+	$retval = $config['function']['return']['failure'];
+	if($result = $conn->query($sql)) {
 		if($row = mysql_fetch_assoc($result)) {
-			session_set('userid', $row['id']);
+			session_set('userid', $row['user_id']);
 			session_set('username', $username);
 			session_set('hash', $hash);
 			
-			return 1;
-		} else {
-			return 0;
+			$retval = $config['function']['return']['success'];
 		}
-	} else {
-		return 0;
 	}
+	
+	$conn->close();
+	
+	return $retval;
 }
 
 /* Nama Fungsi : account_logout
@@ -71,11 +75,14 @@ function account_logout() {
  * Parameter   : Tidak ada.
  */
 function account_is_logged_in() {
+	global $config;
+	
+	$retval = $config['function']['return']['failure'];
 	if(session_get('username') && session_get('hash')) {
-		return 1;
-	} else {
-		return 0;
+		$retval = $config['function']['return']['success'];
 	}
+	
+	return $retval;
 }
 
 ?>

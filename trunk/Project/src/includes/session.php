@@ -12,7 +12,6 @@
  */
 
 require_once('config.php');
-require_once('connection.class.php');
 
 /* Nama Fungsi : session_init
  * Penjelasan  :
@@ -82,34 +81,5 @@ function session_del($name) {
  *   dilakukan dengan menginstansiasi kelas Connection.
  * Parameter   : Tidak ada.
  */
-function session_db_init() {
-	global $config;
-	
-	session_set($config['session']['db_sess'], new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']));
-}
-
-/* Nama Fungsi : session_db_open
- * Penjelasan  :
- *   Fungsi ini digunakan untuk membuka koneksi ke server MySQL.
- *   Lihat file connection.class.php untuk detail lebih lanjut.
- * Parameter   : Tidak ada.
- */
-function session_db_open() {
-	global $config;
-	
-	session_get($config['session']['db_sess'])->open();
-}
-
-/* Nama Fungsi : session_db_close
- * Penjelasan  :
- *   Fungsi ini digunakan untuk menutup koneksi ke server MySQL.
- *   Lihat file connection.class.php untuk detail lebih lanjut.
- * Parameter   : Tidak ada.
- */
-function session_db_close() {
-	global $config;
-	
-	session_get($config['session']['db_sess'])->close();
-}
 
 ?>

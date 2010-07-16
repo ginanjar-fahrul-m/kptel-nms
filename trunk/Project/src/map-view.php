@@ -22,7 +22,6 @@ require_once('includes/connection.class.php');
 require_once('includes/session.php');
 
 session_init();
-session_db_init();
 
 ?>
 
