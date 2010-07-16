@@ -2,12 +2,12 @@
 session_start(); 
 
 	function safestr($str){
-		if($str == '') $safestr = '--';
+		if($str == '') $safestr = '';
 		else $safestr = mysql_real_escape_string($str);
 		return $safestr;
 	}
 	function cekint($int){
-		if($int == '') $safeint = -1;
+		if($int == '') $safeint = null;
 		else $safeint = $int;
 		return $safeint;
 	}
@@ -58,7 +58,7 @@ session_start();
 		mysql_close();
 	}
 ?>
-<h1>MA'EM(Map Asisted for Element Monitoring)</h1>
+<h1>MAS EMON(Map-Asisted Element Monitoring)</h1>
 <h1>POST-TEST</h1>
 <?php  
 	if(isset($_SESSION['testkptel'])){
@@ -142,7 +142,7 @@ session_start();
 </form>
 <?php
 	}else{
-		echo 'Maaf, Silakan memulai test dari <a href="test/pretest.php">sini</a>';
+		echo 'Maaf, Silakan memulai test dari <a href="pretest.php">sini</a>';
 	}
 ?>
 
