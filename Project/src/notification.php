@@ -17,7 +17,6 @@
 
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
-require_once('includes/session.php');
 
 /* Nama Fungsi : notification_get_status
  * Penjelasan  :
@@ -27,6 +26,29 @@ require_once('includes/session.php');
  */
 function notification_get_status() {
 	global $config;
+	
+	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti->open();
+	
+	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn_app->open();
+	
+	$sql = "SELECT
+				`cacti_id`
+			FROM `".$config['db']['app_db']."`.`device`";
+	$result = $conn_app->query($sql);
+	
+	$cacti_id = array();
+	while($row = mysql_fetch_assoc($result)) {
+		$cacti_id[] = $row['cacti_id'];
+	}
+	
+	if(count($cacti_id) > 0) {
+		$cond = implode(' OR `id` = ', $cacti_id);
+		$cond = '(`id` = '.$cond.')';
+	} else {
+		$cond = 'FALSE';
+	}
 	
 	$sql = "SELECT 
 				`id`,
@@ -44,17 +66,17 @@ function notification_get_status() {
 				NOT(`status` = 3) AND
 				`disabled` = '' AND
 				`monitor` = 'on' AND
-				`id` IN (
-					SELECT `cacti_id` AS `id`
-					FROM `".$config['db']['app_db']."`.`device`
-				)
+				".$cond."
 			ORDER BY `status_fail_date` DESC, `status` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn_cacti->query($sql);
 	
 	$notifications = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$notifications[] = $row;
 	}
+	
+	$conn_cacti->close();
+	$conn_app->close();
 	
 	return $notifications;
 }
@@ -68,6 +90,29 @@ function notification_get_status() {
 function notification_threshold_status() {
 	global $config;
 	
+	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti->open();
+	
+	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn_app->open();
+	
+	$sql = "SELECT
+				`cacti_id`
+			FROM `".$config['db']['app_db']."`.`device`";
+	$result = $conn_app->query($sql);
+	
+	$cacti_id = array();
+	while($row = mysql_fetch_assoc($result)) {
+		$cacti_id[] = $row['cacti_id'];
+	}
+	
+	if(count($cacti_id) > 0) {
+		$cond = implode(' OR `id` = ', $cacti_id);
+		$cond = '(`id` = '.$cond.')';
+	} else {
+		$cond = 'FALSE';
+	}
+	
 	$sql = "SELECT
 				`host_id` AS `id`,
 				`name`,
@@ -76,17 +121,17 @@ function notification_threshold_status() {
 				`lastread`
 			FROM `".$config['db']['cacti_db']."`.`thold_data`
 			WHERE
-				`host_id` IN (
-					SELECT `cacti_id` AS `id`
-					FROM `".$config['db']['app_db']."`.`device`
-				)
+				".$cond."
 			ORDER BY `id` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn_cacti->query($sql);
 	
 	$notifications = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$notifications[] = $row;
 	}
+	
+	$conn_cacti->close();
+	$conn_app->close();
 	
 	return $notifications;
 }

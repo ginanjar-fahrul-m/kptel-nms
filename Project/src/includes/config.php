@@ -26,7 +26,7 @@ $config['session']['prefix']  = 'kptel-nms-';       // Prefiks untuk setiap nama
 $config['session']['db_sess'] = 'db_sess';          // Nama session untuk variabel penyimpanan informasi koneksi database.
 
 /* Variabel yang berkaitan dengan fungsi-fungsi. */
-$config['function']['return']['fail']    = 0;       // Return value untuk kasus 'gagal'.
+$config['function']['return']['failure'] = 0;       // Return value untuk kasus 'gagal'.
 $config['function']['return']['success'] = 1;       // Return value untuk kasus 'sukses'.
 
 ?>

@@ -17,7 +17,6 @@
 
 require_once('includes/config.php');
 require_once('includes/connection.class.php');
-require_once('includes/session.php');
 
 /* Nama Fungsi : device_add
  * Penjelasan  :
@@ -33,6 +32,9 @@ require_once('includes/session.php');
  */
 function device_add($group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
+	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
 	$device_type_id = mysql_real_escape_string($device_type_id);
@@ -59,11 +61,14 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 				".$latitude.",
 				".$cacti_id.")";
 	
-	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return session_get($config['session']['db_sess'])->get_last_insert_id();
-	} else {
-		return $config['function']['return']['fail'];
+	$retval = $config['function']['return']['failure'];
+	if($conn->query($sql)) {
+		$retval = $conn->get_last_insert_id();
 	}
+	
+	$conn->close();
+	
+	return $retval;
 }
 
 /* Nama Fungsi : device_update
@@ -81,6 +86,9 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
  */
 function device_update($device_id, $group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
+	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
 	
 	$device_id = mysql_real_escape_string($device_id);
 	$group_id = mysql_real_escape_string($group_id);
@@ -102,11 +110,14 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 				`cacti_id` = ".$cacti_id."
 			WHERE `device_id` = ".$device_id;
 	
-	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return $config['function']['return']['success'];
-	} else {
-		return $config['function']['return']['fail'];
+	$retval = $config['function']['return']['failure'];
+	if($conn->query($sql)) {
+		$retval = $config['function']['return']['success'];
 	}
+	
+	$conn->close();
+	
+	return $retval;
 }
 
 /* Nama Fungsi : device_delete
@@ -118,16 +129,22 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 function device_delete($device_id) {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
+	
 	$device_id = mysql_real_escape_string($device_id);
 	
 	$sql = "DELETE FROM `".$config['db']['app_db']."`.`device`
 			WHERE `device_id` = ".$device_id;
 	
-	if(session_get($config['session']['db_sess'])->query($sql)) {
-		return $config['function']['return']['success'];
-	} else {
-		return $config['function']['return']['fail'];
+	$retval = $config['function']['return']['failure'];
+	if($conn->query($sql)) {
+		$retval = $config['function']['return']['success'];
 	}
+	
+	$conn->close();
+	
+	return $retval;
 }
 
 /* Nama Fungsi : device_get
@@ -139,12 +156,17 @@ function device_delete($device_id) {
 function device_get($device_id) {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
+	
 	$device_id = mysql_real_escape_string($device_id);
 	
 	$sql = "SELECT *
 			FROM `".$config['db']['app_db']."`.`device`
 			WHERE `device_id` = ".$device_id;
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
+	
+	$conn->close();
 	
 	return mysql_fetch_assoc($result);
 }
@@ -159,18 +181,24 @@ function device_get($device_id) {
 function device_get_by_cacti_id($cacti_id) {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
+	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
 	$sql = "SELECT *
 			FROM `".$config['db']['app_db']."`.`device`
 			WHERE `cacti_id` = ".$cacti_id;
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
 	
+	$retval = array();
 	if($row = mysql_fetch_assoc($result)) {
-		return $row;
-	} else {
-		return $config['function']['return']['fail'];
+		$retval = $row;
 	}
+	
+	$conn->close();
+	
+	return $retval;
 }
 
 /* Nama Fungsi : device_get_all
@@ -181,15 +209,20 @@ function device_get_by_cacti_id($cacti_id) {
 function device_get_all() {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn->open();
+	
 	$sql = "SELECT *
 			FROM `".$config['db']['app_db']."`.`device`
 			ORDER BY `name` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
 	
 	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$device_list[] = $row;
 	}
+	
+	$conn->close();
 	
 	return $device_list;
 }
@@ -203,6 +236,9 @@ function device_get_all() {
  */
 function device_cacti_get($cacti_id) {
 	global $config;
+	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn->open();
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
@@ -219,7 +255,9 @@ function device_cacti_get($cacti_id) {
 				`cur_time`
 			FROM `".$config['db']['cacti_db']."`.`host`
 			WHERE `id` = ".$cacti_id;
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
+	
+	$conn->close();
 	
 	return mysql_fetch_assoc($result);
 }
@@ -233,6 +271,9 @@ function device_cacti_get($cacti_id) {
 function device_cacti_get_all() {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn->open();
+	
 	$sql = "SELECT 
 				`id`,
 				`description`,
@@ -246,12 +287,14 @@ function device_cacti_get_all() {
 				`cur_time`
 			FROM `".$config['db']['cacti_db']."`.`host`
 			ORDER BY `description` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
 	
 	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$device_list[] = $row;
 	}
+	
+	$conn->close();
 	
 	return $device_list;
 }
@@ -265,6 +308,29 @@ function device_cacti_get_all() {
 function device_cacti_get_all_unlisted() {
 	global $config;
 	
+	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti->open();
+	
+	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn_app->open();
+	
+	$sql = "SELECT
+				`cacti_id`
+			FROM `".$config['db']['app_db']."`.`device`";
+	$result = $conn_app->query($sql);
+	
+	$cacti_id = array();
+	while($row = mysql_fetch_assoc($result)) {
+		$cacti_id[] = $row['cacti_id'];
+	}
+	
+	if(count($cacti_id) > 0) {
+		$cond = implode(' OR `id` = ', $cacti_id);
+		$cond = 'NOT(`id` = '.$cond.')';
+	} else {
+		$cond = 'TRUE';
+	}
+	
 	$sql = "SELECT 
 				`id`,
 				`description`,
@@ -277,17 +343,17 @@ function device_cacti_get_all_unlisted() {
 				`availability`,
 				`cur_time`
 			FROM `".$config['db']['cacti_db']."`.`host`
-			WHERE `id` NOT IN (
-				SELECT `cacti_id` AS `id`
-				FROM `".$config['db']['app_db']."`.`device`
-			)
+			WHERE ".$cond."
 			ORDER BY `description` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn_cacti->query($sql);
 	
 	$device_list = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$device_list[] = $row;
 	}
+	
+	$conn_cacti->close();
+	$conn_app->close();
 	
 	return $device_list;
 }
@@ -302,6 +368,9 @@ function device_cacti_get_all_unlisted() {
 function device_cacti_get_graph_list($cacti_id) {
 	global $config;
 	
+	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn->open();
+	
 	$graph_list = array();
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
@@ -310,7 +379,7 @@ function device_cacti_get_graph_list($cacti_id) {
 			FROM `".$config['db']['cacti_db']."`.`host`
 			WHERE `id` = ".$cacti_id."
 			LIMIT 1";
-	$result3 = session_get($config['session']['db_sess'])->query($sql3);
+	$result3 = $conn->query($sql3);
 	$row3 = mysql_fetch_assoc($result3);
 		
 	$graph_list['description'] = $row3['description'];
@@ -325,7 +394,7 @@ function device_cacti_get_graph_list($cacti_id) {
 				`graph_local`.`graph_template_id` = `graph_templates`.`id`
 				AND `graph_local`.`host_id` = ".$cacti_id."
 			ORDER BY `graph_templates`.`name` ASC";
-	$result = session_get($config['session']['db_sess'])->query($sql);
+	$result = $conn->query($sql);
 	
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {
@@ -347,7 +416,7 @@ function device_cacti_get_graph_list($cacti_id) {
 					AND graph_templates_item.local_graph_id = ".$row['local_graph_id']."
 				GROUP BY rra.id
 				ORDER BY rra.timespan";
-		$result2 = session_get($config['session']['db_sess'])->query($sql);
+		$result2 = $conn->query($sql);
 		
 		$j = 0;
 		while($row2 = mysql_fetch_assoc($result2)) {
@@ -359,6 +428,8 @@ function device_cacti_get_graph_list($cacti_id) {
 		
 		$i++;
 	}
+	
+	$conn->close();
 	
 	return $graph_list;
 }
