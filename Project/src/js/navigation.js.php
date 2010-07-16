@@ -43,21 +43,6 @@ listctxmenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
 $(document).ready(function () {
 	$("#panel-tree").toggle(false);
 	$("#panel-notif").toggle(false);
-	isLoggedIn(function(data){
-		if(data == 0){
-			$('#menu-login').html('<img alt="menu-login" src="images/menu-login.png"/> Login');
-			$('#menu-login').click(function() {
-				$('#form-login').dialog('open');
-			});
-		} else if(data == 1){
-			$('#menu-login').html('<img alt="menu-logout" src="images/menu-logout.png"/> Logout');
-			$('#menu-login').click(function() {
-				logout(function(){
-					window.location = ".";
-				});
-			});
-		}
-	});
 }); 
 
 $(function(){
@@ -770,4 +755,20 @@ function initTopUp(){
 function openDialogBox(text){
 	$('#dialog-box').dialog('open');
 	$('#dialog-text').html("<div style='margin-top: 50; font-weight:normal;'>"+text+"</div>");
+}
+
+function initLoginButton(data){
+	if(data == 0){
+		$('#menu-login').html('<img alt="menu-login" src="images/menu-login.png"/> Login');
+		$('#menu-login').click(function() {
+			$('#form-login').dialog('open');
+		});
+	} else if(data == 1){
+		$('#menu-login').html('<img alt="menu-logout" src="images/menu-logout.png"/> Logout');
+		$('#menu-login').click(function() {
+			logout(function(){
+				window.location = ".";
+			});
+		});
+	}
 }

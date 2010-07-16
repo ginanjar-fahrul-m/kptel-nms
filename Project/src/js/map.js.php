@@ -102,6 +102,7 @@ function kptelInit() {
     });
 
 	isLoggedIn(function(data){
+		initLoginButton(data);
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				infoElement.close();
