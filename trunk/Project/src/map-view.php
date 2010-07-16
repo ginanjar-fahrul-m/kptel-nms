@@ -30,7 +30,7 @@ session_init();
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		
-		<title>MAS EMON | Map Assisted Element Monitoring</title> 
+		<title>MASEMON | Map Assisted Network Element Monitoring</title> 
 		<?php
 			/* css style:
 			 * - JQuery UI 1.8.2 Custom Style

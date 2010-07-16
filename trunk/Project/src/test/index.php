@@ -7,7 +7,7 @@ session_start();
 		return $safestr;
 	}
 	function cekint($int){
-		if($int == '') $safeint = null;
+		if($int == '') $safeint = -1;
 		else $safeint = $int;
 		return $safeint;
 	}
@@ -23,6 +23,7 @@ session_start();
 			}
 			h2{
 				color : #ffffaa;
+				margin-left : 10px;
 			}
 			h1{
 				color : #ffff00;
@@ -37,6 +38,10 @@ session_start();
 			}
 			.testblock{
 				padding: 10px;
+				text-align: justify;
+			}
+			p{
+				margin :10px;
 				text-align: justify;
 			}
 		</style>
@@ -74,7 +79,7 @@ session_start();
 	}
 	?>
 	<div class="testbody">
-	<h1>MAS EMON(Map-Asisted Element Monitoring)</h1>
+	<h1>MASEMON(Map-Asisted Network Element Monitoring)</h1>
 	<?php  
 		if(!isset($_SESSION['testkptel'])){
 	?>
@@ -103,13 +108,9 @@ session_start();
 	</div>
 	<?php
 		}else{
-			echo 'Terima kasih, '.$_SESSION['testkptel'].', telah berpartisipasi dalam testing aplikasi ini';
-	?>
-		
-		<div class='ui-widget-header'>Ikuti skenario pengujian berikut. Jika menemui kesulitan dapat memilih tombol `help` untuk bantuan</div>
-		<p>Buka petunjuk test pada halaman lain <a style='text-decoration: none; color: #bbb;' href='.' target='blank'>di sini<a></p>
+			echo '';?>
+		<p>Terima kasih, <?php echo $_SESSION['testkptel'];?>, telah berpartisipasi dalam testing aplikasi ini. Selanjutnya Anda kami minta untuk mengikuti skenario pengujian berikut. Baca `Getting Started` pada menu `help` terlebih dahulu untuk memudahkan pengujian. Jika Anda menemui kesulitan, menu help dapat Anda gunakan sewaktu-waktu.
 		<ol>
-			<li>Baca `Getting Started` pada menu `help` terlebih dahulu untuk memudahkan pengujian</li>
 			<li>Login (user: admin, pass:admin)</li>
 			<li>Tambahkan group pada root</li>
 			<li>Tambahkan device pada root</li>
