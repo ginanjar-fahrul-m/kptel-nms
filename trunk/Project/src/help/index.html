@@ -12,9 +12,6 @@
 			});
 		</script>
 		<style type="text/css">
-			.helpq{
-				color : #ffffaa;
-			}
 			table{
 				color : white;
 			}
@@ -26,6 +23,14 @@
 			}
 			img{
 				border : 1px solid white;
+			}
+			.helpq, h3, #name{
+				color : #ffffaa;
+			}
+			.tab-overflow{
+				min-height : 500px;
+				max-height : 500px;
+				overflow : auto;
 			}
 			#tabs-about{
 				text-align : center;
@@ -53,8 +58,8 @@
 				</li>
 			</ul>
 			
-			<div id="tabs-getting-started">
-				<p>Welcome to the monitoring frontend application! This application provides you an intuitive and easy to use user interface to keep you 'in-touch' with your network devices. This guide allows you to learn the features of this application.</p>
+			<div id="tabs-getting-started" class="tab-overflow">
+				<p>Welcome to MAS EMON(Map Assisted Element Monitoring)! This application provides you an intuitive and easy to use user interface to keep you 'in-touch' with your network devices. This guide allows you to learn the features of this application.</p>
 				<h2>Easily Monitor your Network Devices</h2>
 					<img src="../images/help/map.png" />
 					<p>Main interface of this application is the map itself. Your devices and groups will be displayed on the map along with its UP/DOWN/RECOVER status. You can get your servers' health status and metrics with a few clicks only.</p>
@@ -126,7 +131,7 @@
 				</table>
 			</div>
 			
-			<div id="tabs-using-application">
+			<div id="tabs-using-application" class="tab-overflow">
 				<h2>Displaying Device Details</h2>
 					<p>To display the device's less detailed information, just click the device's icon on the map.</p>
 					<img src="../images/help/display-detail-less.png" />
@@ -171,7 +176,7 @@
 					<img src="../images/help/tree.png" />
 			</div>
 			
-			<div id="tabs-faq">
+			<div id="tabs-faq" class="tab-overflow">
 			
 				<h2>Frequently Asked Question</h2>
 				<ul>
@@ -214,14 +219,14 @@
 				</ul>
 			</div>
 			
-			<div id="tabs-about">
+			<div id="tabs-about" class="tab-overflow">
 				<h2>Developer</h2>
 				<img src="../images/help/developer.JPG" />
 				<h3>Telkom Internship Project</h3>
 				<p>Left to right:</p>
-				<p>Ginanjar Fahrul Muttaqin - ginanjar.fahrul.m@gmail.com</p>
-				<p>Mohammad Rizky Adrian - moh.rizkya@yahoo.com</p>
-				<p>Adityo Jiwandono - jiwandono@arc.itb.ac.id</p>
+				<p><span id="name">Ginanjar Fahrul Muttaqin</span> - ginanjar.fahrul.m@gmail.com</p>
+				<p><span id="name">Mohammad Rizky Adrian</span> - moh.rizkya@yahoo.com</p>
+				<p><span id="name">Adityo Jiwandono</span> - jiwandono@arc.itb.ac.id</p>
 				<p id="kampus">Teknik Informatika Institut Teknologi Bandung 2010</p>
 			</div>
 		</div>

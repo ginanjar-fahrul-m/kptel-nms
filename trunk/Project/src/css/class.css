@@ -21,6 +21,11 @@
 	border-right: 0px;
 	text-align: left;
 }
+.img-menu{
+	
+	/*margin-bottom: -5px;
+	margin-right: 5px;*/
+}
 .clearboth, #menu, #header {
     clear: both;
 }
