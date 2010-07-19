@@ -11,7 +11,7 @@
  */
 ?>
 
-var url_group = "group-controller.php";
+var urlGroup = "group-controller.php";
 
 function getGroup(id, callback) {
 	var getparam = {
@@ -20,7 +20,7 @@ function getGroup(id, callback) {
 			group_id: id
 		}
 	}	
-	$.getJSON(url_group, getparam, callback);
+	$.getJSON(urlGroup, getparam, callback);
 }
 
 function getGroupList(callback) {
@@ -29,57 +29,57 @@ function getGroupList(callback) {
 
 		data: {}
 	}
-	$.getJSON(url_group, getparam, callback);
+	$.getJSON(urlGroup, getparam, callback);
 }
 
-function getPossibleParentList(groupid, callback) {
+function getPossibleParentList(groupId, callback) {
 	var getparam = {
 		action: 'group_get_possible_parent_list',
 		data: {
-			group_id: groupid
+			group_id: groupId
 		}
 	}
 	
-	$.getJSON(url_group, getparam, callback);
+	$.getJSON(urlGroup, getparam, callback);
 }
 
-function addGroup(parentid, grpname, grplng, grplat, grpdesc) {
+function addGroup(parentId, grpName, grpLng, grpLat, grpDesc) {
 	var getparam = {
 		action: 'group_add',
 		data: {
-			parent_id: parentid,
-			name: grpname,
-			description: grpdesc,
-			longitude: grplng,
-			latitude: grplat
+			parent_id: parentId,
+			name: grpName,
+			description: grpDesc,
+			longitude: grpLng,
+			latitude: grpLat
 		}
 	}
-	$.getJSON(url_group, getparam, function(data) {
+	$.getJSON(urlGroup, getparam, function(data) {
 		if(data == 0){openDialogBox('Add Failed');}
 		else{
-			actionAddGroup(data, parentid, grpname, grplng, grplat, grpdesc);
+			actionAddGroup(data, parentId, grpName, grpLng, grpLat, grpDesc);
 			openDialogBox('Add Group success');
 		}
 	});
 }
 
-function updateGroup(groupid, parentid, named, desc, longi, lati) {
+function updateGroup(groupId, parentId, grpName, grpDesc, grpLng, grpLat) {
 	var getparam = {
 		action: 'group_update',
 		data: {
-			group_id: groupid,
-			parent_id: parentid,
-			name: named,
-			description: desc,
-			longitude: longi,
-			latitude: lati
+			group_id: groupId,
+			parent_id: parentId,
+			name: grpName,
+			description: grpDesc,
+			longitude: grpLng,
+			latitude: grpLat
 		}
 	}
 
-	$.getJSON(url_group, getparam, function(data) {
+	$.getJSON(urlGroup, getparam, function(data) {
 		if(data == 0) {openDialogBox("Edit Group failed");}
 		else {
-			actionUpdateGroup(groupid, parentid, named, desc, longi, lati);
+			actionUpdateGroup(groupId, parentId, grpName, grpDesc, grpLng, grpLat);
 			openDialogBox("Edit Group success");
 		}
 	});
@@ -92,7 +92,7 @@ function deleteGroup(id) {
 			group_id: id
 		}
 	}	
-	$.getJSON(url_group, getparam, function(data){
+	$.getJSON(urlGroup, getparam, function(data){
 		if(data == 1) {
 			actionDeleteGroup(id);
 			openDialogBox("Group and its child have successfully deleted");

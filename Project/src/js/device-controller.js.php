@@ -11,7 +11,7 @@
  */
 ?>
 
-var url_device = "device-controller.php";
+var urlDevice = "device-controller.php";
 
 function getDevice(id,callback) {	
 	var getparam = {
@@ -20,7 +20,7 @@ function getDevice(id,callback) {
 			device_id: id
 		}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
 function getDeviceByCactiId(cacid,callback) {
@@ -30,7 +30,7 @@ function getDeviceByCactiId(cacid,callback) {
 			cacti_id: cacid
 		}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
 function getDeviceList(callback) {
@@ -38,17 +38,17 @@ function getDeviceList(callback) {
 		action: 'device_get_all',
 		data: {	}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
-function getCactiDevice(id_cacti,callback) {	
+function getCactiDevice(cactiId,callback) {	
 	var getparam = {
 		action: 'device_cacti_get',
 		data: {
-			cacti_id: id_cacti
+			cacti_id: cactiId
 		}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
 function getCactiDeviceList(callback) {
@@ -59,7 +59,7 @@ function getCactiDeviceList(callback) {
 		}
 	}
 	
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
 function getCactiUnlistedDeviceList(callback) {
@@ -70,85 +70,85 @@ function getCactiUnlistedDeviceList(callback) {
 		}
 	}
 	
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
 
-function getMonitoringGraph(id_cacti, callback) {
+function getMonitoringGraph(cactiId, callback) {
 	var getparam = {
 		action: 'device_cacti_get_monitoring_graph',
 		data: {
-			cacti_id: id_cacti
+			cacti_id: cactiId
 		}
 	}
-	$.get(url_device, getparam, callback);
+	$.get(urlDevice, getparam, callback);
 }
 
-function getCactiGraphList(id_cacti, callback){
+function getCactiGraphList(cactiId, callback){
 	var getparam = {
 		action: 'device_cacti_get_graph_list',
 		data: {
-			cacti_id: id_cacti
+			cacti_id: cactiId
 		}
 	}
-	$.getJSON(url_device, getparam, callback);
+	$.getJSON(urlDevice, getparam, callback);
 }
 
-function addDevice(groupid,devtype,devname,devlng,devlat,cactiid,devdesc){
+function addDevice(groupId,devType,devName,devLng,devLat,cactiId,devDesc){
 	var getparam = {
 		action: 'device_add',
 		data: {
-			group_id: groupid,
-			device_type_id: devtype,
-			name: devname,
-			description: devdesc,
-			longitude: devlng,
-			latitude: devlat,
-			cacti_id: cactiid
+			group_id: groupId,
+			device_type_id: devType,
+			name: devName,
+			description: devDesc,
+			longitude: devLng,
+			latitude: devLat,
+			cacti_id: cactiId
 		}
 	}
-	$.getJSON(url_device, getparam, function(data) {
+	$.getJSON(urlDevice, getparam, function(data) {
 		if(data == 0) {openDialogBox("Add Device failed");}
 		else {
-			actionAddDevice(data,groupid,devtype,devname,devlng,devlat,cactiid,devdesc);
+			actionAddDevice(data,groupId,devType,devName,devLng,devLat,cactiId,devDesc);
 			openDialogBox("Add Device success");
 		}
 	});
 }
 
-function updateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid) {
+function updateDevice(devId, groupId, devType, devName, devDesc, devLng, devLat, cactiId) {
 	var getparam = {
 		action: 'device_update',
 		data: {
-			device_id: devid,
-			group_id: groupid,
-			device_type_id: devtypeid,
-			name: named,
-			description: desc,
-			longitude: longi,
-			latitude: lati,
-			cacti_id: cactiid
+			device_id: devId,
+			group_id: groupId,
+			device_type_id: devType,
+			name: devName,
+			description: devDesc,
+			longitude: devLng,
+			latitude: devLat,
+			cacti_id: cactiId
 		}
 	}
-	$.getJSON(url_device, getparam, function(data) {
+	$.getJSON(urlDevice, getparam, function(data) {
 		if(data == 0) {openDialogBox("Edit Device failed");}
 		else {
-			actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati, cactiid);
+			actionUpdateDevice(devId, groupId, devType, devName, devDesc, devLng, devLat, cactiId);
 			openDialogBox("Edit Device success");
 		}
 	});
 }
 
-function deleteDevice(id) {
+function deleteDevice(devId) {
 	var getparam = {
 		action: 'device_delete',
 		data: {
-			device_id: id
+			device_id: devId
 		}
 	}
-	$.getJSON(url_device, getparam, function(data){
+	$.getJSON(urlDevice, getparam, function(data){
 		if(data==1){
-			actionDeleteDevice(id);
+			actionDeleteDevice(devId);
 			openDialogBox("Device has successfully deleted");
 		}else{openDialogBox('delete failed');}
 	});
