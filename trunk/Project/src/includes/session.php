@@ -74,12 +74,4 @@ function session_del($name) {
 	unset($_SESSION[$config['session']['prefix'].$name]);
 }
 
-/* Nama Fungsi : session_db_init
- * Penjelasan  :
- *   Fungsi ini digunakan untuk menginisialisasi variabel session
- *   yang berisi informasi koneksi database MySQL. Inisialisasi
- *   dilakukan dengan menginstansiasi kelas Connection.
- * Parameter   : Tidak ada.
- */
-
 ?>
