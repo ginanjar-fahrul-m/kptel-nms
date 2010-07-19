@@ -399,7 +399,7 @@ function device_cacti_get_graph_list($cacti_id) {
 	$i = 0;
 	while($row = mysql_fetch_assoc($result)) {
 		$graph_list['data'][$i] = $row;		
-		$graph_list['data'][$i]['realtime_url'] = $config['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
+		$graph_list['data'][$i]['realtime_url'] = $config['db']['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
 		
 		$sql = "SELECT rra.id, rra.name
 				FROM (
@@ -420,7 +420,7 @@ function device_cacti_get_graph_list($cacti_id) {
 		
 		$j = 0;
 		while($row2 = mysql_fetch_assoc($result2)) {
-			$rra['url'] = $config['cacti']['url'].'/graph_image.php?action=view&local_graph_id='.$row['local_graph_id'].'&rra_id='.$row2['id'];
+			$rra['url'] = $config['db']['cacti']['url'].'/graph_image.php?action=view&local_graph_id='.$row['local_graph_id'].'&rra_id='.$row2['id'];
 			$rra['name'] = $row2['name'];
 			$graph_list['data'][$i]['rra_url'][$j] = $rra;
 			$j++;

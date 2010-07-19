@@ -21,9 +21,7 @@ $config['db']['cacti']['hostname'] = '10.37.22.194';	        // Alamat server My
 $config['db']['cacti']['username'] = 'appmonitor';           // Username akses MySQL.
 $config['db']['cacti']['password'] = 'telkom';				// Password akses MySQL.
 $config['db']['cacti']['database'] = 'cacti';             // Nama database untuk Cacti.
-
-/* Variabel yang berkaitan dengan aplikasi Cacti. */
-$config['cacti']['url'] = "http://10.37.22.194/cacti";    // Alamat URL untuk aplikasi Cacti.
+$config['db']['cacti']['url'] = 'http://10.37.22.194/cacti'; // Alamal URL aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan session. */
 $config['session']['prefix']  = 'kptel-nms-';       // Prefiks untuk setiap nama session yang digunakan dalam aplikasi ini untuk mencegah munculnya konflik nama variabel session.
