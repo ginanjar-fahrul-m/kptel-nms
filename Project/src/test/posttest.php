@@ -51,7 +51,7 @@ session_start();
 </head>
 <body>
 <div class="testbody">
-	<h1>MASEMON(Map-Asisted Network Element Monitoring)</h1>
+	<h1>MASEMON(Map-Assisted Network Element Monitoring)</h1>
 <?php
 	if($_POST['posttest']){
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
@@ -117,29 +117,29 @@ session_start();
 		<ol>
 			<li> Menubar<br>
 				Beri nilai antara 1-5 untuk tampilan dari menubar<br>
-				<input type="radio" name="looksmenu" value="5" /> 5<br>
-				<input type="radio" name="looksmenu" value="4" /> 4<br>
-				<input type="radio" name="looksmenu" value="3" /> 3<br>
-				<input type="radio" name="looksmenu" value="2" /> 2<br>
-				<input type="radio" name="looksmenu" value="1" /> 1<br>
+				<input type="radio" name="looksmenu" value="5" /> 5(sangat baik)<br>
+				<input type="radio" name="looksmenu" value="4" /> 4(baik)<br>
+				<input type="radio" name="looksmenu" value="3" /> 3(cukup)<br>
+				<input type="radio" name="looksmenu" value="2" /> 2(kurang)<br>
+				<input type="radio" name="looksmenu" value="1" /> 1(tidak baik)<br>
 				komentar<br>
 				<textarea name="menufeed"></textarea></li>
 			<li> Boxform<br>
 				Beri nilai antara 1-5 untuk tampilan dari kotak form<br>
-				<input type="radio" name="looksform" value="5" /> 5<br>
-				<input type="radio" name="looksform" value="4" /> 4<br>
-				<input type="radio" name="looksform" value="3" /> 3<br>
-				<input type="radio" name="looksform" value="2" /> 2<br>
-				<input type="radio" name="looksform" value="1" /> 1<br>
+				<input type="radio" name="looksform" value="5" /> 5(sangat baik)<br>
+				<input type="radio" name="looksform" value="4" /> 4(baik)<br>
+				<input type="radio" name="looksform" value="3" /> 3(cukup)<br>
+				<input type="radio" name="looksform" value="2" /> 2(kurang)<br>
+				<input type="radio" name="looksform" value="1" /> 1(tidak baik)<br>
 				komentar<br>
 				<textarea name="formfeed"></textarea></li>
 			<li> Tampilan keseluruhan<br>
 				Beri nilai antara 1-5 untuk tampilan keseluruhan<br>
-				<input type="radio" name="looksall" value="5" /> 5<br>
-				<input type="radio" name="looksall" value="4" /> 4<br>
-				<input type="radio" name="looksall" value="3" /> 3<br>
-				<input type="radio" name="looksall" value="2" /> 2<br>
-				<input type="radio" name="looksall" value="1" /> 1<br>
+				<input type="radio" name="looksall" value="5" /> 5(sangat baik)<br>
+				<input type="radio" name="looksall" value="4" /> 4(baik)<br>
+				<input type="radio" name="looksall" value="3" /> 3(cukup)<br>
+				<input type="radio" name="looksall" value="2" /> 2(kurang)<br>
+				<input type="radio" name="looksall" value="1" /> 1(tidak baik)<br>
 				komentar<br>
 				<textarea name="looksallfeed"></textarea></li>
 			<li> Apakah pemilihan warna theme aplikasi sudah cukup enak dipandang?<br>
@@ -157,7 +157,7 @@ session_start();
 				<textarea  name="easyusefeed2"></textarea><br>
 				<input type="radio" name="easyuse" value="1" /> sulit, yakni pada bagian ...<br>
 				<textarea name="easyusefeed1"></textarea></li>
-				<li> Dalam testing yang telah Anda lakukan, berapa kali Anda menekan tombol bantuan?<br>
+				<li> Dalam testing yang telah Anda lakukan, berapa kali Anda menekan tombol bantuan 'Help'?<br>
 				<input type="radio" name="helpuse" value="3" /> Lebih dari 3 kali<br>
 				<input type="radio" name="helpuse" value="2" /> Antara 1-3 kali<br>
 				<input type="radio" name="helpuse" value="1" /> Tidak Pernah</li>
