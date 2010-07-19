@@ -79,7 +79,7 @@ session_start();
 	}
 	?>
 	<div class="testbody">
-	<h1>MASEMON(Map-Asisted Network Element Monitoring)</h1>
+	<h1>MASEMON(Map-Assisted Network Element Monitoring)</h1>
 	<?php  
 		if(!isset($_SESSION['testkptel'])){
 	?>
