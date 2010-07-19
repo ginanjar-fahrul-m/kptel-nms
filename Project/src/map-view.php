@@ -61,7 +61,7 @@ session_init();
 		<script type="text/javascript" src="js/jquery.jstree.js"></script>
 		<script type="text/javascript" src="js/jquery.jstree.min.js"></script>
 		<script type="text/javascript" src="js/top_up-min.js"></script>
-		<script type="text/javascript" src="js/auth-controller.js.php"></script>
+		<script type="text/javascript" src="js/account-controller.js.php"></script>
 		<script type="text/javascript" src="js/device-controller.js.php"></script>
 		<script type="text/javascript" src="js/group-controller.js.php"></script>
 		<script type="text/javascript" src="js/notification-controller.js.php"></script>
