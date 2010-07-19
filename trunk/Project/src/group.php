@@ -12,11 +12,11 @@
  *
  * Catatan penting:
  * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
- * database aplikasi [KPTEL].
+ * database aplikasi MASEMON.
  */
 
 require_once('includes/config.php');
-require_once('includes/connection.class.php');
+require_once('includes/database.php');
 
 /* Nama Fungsi : group_add
  * Penjelasan  :
@@ -31,7 +31,7 @@ require_once('includes/connection.class.php');
 function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	/* Never trust user input :P */
@@ -41,7 +41,7 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 	$longitude = mysql_real_escape_string($longitude);
 	$latitude = mysql_real_escape_string($latitude);
 	
-	$sql = "INSERT INTO `".$config['db']['app_db']."`.`group` (
+	$sql = "INSERT INTO `".$config['db']['app']['database']."`.`group` (
 				`parent_id`,
 				`name`,
 				`description`,
@@ -78,7 +78,7 @@ function group_add($parent_id, $name, $description, $longitude, $latitude) {
 function group_update($group_id, $parent_id, $name, $description, $longitude, $latitude) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
@@ -88,7 +88,7 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 	$longitude = mysql_real_escape_string($longitude);
 	$latitude = mysql_real_escape_string($latitude);
 	
-	$sql = "UPDATE `".$config['db']['app_db']."`.`group` 
+	$sql = "UPDATE `".$config['db']['app']['database']."`.`group` 
 			SET
 				`group_id` = ".$group_id.",
 				`parent_id` = ".$parent_id.",
@@ -118,7 +118,7 @@ function group_update($group_id, $parent_id, $name, $description, $longitude, $l
 function group_delete($group_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
@@ -126,7 +126,7 @@ function group_delete($group_id) {
 	$retval = $config['function']['return']['failure'];
 	
 	// Delete children devices
-	$sql = "DELETE FROM `".$config['db']['app_db']."`.`device`
+	$sql = "DELETE FROM `".$config['db']['app']['database']."`.`device`
 			WHERE `group_id` = ".$group_id;
 	if(!$conn->query($sql)) {
 		return $retval;
@@ -134,7 +134,7 @@ function group_delete($group_id) {
 	
 	// Recursively delete children groups
 	$sql = "SELECT `group_id`
-			FROM `".$config['db']['app_db']."`.`group`
+			FROM `".$config['db']['app']['database']."`.`group`
 			WHERE `parent_id` = ".$group_id;
 	if(!$result = $conn->query($sql)) {
 		return $retval;
@@ -145,7 +145,7 @@ function group_delete($group_id) {
 	}
 	
 	// Finally, delete parent group
-	$sql = "DELETE FROM `".$config['db']['app_db']."`.`group`
+	$sql = "DELETE FROM `".$config['db']['app']['database']."`.`group`
 			WHERE `group_id` = ".$group_id;
 	
 	if($conn->query($sql)) {
@@ -157,19 +157,22 @@ function group_delete($group_id) {
 	return $retval;
 }
 
-/* status: ok
- * tester: jiwo
+/* Nama Fungsi : group_get
+ * Penjelasan  :
+ *   Fungsi ini digunakan untuk mendapatkan informasi sebuah group.
+ * Parameter   :
+ *   group_id           ID group yang akan diambil.
  */
 function group_get($group_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`group`
+			FROM `".$config['db']['app']['database']."`.`group`
 			WHERE `group_id` = ".$group_id;
 	$result = $conn->query($sql);
 	
@@ -178,20 +181,19 @@ function group_get($group_id) {
 	return mysql_fetch_assoc($result);
 }
 
-/* Nama Fungsi : group_get
+/* Nama Fungsi : group_get_all
  * Penjelasan  :
- *   Fungsi ini digunakan untuk mendapatkan informasi sebuah group.
- * Parameter   :
- *   group_id           ID group yang akan diambil.
+ *   Fungsi ini digunakan untuk mendapatkan informasi semua group.
+ * Parameter   : Tidak ada.
  */
 function group_get_all() {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`group`
+			FROM `".$config['db']['app']['database']."`.`group`
 			ORDER BY `name` ASC";
 	$result = $conn->query($sql);
 	
@@ -215,7 +217,7 @@ function group_get_all() {
 function group_get_possible_parent_list($group_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
@@ -225,7 +227,7 @@ function group_get_possible_parent_list($group_id) {
 	$group_list = array();
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`group`
+			FROM `".$config['db']['app']['database']."`.`group`
 			ORDER BY `name` ASC";
 	$result = $conn->query($sql);
 	
@@ -249,7 +251,7 @@ function group_get_possible_parent_list($group_id) {
 function group_get_impossible_parent_list_recursive($group_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
@@ -258,7 +260,7 @@ function group_get_impossible_parent_list_recursive($group_id) {
 	$group_list[] = $group_id;
 	
 	$sql = "SELECT `group_id`
-			FROM `".$config['db']['app_db']."`.`group`
+			FROM `".$config['db']['app']['database']."`.`group`
 			WHERE `parent_id` = ".$group_id."
 			ORDER BY `group_id` ASC";
 	$result = $conn->query($sql);

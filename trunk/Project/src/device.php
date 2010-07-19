@@ -12,11 +12,11 @@
  *
  * Catatan penting:
  * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
- * database aplikasi [KPTEL].
+ * database aplikasi MASEMON.
  */
 
 require_once('includes/config.php');
-require_once('includes/connection.class.php');
+require_once('includes/database.php');
 
 /* Nama Fungsi : device_add
  * Penjelasan  :
@@ -33,7 +33,7 @@ require_once('includes/connection.class.php');
 function device_add($group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$group_id = mysql_real_escape_string($group_id);
@@ -44,7 +44,7 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 	$latitude = mysql_real_escape_string($latitude);
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
-	$sql = "INSERT INTO `".$config['db']['app_db']."`.`device` (
+	$sql = "INSERT INTO `".$config['db']['app']['database']."`.`device` (
 				`group_id`,
 				`device_type_id`,
 				`name`,
@@ -87,7 +87,7 @@ function device_add($group_id, $device_type_id, $name, $description, $longitude,
 function device_update($device_id, $group_id, $device_type_id, $name, $description, $longitude, $latitude, $cacti_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$device_id = mysql_real_escape_string($device_id);
@@ -99,7 +99,7 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 	$latitude = mysql_real_escape_string($latitude);
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
-	$sql = "UPDATE `".$config['db']['app_db']."`.`device` 
+	$sql = "UPDATE `".$config['db']['app']['database']."`.`device` 
 			SET
 				`group_id` = ".$group_id.",
 				`device_type_id` = ".$device_type_id.",
@@ -129,12 +129,12 @@ function device_update($device_id, $group_id, $device_type_id, $name, $descripti
 function device_delete($device_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$device_id = mysql_real_escape_string($device_id);
 	
-	$sql = "DELETE FROM `".$config['db']['app_db']."`.`device`
+	$sql = "DELETE FROM `".$config['db']['app']['database']."`.`device`
 			WHERE `device_id` = ".$device_id;
 	
 	$retval = $config['function']['return']['failure'];
@@ -156,13 +156,13 @@ function device_delete($device_id) {
 function device_get($device_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$device_id = mysql_real_escape_string($device_id);
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`device`
+			FROM `".$config['db']['app']['database']."`.`device`
 			WHERE `device_id` = ".$device_id;
 	$result = $conn->query($sql);
 	
@@ -181,13 +181,13 @@ function device_get($device_id) {
 function device_get_by_cacti_id($cacti_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`device`
+			FROM `".$config['db']['app']['database']."`.`device`
 			WHERE `cacti_id` = ".$cacti_id;
 	$result = $conn->query($sql);
 	
@@ -209,11 +209,11 @@ function device_get_by_cacti_id($cacti_id) {
 function device_get_all() {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`device`
+			FROM `".$config['db']['app']['database']."`.`device`
 			ORDER BY `name` ASC";
 	$result = $conn->query($sql);
 	
@@ -237,7 +237,7 @@ function device_get_all() {
 function device_cacti_get($cacti_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn = database_new_connection_cacti();
 	$conn->open();
 	
 	$cacti_id = mysql_real_escape_string($cacti_id);
@@ -253,7 +253,7 @@ function device_cacti_get($cacti_id) {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `".$config['db']['cacti_db']."`.`host`
+			FROM `".$config['db']['cacti']['database']."`.`host`
 			WHERE `id` = ".$cacti_id;
 	$result = $conn->query($sql);
 	
@@ -271,7 +271,7 @@ function device_cacti_get($cacti_id) {
 function device_cacti_get_all() {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn = database_new_connection_cacti();
 	$conn->open();
 	
 	$sql = "SELECT 
@@ -285,7 +285,7 @@ function device_cacti_get_all() {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `".$config['db']['cacti_db']."`.`host`
+			FROM `".$config['db']['cacti']['database']."`.`host`
 			ORDER BY `description` ASC";
 	$result = $conn->query($sql);
 	
@@ -308,15 +308,15 @@ function device_cacti_get_all() {
 function device_cacti_get_all_unlisted() {
 	global $config;
 	
-	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti = database_new_connection_cacti();
 	$conn_cacti->open();
 	
-	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn_app->open();
 	
 	$sql = "SELECT
 				`cacti_id`
-			FROM `".$config['db']['app_db']."`.`device`";
+			FROM `".$config['db']['app']['database']."`.`device`";
 	$result = $conn_app->query($sql);
 	
 	$cacti_id = array();
@@ -342,7 +342,7 @@ function device_cacti_get_all_unlisted() {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `".$config['db']['cacti_db']."`.`host`
+			FROM `".$config['db']['cacti']['database']."`.`host`
 			WHERE ".$cond."
 			ORDER BY `description` ASC";
 	$result = $conn_cacti->query($sql);
@@ -368,7 +368,7 @@ function device_cacti_get_all_unlisted() {
 function device_cacti_get_graph_list($cacti_id) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn = database_new_connection_cacti();
 	$conn->open();
 	
 	$graph_list = array();
@@ -376,7 +376,7 @@ function device_cacti_get_graph_list($cacti_id) {
 	$cacti_id = mysql_real_escape_string($cacti_id);
 	
 	$sql3 = "SELECT `description`
-			FROM `".$config['db']['cacti_db']."`.`host`
+			FROM `".$config['db']['cacti']['database']."`.`host`
 			WHERE `id` = ".$cacti_id."
 			LIMIT 1";
 	$result3 = $conn->query($sql3);
@@ -388,8 +388,8 @@ function device_cacti_get_graph_list($cacti_id) {
 				`graph_local`.`id` AS `local_graph_id`,
 				`graph_templates`.`name`
 			FROM
-				`".$config['db']['cacti_db']."`.`graph_local`,
-				`".$config['db']['cacti_db']."`.`graph_templates`
+				`".$config['db']['cacti']['database']."`.`graph_local`,
+				`".$config['db']['cacti']['database']."`.`graph_templates`
 			WHERE
 				`graph_local`.`graph_template_id` = `graph_templates`.`id`
 				AND `graph_local`.`host_id` = ".$cacti_id."
@@ -403,11 +403,11 @@ function device_cacti_get_graph_list($cacti_id) {
 		
 		$sql = "SELECT rra.id, rra.name
 				FROM (
-					`".$config['db']['cacti_db']."`.graph_templates_item,
-					`".$config['db']['cacti_db']."`.data_template_data_rra,
-					`".$config['db']['cacti_db']."`.data_template_rrd,
-					`".$config['db']['cacti_db']."`.data_template_data,
-					`".$config['db']['cacti_db']."`.rra
+					`".$config['db']['cacti']['database']."`.graph_templates_item,
+					`".$config['db']['cacti']['database']."`.data_template_data_rra,
+					`".$config['db']['cacti']['database']."`.data_template_rrd,
+					`".$config['db']['cacti']['database']."`.data_template_data,
+					`".$config['db']['cacti']['database']."`.rra
 				)
 				WHERE graph_templates_item.task_item_id = data_template_rrd.id
 					AND data_template_rrd.local_data_id = data_template_data.local_data_id
