@@ -34,18 +34,6 @@ if($_GET) {
 			echo json_encode(device_get_all());
 			break;
 		
-		case 'device_cacti_get':
-			echo json_encode(device_cacti_get($data['cacti_id']));
-			break;
-		
-		case 'device_cacti_get_all':
-			echo json_encode(device_cacti_get_all());
-			break;
-		
-		case 'device_cacti_get_all_unlisted':
-			echo json_encode(device_cacti_get_all_unlisted());
-			break;
-		
 		case 'device_add':
 			if(!account_is_logged_in()) {
 				echo $config['function']['return']['failure'];
@@ -89,6 +77,19 @@ if($_GET) {
 			}
 			
 			break;
+			
+		case 'device_cacti_get':
+			echo json_encode(device_cacti_get($data['cacti_id']));
+			break;
+		
+		case 'device_cacti_get_all':
+			echo json_encode(device_cacti_get_all());
+			break;
+		
+		case 'device_cacti_get_all_unlisted':
+			echo json_encode(device_cacti_get_all_unlisted());
+			break;
+
 		
 		case 'device_cacti_get_monitoring_graph':
 			echo device_cacti_get_monitoring_graph($data['cacti_id']);

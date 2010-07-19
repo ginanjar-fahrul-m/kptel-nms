@@ -12,11 +12,11 @@
  *
  * Catatan penting:
  * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
- * database aplikasi [KPTEL].
+ * database aplikasi MASEMON.
  */
 
 require_once('includes/config.php');
-require_once('includes/connection.class.php');
+require_once('includes/database.php');
 
 /* Nama Fungsi : notification_get_status
  * Penjelasan  :
@@ -27,15 +27,15 @@ require_once('includes/connection.class.php');
 function notification_get_status() {
 	global $config;
 	
-	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti = database_new_connection_cacti();
 	$conn_cacti->open();
 	
-	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn_app = database_new_connection_app();
 	$conn_app->open();
 	
 	$sql = "SELECT
 				`cacti_id`
-			FROM `".$config['db']['app_db']."`.`device`";
+			FROM `".$config['db']['app']['database']."`.`device`";
 	$result = $conn_app->query($sql);
 	
 	$cacti_id = array();
@@ -61,7 +61,7 @@ function notification_get_status() {
 				`status_last_error`,
 				`availability`,
 				`cur_time`
-			FROM `".$config['db']['cacti_db']."`.`host`
+			FROM `".$config['db']['cacti']['database']."`.`host`
 			WHERE
 				NOT(`status` = 3) AND
 				`disabled` = '' AND
@@ -90,15 +90,15 @@ function notification_get_status() {
 function notification_threshold_status() {
 	global $config;
 	
-	$conn_cacti = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['cacti_db']);
+	$conn_cacti = database_new_connection_cacti();
 	$conn_cacti->open();
 	
-	$conn_app = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn_app = database_new_connection_app();
 	$conn_app->open();
 	
 	$sql = "SELECT
 				`cacti_id`
-			FROM `".$config['db']['app_db']."`.`device`";
+			FROM `".$config['db']['app']['database']."`.`device`";
 	$result = $conn_app->query($sql);
 	
 	$cacti_id = array();
@@ -119,7 +119,7 @@ function notification_threshold_status() {
 				`thold_hi`,
 				`thold_low`,
 				`lastread`
-			FROM `".$config['db']['cacti_db']."`.`thold_data`
+			FROM `".$config['db']['cacti']['database']."`.`thold_data`
 			WHERE
 				".$cond."
 			ORDER BY `id` ASC";

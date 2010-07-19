@@ -9,16 +9,16 @@
  * 
  * Model ini mengurus semua hal yang user account terutama urusan
  * otentikasi. Database user yang digunakan adalah database user
- * dari Cacti.
+ * aplikasi.
  *
  * Catatan penting:
  * Kecuali disebutkan secara spesifik, kata 'database' mengacu kepada
- * database aplikasi [KPTEL].
- * Password disimpan dalam bentuk MD5, sesuai dengan Cacti.
+ * database aplikasi MASEMON.
+ * Password di-hash menggunakan MD5, tanpa salt.
  */
 
 require_once('includes/config.php');
-require_once('includes/connection.class.php');
+require_once('includes/database.php');
 require_once('includes/session.php');
 
 /* Nama Fungsi : account_login
@@ -31,7 +31,7 @@ require_once('includes/session.php');
 function account_login($username, $password) {
 	global $config;
 	
-	$conn = new Connection($config['db']['hostname'], $config['db']['username'], $config['db']['password'], $config['db']['app_db']);
+	$conn = database_new_connection_app();
 	$conn->open();
 	
 	$username = mysql_real_escape_string($username);
@@ -39,7 +39,7 @@ function account_login($username, $password) {
 	$hash = md5($password);
 	
 	$sql = "SELECT *
-			FROM `".$config['db']['app_db']."`.`user`
+			FROM `".$config['db']['app']['database']."`.`user`
 			WHERE `username` = '".$username."' AND `password` = '".$hash."'
 			LIMIT 1";
 	
@@ -67,6 +67,8 @@ function account_login($username, $password) {
 function account_logout() {
 	session_del('username');
 	session_del('hash');
+	
+	return $config['function']['return']['success'];
 }
 
 /* Nama Fungsi : account_is_logged_in

@@ -12,18 +12,21 @@
  */
 
 /* Variabel konfigurasi koneksi database MySQL. */
-$config['db']['hostname'] = '10.37.22.194';	        // Alamat server MySQL.
-$config['db']['username'] = 'appmonitor';           // Username akses MySQL.
-$config['db']['password'] = 'telkom';				// Password akses MySQL.
-$config['db']['app_db'] = 'appmonitor';             // Nama database untuk aplikasi [KPTEL].
-$config['db']['cacti_db'] = 'cacti';                // Nama database untuk aplikasi Cacti.
+$config['db']['app']['hostname'] = '10.37.22.194';	        // Alamat server MySQL.
+$config['db']['app']['username'] = 'appmonitor';           // Username akses MySQL.
+$config['db']['app']['password'] = 'telkom';				// Password akses MySQL.
+$config['db']['app']['database'] = 'appmonitor';             // Nama database untuk aplikasi MASEMON.
+
+$config['db']['cacti']['hostname'] = '10.37.22.194';	        // Alamat server MySQL.
+$config['db']['cacti']['username'] = 'appmonitor';           // Username akses MySQL.
+$config['db']['cacti']['password'] = 'telkom';				// Password akses MySQL.
+$config['db']['cacti']['database'] = 'cacti';             // Nama database untuk Cacti.
 
 /* Variabel yang berkaitan dengan aplikasi Cacti. */
 $config['cacti']['url'] = "http://10.37.22.194/cacti";    // Alamat URL untuk aplikasi Cacti.
 
 /* Variabel yang berkaitan dengan session. */
 $config['session']['prefix']  = 'kptel-nms-';       // Prefiks untuk setiap nama session yang digunakan dalam aplikasi ini untuk mencegah munculnya konflik nama variabel session.
-$config['session']['db_sess'] = 'db_sess';          // Nama session untuk variabel penyimpanan informasi koneksi database.
 
 /* Variabel yang berkaitan dengan fungsi-fungsi. */
 $config['function']['return']['failure'] = 0;       // Return value untuk kasus 'gagal'.
