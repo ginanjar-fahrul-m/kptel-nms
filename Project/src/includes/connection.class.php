@@ -1,7 +1,13 @@
 <?php
 
-/** database.class.php
- * Class wrapper untuk fungsi-fungsi database (MySQL)
+/* File   : connection.class.php
+ * Role   : Support File
+ * Author : Adityo Jiwandono (jiwo)
+ * E-Mail : jiwandono@arc.itb.ac.id
+ * Team   : Mahasiswa Kerja Praktek Teknik Informatika
+ *          Institut Teknologi Bandung, Juni - Juli 2010
+ * 
+ * File ini adalah wrapper class untuk fungsi-fungsi MySQL.
  */
 
 class Connection {
@@ -15,8 +21,6 @@ class Connection {
 	private $db_connection = null;
 	private $is_connected = false;
 	
-	// Class constructor
-	// Mengisi atribut-atribut penting untuk melakukan koneksi ke database server
 	public function __construct($_db_hostname, $_db_username, $_db_password, $_db_database) {
 		$this->db_hostname = $_db_hostname;
 		$this->db_username = $_db_username;
@@ -24,12 +28,10 @@ class Connection {
 		$this->db_database = $_db_database;
 	}
 	
-	// Method open
-	// Membuka koneksi menuju ke database server
 	public function open() {
-		if($this->is_connected) {
-			//echo "$this->log_prefix Error: Already connected. Cannot open new connection.\n";
-		} else {
+		$retval = false;
+		
+		if(!$this->is_connected) {
 			$this->db_connection = @mysql_connect(
 										$this->db_hostname,
 										$this->db_username,
@@ -37,31 +39,30 @@ class Connection {
 										true
 									);
 			
-			if(!$this->db_connection) {
-				echo "$this->log_prefix Error: Cannot connect to MySQL server on '$this->db_hostname'\n";
-				die();
-			} else {
+			if($this->db_connection) {
 				@mysql_select_db($this->db_database, $this->db_connection);
 				$this->is_connected = true;
+				$retval = true;
 			}
 		}
+		
+		return $retval;
 	}
 	
-	// Method close
-	// Menutup koneksi ke database server
 	public function close() {
-		if(!$this->is_connected) {
-			//echo "$this->log_prefix Error: No connection has been established to the database. Cannot close connection.\n";
-		} else {
+		$retval = false;
+		
+		if($this->is_connected) {
 			@mysql_close($this->db_connection);
 			$this->is_connected = false;
+			$retval = true;
 		}
+		
+		return $retval;
 	}
 	
 	public function query($query_string) {
-		//echo $query_string."\n";
 		$res = @mysql_query($query_string, $this->db_connection);
-		mysql_error();
 		
 		return $res;
 	}
