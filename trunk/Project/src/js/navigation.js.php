@@ -14,9 +14,7 @@
 
 var tempX = 0;
 var tempY = 0;
-var tempXMove = 0;
-var tempYMove = 0;
-var listctxmenu = [];
+var listCtxMenu = [];
 var current = {
     mouseX : -999,
     mouseY : -999,
@@ -28,8 +26,6 @@ var current = {
 	isEditForm : false,
 	isConfirm : false,
 	isFindLoc : false,
-	isFinish1 : false,
-	isFinish2 : false,
 	inWhichForm: null,
 	tempName : "",
 	tempParent : 0,
@@ -38,7 +34,7 @@ var current = {
 	tempLat : 0
 };
 
-listctxmenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
+listCtxMenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
 
 $(document).ready(function () {
 	$("#panel-tree").toggle(false);
@@ -717,12 +713,12 @@ function showWarningDevice(data){
 				li += "&nbsp;&nbsp;---" + "</div><div class='notif-clear'></div></div>";
 				$('#notif').append(li);
 			}
-			showAlert(true,data.length + th.length);
+			showAlert(data.length + th.length);
 		}
 	});
 }
 
-function showAlert(bool,n){
+function showAlert(n){
 	if(n > 0){
 		$('#notif-icon').attr("src",'images/alert.gif');
 		$('#notif-label').html(" Notifications (" + n + ") ");
@@ -741,9 +737,9 @@ function showPanelRRD(){
 }
 
 function closeOtherCtxMenu(id){
-	for(var i = 0; i < listctxmenu.length; i++) {
-		if(listctxmenu[i]!=id){
-			$(listctxmenu[i]).dialog('close');
+	for(var i = 0; i < listCtxMenu.length; i++) {
+		if(listCtxMenu[i]!=id){
+			$(listCtxMenu[i]).dialog('close');
 		}	
 	}
 }

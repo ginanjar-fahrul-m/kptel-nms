@@ -11,7 +11,7 @@
  */
 ?>
 
-var url_auth = "account-controller.php";
+var urlAuth = "account-controller.php";
 
 function login(user, pass, callback) {
 	var getparam = {
@@ -21,7 +21,7 @@ function login(user, pass, callback) {
 			password: pass
 		}
 	}
-	$.get(url_auth, getparam, callback);
+	$.get(urlAuth, getparam, callback);
 }
 
 function isLoggedIn(callback) {
@@ -31,7 +31,7 @@ function isLoggedIn(callback) {
 			
 		}
 	}
-	$.get(url_auth, getparam, callback);
+	$.get(urlAuth, getparam, callback);
 }
 
 function logout(callback) {
@@ -41,6 +41,6 @@ function logout(callback) {
 			
 		}
 	}	
-	$.get(url_auth, getparam, callback);
+	$.get(urlAuth, getparam, callback);
 }
 

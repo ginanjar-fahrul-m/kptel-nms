@@ -11,7 +11,7 @@
  */
 ?>
 
-var url_notif = "notification-controller.php";
+var urlNotif = "notification-controller.php";
 
 function getStatusNotification(callback) {
 	var getparam = {
@@ -20,7 +20,7 @@ function getStatusNotification(callback) {
 		
 		}
 	}
-	$.getJSON(url_notif, getparam, callback);
+	$.getJSON(urlNotif, getparam, callback);
 }
 
 function getThresholdNotification(callback) {
@@ -30,5 +30,5 @@ function getThresholdNotification(callback) {
 		
 		}
 	}
-	$.getJSON(url_notif, getparam, callback);
+	$.getJSON(urlNotif, getparam, callback);
 }
