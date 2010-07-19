@@ -11,8 +11,6 @@
  */
 
 class Connection {
-	private $log_prefix = "[DATABASE]";
-	
 	private $db_hostname = null;
 	private $db_username = null;
 	private $db_password = null;
