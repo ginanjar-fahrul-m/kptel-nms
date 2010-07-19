@@ -30,11 +30,9 @@ var iconStatusUp = 'images/flag-ok.png';
 var iconStatusThreshold = 'images/flag-warning.png';
 var iconStatusDefault = 'images/menu-help.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
-var indonesiaBounds;
 var minZoom = 5;
 var maxZoom = 15;
 var centeringZoom = minZoom + 2;
-var additionCentering = 0;
 
 function setSizes() {
    var menuHeight = 42;
@@ -43,7 +41,7 @@ function setSizes() {
    $("#map-canvas").height(mapHeight);
 }
 
-function kptelInit() {
+function init() {
 	setSizes();
 	var myOptions = {
 		zoom: minZoom,
@@ -61,7 +59,6 @@ function kptelInit() {
 	});
 	
 	infoElement =  new google.maps.InfoWindow();
-	indonesiaBounds = map.getBounds();
 	dateTime();
 	
 	//limit the map zoom
@@ -86,19 +83,10 @@ function kptelInit() {
 		}
     });
 	
-	// google.maps.event.addListener(map, 'drag', function(event) {
-		// current.tempBounds = map.getBounds();
-    // });	
-	
 	google.maps.event.addListener(map, 'bounds_changed', function(event) {
 		if(map.getZoom() == minZoom){
 			map.setCenter(indonesiaCenter);
 		}
-		// else{
-			// if(indonesiaBounds.contains(current.tempBounds)){
-				// map.panTo(indonesiaCenter);
-			// }
-		// }
     });
 
 	isLoggedIn(function(data){
@@ -175,7 +163,7 @@ function kptelInit() {
 //INITIALIZATION FUNCTION
 
 $(function(){
-	kptelInit();
+	init();
 });
 
 function updateMap(){
@@ -306,51 +294,6 @@ function changeParentTreeStatus(parentid){
 	var curgroup = getElementGroupObjects(parentid);
 	$('#group-'+curgroup.group_id).attr('rel','group-error');
 	if(curgroup.parent_id != 0) {changeParentTreeStatus(curgroup.parent_id);}
-}
-
-//return element by group_id from groupObjects
-function getElementGroupObjects(groupid){
-	var retval;
-	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
-	}
-	return retval;
-}
-
-//return element by device_id from deviceObjects
-function getElementDeviceObjects(devid){
-	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].device_id == devid) retval = deviceObjects[i];
-	}
-	return retval;
-}
-
-//return element by cacti_id from deviceObjects
-function getElementDeviceObjectsByCactiId(cacid){
-	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
-	}
-	return retval;
-}
-
-//return id of array deviceObjects
-function getIndexOfDeviceObjects(devid){
-	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].device_id == devid) retval = i;
-	}
-	return retval;
-}
-
-//return id of array groupObjects
-function getIndexOfGroupObjects(groupid){
-	var retval;
-	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i].group_id == groupid) retval = i;
-	}
-	return retval;
 }
 
 //DEVICE-CONTROLLER
@@ -592,7 +535,6 @@ function showInfoDevice(devid){
 	
 	//show info window device
 	current.cactiId = cactiid;
-	additionCentering = 2 - ((map.getZoom()+6)/10);
 	if(map.getZoom() == minZoom) map.setZoom(minZoom+1);
 	var markeridx = getIndexOfDeviceObjects(devid);
 	var selectedCenter = new google.maps.LatLng(deviceMarkers[markeridx].getPosition().lat(),deviceMarkers[markeridx].getPosition().lng());
@@ -601,7 +543,7 @@ function showInfoDevice(devid){
 }
 
 //show info device on the map by cacti_id
-function showCactiDevice(cactiid){
+function showInfoDeviceByCactiID(cactiid){
 	var curdev = getElementDeviceObjectsByCactiId(cactiid);
 	showInfoDevice(curdev.device_id);
 }
@@ -763,6 +705,52 @@ function showInfoGroup(groupid){
 	var selectedCenter = new google.maps.LatLng(groupMarkers[markeridx].getPosition().lat(),groupMarkers[markeridx].getPosition().lng());
 	infoElement.setPosition(selectedCenter);
 	infoElement.open(map);
+}
+
+//GROUPOBJECTS, DEVICEOBJECTS, GROUPMARKERS, DEVICEMARKERS SELECTOR
+//return element by group_id from groupObjects
+function getElementGroupObjects(groupid){
+	var retval;
+	for(var i = 0; i < groupObjects.length; i++){
+		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
+	}
+	return retval;
+}
+
+//return element by device_id from deviceObjects
+function getElementDeviceObjects(devid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].device_id == devid) retval = deviceObjects[i];
+	}
+	return retval;
+}
+
+//return element by cacti_id from deviceObjects
+function getElementDeviceObjectsByCactiId(cacid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
+	}
+	return retval;
+}
+
+//return id of array deviceObjects
+function getIndexOfDeviceObjects(devid){
+	var retval;
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].device_id == devid) retval = i;
+	}
+	return retval;
+}
+
+//return id of array groupObjects
+function getIndexOfGroupObjects(groupid){
+	var retval;
+	for(var i = 0; i < groupObjects.length; i++){
+		if(groupObjects[i].group_id == groupid) retval = i;
+	}
+	return retval;
 }
 
 //CONTROL AUTO SETCENTERZOOM 

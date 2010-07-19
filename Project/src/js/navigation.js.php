@@ -675,7 +675,7 @@ function showWarningDevice(data){
 	$('#notif').html('');
 	var li;
 	for(var i = 0; i < data.length; i++){
-		li = "<div id='notif-"+data[i]['id']+"' class='notif-box' onclick='showCactiDevice("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
+		li = "<div id='notif-"+data[i]['id']+"' class='notif-box' onclick='showInfoDeviceByCactiID("+data[i].id+")'><div class='notif-img'><img alt='menu-warning' src='images/";
 		switch(data[i]['status']){
 			case '1': {
 				li += "flag-alert.png'";
@@ -705,7 +705,7 @@ function showWarningDevice(data){
 	getThresholdNotification(function(th){
 		if(th != null){
 			for(var i = 0; i < th.length; i++){
-				li = "<div class='notif-box threshold-"+th[i]['id']+"' onclick='showCactiDevice("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
+				li = "<div class='notif-box threshold-"+th[i]['id']+"' onclick='showInfoDeviceByCactiID("+th[i]['id']+")'><div class='notif-img'><img alt='menu-warning' src='images/flag-warning.png'";
 				li += "/></div><div class='notif-cont'><h3 align='left'>" + th[i]['name'] + "</h3>&nbsp;&nbsp;[Lo-Hi]: [";
 				li += th[i]['thold_low'] + "-" + th[i]['thold_hi']  + "] Last read: " + th[i]['lastread'] + "</div><div class='notif-clear'></div></div>";
 				$('#notif').append(li);
