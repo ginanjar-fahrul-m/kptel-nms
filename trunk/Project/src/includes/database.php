@@ -1,6 +1,6 @@
 <?php
 
-/* File   : session.php
+/* File   : database.php
  * Role   : Support File
  * Author : Adityo Jiwandono (jiwo)
  * E-Mail : jiwandono@arc.itb.ac.id
@@ -8,7 +8,7 @@
  *          Institut Teknologi Bandung, Juni - Juli 2010
  * 
  * File ini berisi fungsi-fungsi pendukung untuk mempermudah operasi
- * session dalam aplikasi.
+ * database dalam aplikasi.
  */
 
 require_once('config.php');
@@ -16,7 +16,8 @@ require_once('connection.class.php');
 
 /* Nama Fungsi : database_new_connection_app
  * Penjelasan  :
- *   Fungsi ini digunakan untuk menginstansiasi object Connection, untuk koneksi ke database MASEMON.
+ *   Fungsi ini digunakan untuk menginstansiasi object Connection,
+ *   untuk koneksi ke database MASEMON.
  * Parameter   : Tidak ada.
  */
 function database_new_connection_app() {
@@ -27,7 +28,8 @@ function database_new_connection_app() {
 
 /* Nama Fungsi : database_new_connection_app
  * Penjelasan  :
- *   Fungsi ini digunakan untuk menginstansiasi object Connection, untuk koneksi ke database Cacti.
+ *   Fungsi ini digunakan untuk menginstansiasi object Connection,
+ *   untuk koneksi ke database Cacti.
  * Parameter   : Tidak ada.
  */
 function database_new_connection_cacti() {
