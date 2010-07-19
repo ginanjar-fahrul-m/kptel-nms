@@ -1,0 +1,43 @@
+Model:
+1. php: fungsi: nama fungsi | return value | deskripsi
+- account.php
+- device.php
+- group.php
+- notification.php
+
+Controller: fungsi: nama aksi | data | return value | deskripsi
+1. php:
+- account-controller.php
+- device-controller.php
+- group-controller.php
+- notification-controller.php
+
+2. js: fungsi: nama fungsi | return value | deskripsi
+- account-controller.js.php
+- device-controller.js.php
+- group-controller.js.php
+- notification-controller.js.php
+- map.js.php
+- navigation.js.php
+variabel global: nama variabel | deskripsi
+
+view:
+1. php: element: nama id | deskripsi
+- map-view.php
+- help/index.html
+
+API: fungsi: nama fungsi | digunakan di | deskripsi
+1. google maps:
+- external
+
+2. jquery: fungsi: nama fungsi | digunakan di | deskripsi
+- jquery.jstree.js
+- jquery.jstree.min.js
+- jquery-1.4.2.min.js
+- jquery-ui-1.8.2.custom.min.js
+- top_up-min.js
+
+Fungsi-fungsi lain: nama fungsi | return value | deskripsi
+- config.php
+- connection-class.php
+- session.php
