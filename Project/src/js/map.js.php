@@ -30,10 +30,12 @@ var iconStatusUp = 'images/flag-ok.png';
 var iconStatusThreshold = 'images/flag-warning.png';
 var iconStatusDefault = 'images/menu-help.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
+var indonesiaBounds = null;
 var minZoom = 5;
 var maxZoom = 15;
 var centeringZoom = minZoom + 2;
 
+//INITIALIZATION FUNCTION
 function setSizes() {
    var menuHeight = 42;
    var viewportHeight = $(window).height();
@@ -41,7 +43,7 @@ function setSizes() {
    $("#map-canvas").height(mapHeight);
 }
 
-function init() {
+function mapInit() {
 	setSizes();
 	var myOptions = {
 		zoom: minZoom,
@@ -59,6 +61,7 @@ function init() {
 	});
 	
 	infoElement =  new google.maps.InfoWindow();
+	indonesiaBounds = map.getBounds();
 	dateTime();
 	
 	//limit the map zoom
@@ -83,6 +86,7 @@ function init() {
 		}
     });
 	
+	//forbid user to drag map out of indonesiaCenter
 	google.maps.event.addListener(map, 'bounds_changed', function(event) {
 		if(map.getZoom() == minZoom){
 			map.setCenter(indonesiaCenter);
@@ -113,9 +117,7 @@ function init() {
 		$('#coord-lng').val(current.longitude);
 		$('#coord-lat').val(current.latitude);
     });
-	
-	updateMap();
-	
+		
 	//Init tree
 	$("#trees").jstree({
 		"plugins" : [ "themes", "crrm", "types", "ui", "html_data"],
@@ -157,13 +159,12 @@ function init() {
 				}
 			}
 	});
+	updateMap();
 	initTopUp();
 }
 
-//INITIALIZATION FUNCTION
-
 $(function(){
-	init();
+	mapInit();
 });
 
 function updateMap(){
