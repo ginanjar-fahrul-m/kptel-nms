@@ -53,7 +53,7 @@ session_start();
 <div class="testbody">
 	<h1>MASEMON(Map-Assisted Network Element Monitoring)</h1>
 <?php
-	if($_POST['posttest']){
+	if(isset($_POST['posttest'])){
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
 		mysql_select_db('appmonitor_test',$conn);
 		$querypre = "UPDATE result

@@ -48,8 +48,8 @@ session_start();
 	</head>
 	<body>
 	<?php
-
-	if($_POST['testername']&&$_POST['pretest']){
+	
+	if(isset($_POST['testername'])&&isset($_POST['pretest'])){
 		$_SESSION['testkptel'] = $_POST['testername'];
 		
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
@@ -111,7 +111,7 @@ session_start();
 			echo '';?>
 		<p>Terima kasih, <?php echo $_SESSION['testkptel'];?>, telah berpartisipasi dalam testing aplikasi ini. Selanjutnya Anda kami minta untuk mengikuti skenario pengujian berikut. Baca `Getting Started` pada menu `help` terlebih dahulu untuk memudahkan pengujian. Jika Anda menemui kesulitan, menu help dapat Anda gunakan sewaktu-waktu.
 		<ol>
-			<li>Login (user: admin, pass:admin)</li>
+			<li>Login (user: masemon, pass:emon)</li>
 			<li>Tambahkan group pada root</li>
 			<li>Tambahkan device pada root</li>
 			<li>Tambahkan group pada salah satu group</li>
