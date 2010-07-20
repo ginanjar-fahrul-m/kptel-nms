@@ -98,8 +98,7 @@ function mapInit() {
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				infoElement.close();
-				if($('#panel-rrd').dialog('isOpen'))	{$('#panel-rrd').dialog('close');}
-				
+				if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
 				closeOtherCtxMenu($('#ctxmenu-map'));
 				checkPoint(event.latLng);
 				$('#ctxmenu-map').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
