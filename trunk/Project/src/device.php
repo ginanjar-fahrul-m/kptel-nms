@@ -311,7 +311,7 @@ function device_cacti_get_all_unlisted() {
 	$conn_cacti = database_new_connection_cacti();
 	$conn_cacti->open();
 	
-	$conn = database_new_connection_app();
+	$conn_app = database_new_connection_app();
 	$conn_app->open();
 	
 	$sql = "SELECT
