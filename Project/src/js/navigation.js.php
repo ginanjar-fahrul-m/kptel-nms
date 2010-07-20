@@ -451,10 +451,10 @@ $(function(){
 			}
 		},
 		close: function() {
-			
+			blockMenu(false);
 		},
 		open: function() {
-			
+			blockMenu(true);
 		}
 	});
 	
@@ -505,7 +505,8 @@ $(function(){
 			
 		},
 		open: function() {
-			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
+			if($('#form-coord').dialog('isOpen')) $(this).dialog('close');
+			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
 			closeOtherCtxMenu("#ctxmenu-map");
 		}
 	});
@@ -521,6 +522,7 @@ $(function(){
 			
 		},
 		open: function() {
+			if($('#form-coord').dialog('isOpen')) $(this).dialog('close');
 			$(this).dialog( 'option', 'position', [current.mouseX,current.mouseY]);
 		}
 	});
@@ -536,6 +538,7 @@ $(function(){
 			
 		},
 		open: function() {
+			if($('#form-coord').dialog('isOpen')) $(this).dialog('close');
 			$(this).dialog('option', 'position', [current.mouseX,current.mouseY]);
 		}
 	});
@@ -766,5 +769,14 @@ function initLoginButton(data){
 				window.location = ".";
 			});
 		});
+	}
+}
+
+function blockMenu(close){
+	if(close){
+		$("#menu").append($("<div></div>").attr("id","block-menu").attr("style","position:absolute;height:40px;width:100%;top:0;").attr("class","ui-widget-header").html('<h4 style="padding: 5px;">Click map to change coordinate:</h4>'));
+	}
+	else {
+		$("#block-menu").remove();
 	}
 }
