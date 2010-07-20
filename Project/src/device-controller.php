@@ -100,7 +100,7 @@ if($_GET) {
 			break;
 		
 		case 'device_jump_to_cacti':
-			header('Location: '.$config['cacti']['url']);
+			header('Location: '.$config['db']['cacti']['url']);
 			break;
 		
 		case 'device_cacti_get_graph_list':
