@@ -736,7 +736,7 @@ function showAlert(n){
 //show RRD panel when 'show detail' is clicked
 function showPanelRRD(){
 	$('#panel-rrd').dialog('open');
-	infoElement.close();
+	//infoElement.close();
 }
 
 function closeOtherCtxMenu(id){
