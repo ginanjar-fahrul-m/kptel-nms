@@ -13,10 +13,42 @@
 var map = null;
 var infoElement = null;
 var default_device = 0;
-var groupMarkers = [];
+var groupMarkers = [];<?php /* Contain Marker Google*/?>
 var groupObjects = [];
-var deviceMarkers = [];
+<?php 
+/*
+*	Array groupObject
+*	-----------------
+*	Element of this array is an Object which has structure like this.
+*	{
+*		group_id: Integer,
+*		parent_id: Integer,
+*		name: String,
+*		description: String,
+*		longitude: Float,
+*		latitude: Float
+*	}
+*/?>
+var deviceMarkers = [];<?php /* Contain Marker Google*/ ?>
 var deviceObjects = [];
+<?php 
+/*
+*	Array deviceObject
+*	-----------------
+*	Element of this array is an Object which has structure like this.
+*	{
+*		device_id: Integer,
+*		group_id: Integer,
+*		device_type_id: Integer,
+*		name: String,
+*		description: String,
+*		longitude: Float,
+*		latitude: Float,
+*		cacti_id: Integer
+*	}
+*/
+?>
+var listSearch = []; <?php /* List name of all group and device */ ?>
 var iconDevice = 'images/form-device.png';
 var iconGroup = 'images/form-group.png';
 var iconDeviceError = 'images/form-device-a.png';
@@ -201,6 +233,7 @@ function buildMapComponent(){
 				}
 				groupMarkers.length = 0;
 			}
+			if (listSearch) {listSearch.length = 0;}
 			if (deviceObjects) {deviceObjects.length = 0;}
 			if (groupObjects) {groupObjects.length = 0;}
 			
@@ -211,6 +244,7 @@ function buildMapComponent(){
 					var newPos = new google.maps.LatLng(datum1.latitude, datum1.longitude);
 					renderGroup(newPos, datum1.name, datum1.group_id);
 					groupObjects.push(datum1);
+					listSearch.push(datum1.name);
 				});
 			}
 			//refresh all device on map and tree
@@ -220,6 +254,7 @@ function buildMapComponent(){
 					var newPos = new google.maps.LatLng(datum2.latitude, datum2.longitude);
 					renderDevice(newPos, datum2.name, datum2.cacti_id, datum2.device_id);
 					deviceObjects.push(datum2);
+					listSearch.push(datum2.name);
 				});
 			}
 			//add sign to any device that has problem
@@ -238,9 +273,51 @@ function buildMapComponent(){
 				});
 				//udpate notification column
 				showWarningDevice(data3);
+				initSearch();
 			});				
 		});
 	});
+}
+
+function initSearch(){
+	$('#input-search').autocomplete({
+			source: listSearch
+	});
+	
+	$('#input-search').keyup(function(e) {
+		if(e.keyCode == 13) {
+			searchProcessing();
+		}
+	});
+	
+	$('#button-search').click(searchProcessing);
+}
+
+function searchProcessing(){
+	var idxSearch = 0;
+	var querySearch = $('#input-search').val();
+	var codeSearch = '';
+	
+	for(var i = 0; i < groupObjects.length; i++){
+		if(groupObjects[i].name == querySearch) {
+			idxSearch = groupObjects[i].group_id;
+			codeSearch = 'G';
+		}
+	}
+	for(var i = 0; i < deviceObjects.length; i++){
+		if(deviceObjects[i].name == querySearch) {
+			idxSearch = deviceObjects[i].device_id;
+			codeSearch = 'D';
+		}
+	}
+	
+	if(codeSearch == 'G'){
+		showInfoGroup(idxSearch);
+	}else if(codeSearch == 'D'){
+		showInfoDevice(idxSearch);
+	}else{
+		openDialogBox('No device or group match your search');
+	}
 }
 
 function treeGroupProcessing(data,x){
