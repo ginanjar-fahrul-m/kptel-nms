@@ -112,14 +112,14 @@ session_start();
 		<p>Terima kasih, <?php echo $_SESSION['testkptel'];?>, telah berpartisipasi dalam testing aplikasi ini. Selanjutnya Anda kami minta untuk mengikuti skenario pengujian berikut. Baca `Getting Started` pada menu `help` terlebih dahulu untuk memudahkan pengujian. Jika Anda menemui kesulitan, menu help dapat Anda gunakan sewaktu-waktu.
 		<ol>
 			<li>Login (user: masemon, pass:emon)</li>
-			<li>Tambahkan group pada root</li>
-			<li>Tambahkan device pada root</li>
-			<li>Tambahkan group pada salah satu group</li>
-			<li>Tambahkan device pada salah satu group</li>
-			<li>Manipulasi group: ganti nama, parent, dan lokasi</li>
-			<li>Manipulasi device: ganti nama, parent, dan lokasi</li>
-			<li>Hapus group kosong</li>
-			<li>Hapus group yang memiliki `child`</li>
+			<li>Tambahkan group pada root(Jika sudah login, klik kanan pada peta, add group, isi form dengan parent none)</li>
+			<li>Tambahkan device pada root(Jika sudah login, klik kanan pada peta, add device, isi form dengan parent none)</li>
+			<li>Tambahkan group pada salah satu group(Jika sudah login, klik kanan pada peta, add group, isi form dengan parent group lain)</li>
+			<li>Tambahkan device pada salah satu group(Jika sudah login, klik kanan pada peta, add device, isi form dengan parent group lain)</li>
+			<li>Manipulasi group: ganti nama, parent, dan lokasi(Klik kanan pada group yang ingin diedit, ubah nama, parent, dan lokasinya)</li>
+			<li>Manipulasi device: ganti nama, parent, dan lokasi(Klik kanan pada device yang ingin diedit, ubah nama, parent, dan lokasinya)</li>
+			<li>Hapus group kosong(Klik kanan pada group yang ingin didelete untuk mendelete)</li>
+			<li>Hapus group yang memiliki `child`(Klik kanan pada group yang menjadi parent bagi group lain)</li>
 			<li>Hapus device</li>
 			<li>Melihat informasi group: klik icon group pada peta</li>
 			<li>Melihat informasi device: klik icon device pada peta</li>
@@ -128,12 +128,12 @@ session_start();
 				<li>Coba login ke cacti (user: admin, pass: admin)</li>
 				<li>Melihat grafik monitoring device dengan berbagai tipe monitoring</li>
 			</ul>
-			<li>Melihat group dan device tree</li>
+			<li>Menggunakan menu "group dan device tree"</li>
 			<ul>
-				<li>Cek keberadaan group: klik pada salah satu group</li>
-				<li>Cek keberadaan device: klik pada salah satu device</li>
+				<li>Cek lokasi group: klik pada salah satu group</li>
+				<li>Cek lokasi device: klik pada salah satu device</li>
 			</ul>
-			<li>Melihat notifikasi</li>
+			<li>Menggunakan menu "notifications"</li>
 			<ul>
 				<li>Cek keberadaan device bermasalah: klik pada salah satu device bermasalah</li>
 			</ul>
