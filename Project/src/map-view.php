@@ -83,7 +83,7 @@ session_init();
 					<li>
 						<a class="ui-widget-header" id="menu-tree" href="#" title="Show all device and group menu-tree">
 							<img alt="menu-tree" src="images/menu-tree.png"/> Group and Device Tree </a>
-					</li> 
+					</li>
 				</ul> 
 			</div> 
 			<div id="menu-right"> 
@@ -132,7 +132,12 @@ session_init();
 			<div class="toggler togglerleft">
 				<div id="panel-tree" class="ui-widget-content ui-corner-all togglerleft">
 					<h3 class="ui-widget-header ui-corner-all">Devices</h3>
-					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>
+					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>					
+					<div class="ui-widget">
+						Search : 
+						<input id="input-search"/>
+						<img alt="Click to Search group or device" src="images/form-location2.png" id="button-search"/>
+					</div>
 				</div>
 			</div>
 			<div class="toggler togglerright">
