@@ -2,7 +2,9 @@
 /* File   : group-controller.js
  * Role   : Controller (MVC)
  * Author : Ginanjar Fahrul M (gin)
+ *			Mohammad Rizky Adrian
  * E-Mail : ginanjar.fahrul.m@gmail.com
+ *			moh.rizkya@yahoo.com
  * Team   : Mahasiswa Kerja Praktek Teknik Informatika
  *          Institut Teknologi Bandung, Juni - Juli 2010
  * 
