@@ -27,21 +27,21 @@
 }
 #menu li a {
     margin: 0;
-    padding: 15px 11px 7px 9px;
+    padding: 15px 2px 7px 2px;
     color: #eee;
     text-decoration: none;
 	border: none;
 }
 #menu li a:hover {
 	margin: 0;
-    padding: 15px 11px 7px 9px;
+    padding: 15px 2px 7px 2px;
     color: #ffffff;
 	background: #003147 url(custom-theme/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	border: none;
 }
 #menu li a:active{
 	margin: 0;
-    padding: 15px 11px 7px 9px;
+    padding: 15px 2px 7px 2px;
     color: #222222;
 	background: #a6a6a6 url(custom-theme/images/ui-bg_flat_35_a6a6a6_40x100.png) 50% 50% repeat-x;
 	border: none;
