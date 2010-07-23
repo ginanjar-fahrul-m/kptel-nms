@@ -130,7 +130,7 @@ function mapInit() {
 		if(data == 1){
 			google.maps.event.addListener(map, 'rightclick', function(event) {
 				infoElement.close();
-				if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
+				if($('#panel-rrd').dialog('isOpen')) {$("#form-calendar").dialog('close'); $('#panel-rrd').dialog('close');}
 				closeOtherCtxMenu($('#ctxmenu-map'));
 				checkPoint(event.latLng);
 				$('#ctxmenu-map').dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
@@ -142,7 +142,7 @@ function mapInit() {
 	google.maps.event.addListener(map, 'click', function(event) {
 		checkPoint(event.latLng);
 		infoElement.close();
-		if($('#panel-rrd').dialog('isOpen'))	{$('#panel-rrd').dialog('close');}
+		if($('#panel-rrd').dialog('isOpen'))	{$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 		
 		closeOtherCtxMenu(null);	
 		$('#coord-lng').val(current.longitude);
@@ -420,7 +420,7 @@ function renderDevice(location,devname,cacid,devid) {
 
 	google.maps.event.addListener(marker, 'rightclick', function(event) {
 		infoElement.close();
-		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+		if($('#panel-rrd').dialog('isOpen'))	{$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 		isLoggedIn(function(data){
 			if(data == 1){
 				current.cactiId = cacid;
@@ -437,7 +437,7 @@ function renderDevice(location,devname,cacid,devid) {
 	
 	google.maps.event.addListener(marker, 'click', function(e) {
 		//close other
-		if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
+		if($('#panel-rrd').dialog('isOpen')) {$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 		infoElement.close();
 		closeOtherCtxMenu(null);
 		
@@ -597,7 +597,7 @@ function showInfoDevice(devid){
 	var cactiid = selectedDevice.cacti_id;
 	var name = selectedDevice.name;
 	//close others
-	if($('#panel-rrd').dialog('isOpen')) {$('#panel-rrd').dialog('close');}
+	if($('#panel-rrd').dialog('isOpen')) {$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 	closeOtherCtxMenu(null);
 	infoElement.close();
 	
@@ -689,7 +689,7 @@ function renderGroup(location,groupname,groupid){
 	});
 	google.maps.event.addListener(marker, 'click', function(e) {
 		infoElement.close();
-		if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+		if($('#panel-rrd').dialog('isOpen'))	{$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 		
 		var selectedCenter = new google.maps.LatLng(this.getPosition().lat(),this.getPosition().lng());
 		closeOtherCtxMenu(null);
@@ -812,7 +812,7 @@ function showInfoGroup(groupid){
 	var longi = selectedGroup.longitude;
 	var name = selectedGroup.name;
 	//close others
-	if($('#panel-rrd').dialog('isOpen'))	$('#panel-rrd').dialog('close');
+	if($('#panel-rrd').dialog('isOpen'))	{$("#form-calendar").dialog('close');$('#panel-rrd').dialog('close');}
 	closeOtherCtxMenu(null);
 	infoElement.close();
 	

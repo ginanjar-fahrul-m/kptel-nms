@@ -23,6 +23,7 @@ var current = {
 	cactiId : -999,
 	deviceId : -999,
 	groupId : -999,
+	graphId : -999,
 	isEditForm : false,
 	isConfirm : false,
 	isFindLoc : false,
@@ -31,7 +32,9 @@ var current = {
 	tempParent : 0,
 	tempDevice : 0,
 	tempLng : 0,
-	tempLat : 0
+	tempLat : 0,
+	start : 0,
+	end : 0
 };
 
 listCtxMenu.push('#ctxmenu-map', '#ctxmenu-device', '#ctxmenu-group');
@@ -215,6 +218,8 @@ $(function(){
 					for(var j=0; j<data['data'][i]['rra_url'].length; j++){
 						rrdText += "<label toption='shaded=1, effect=clip, layout=dashboard, modal=1' class='tu_iframe_800x500' href='" + data['data'][i]['rra_url'][j]['url'] + "'> " + data['data'][i]['rra_url'][j]['name'] + " </label>";
 					}
+					rrdText += "<hr/>";
+					rrdText += "<label id=\"" + data['data'][i]['local_graph_id'] + "\" onclick=\"showCalendarDialog(this);\">Custom Timespan</label>"
 					rrdText += "</div>";
 				}
 				rrdText += "</div>";
@@ -455,6 +460,24 @@ $(function(){
 		},
 		open: function() {
 			blockMenu(true);
+		}
+	});
+	
+	$("#form-calendar").dialog({	
+		autoOpen: false,
+		height: 150,
+		width: 200,
+		modal: false,
+		draggable: true,
+		resizable: false,
+		close: function() {
+			
+		},
+		open: function() {
+			$(this).dialog('option', 'position', [0,current.mouseY]);
+			viewCalendar("start");
+			viewCalendar("end");
+			//getMonitoringGraphCustomTimespan();
 		}
 	});
 	
@@ -778,5 +801,62 @@ function blockMenu(close){
 	}
 	else {
 		$("#block-menu").remove();
+	}
+}
+
+function showCalendarDialog(id){
+	current.mouseX = tempX;
+	current.mouseY = tempY;
+	current.graphId = id.id;
+	$('#form-calendar').dialog('open');
+}
+
+function viewCalendar(type){
+	var trigger;
+	if(type=="start") {
+		trigger = "start-trigger";
+	} else if(type=="end"){
+		trigger = "end-trigger";
+	}
+	Calendar.setup({
+		trigger       : trigger,
+		weekNumbers   : true,
+		selectionType : Calendar.SEL_MULTIPLE,
+		selection     : Calendar.dateToInt(new Date()),
+		showTime      : true,
+		onSelect      : function() {
+			calendarConfirm(this,type);
+			this.hide();
+		}
+	});
+}
+
+function calendarConfirm(set,type){
+	var count = set.selection.countDays();
+	var date;
+	if (count == 1) {
+		date = Calendar.intToDate(set.selection.get()[0]);
+		if(type=="start"){
+			document.getElementById('start-info').innerHTML = Calendar.printDate(date, "%d-%m-%Y");
+			current.start = date.getTime()/1000;
+		} else if(type=="end"){
+			document.getElementById('end-info').innerHTML = Calendar.printDate(date, "%d-%m-%Y");
+			current.end = date.getTime()/1000;
+		}
+		getMonitoringGraphCustomTimespan(current.graphId, current.start, current.end, function(data){
+			$('#custom-graph').attr("href",data).attr("toption","shaded=1, effect=clip, layout=dashboard, modal=1");
+		});
+	} else {
+		if(type=="start") {
+			document.getElementById('start-info').innerHTML = Calendar.formatString(
+				"${count:no date|one date|two dates|# dates} selected",
+				{ count: count }
+			);
+		} else if(type=="end"){
+			document.getElementById('end-info').innerHTML = Calendar.formatString(
+				"${count:no date|one date|two dates|# dates} selected",
+				{ count: count }
+			);
+		}
 	}
 }
