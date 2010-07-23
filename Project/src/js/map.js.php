@@ -298,22 +298,32 @@ function searchProcessing(){
 	var querySearch = $('#input-search').val();
 	var codeSearch = '';
 	
-	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i].name == querySearch) {
-			idxSearch = groupObjects[i].group_id;
-			codeSearch = 'G';
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < deviceObjects.length)){
+		if(deviceObjects[inc].name == querySearch) {
+			idxSearch = deviceObjects[inc].device_id;
+			codeSearch = 'DEVICE';
+			found = true;
 		}
+		inc++;
 	}
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].name == querySearch) {
-			idxSearch = deviceObjects[i].device_id;
-			codeSearch = 'D';
+	
+	inc = 0;
+	if(groupObjects){
+		while(!found && (inc < groupObjects.length)){
+			if(groupObjects[inc].name == querySearch) {
+				idxSearch = groupObjects[inc].group_id;
+				codeSearch = 'GROUP';
+				found = true;
+			}
+			inc++;
 		}
 	}
 	
-	if(codeSearch == 'G'){
+	if(codeSearch == 'GROUP'){
 		showInfoGroup(idxSearch);
-	}else if(codeSearch == 'D'){
+	}else if(codeSearch == 'DEVICE'){
 		showInfoDevice(idxSearch);
 	}else{
 		openDialogBox('No device or group match your search');
@@ -832,8 +842,14 @@ function showInfoGroup(groupid){
 //return element by group_id from groupObjects
 function getElementGroupObjects(groupid){
 	var retval;
-	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i].group_id == groupid) retval = groupObjects[i];
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < groupObjects.length)){
+		if(groupObjects[inc].group_id == groupid) {
+			retval = groupObjects[inc];
+			found = true;
+		}
+		inc++;
 	}
 	return retval;
 }
@@ -841,8 +857,14 @@ function getElementGroupObjects(groupid){
 //return element by device_id from deviceObjects
 function getElementDeviceObjects(devid){
 	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].device_id == devid) retval = deviceObjects[i];
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < deviceObjects.length)){
+		if(deviceObjects[inc].device_id == devid) {
+			retval = deviceObjects[inc];
+			found = true;
+		}
+		inc++;
 	}
 	return retval;
 }
@@ -850,8 +872,14 @@ function getElementDeviceObjects(devid){
 //return element by cacti_id from deviceObjects
 function getElementDeviceObjectsByCactiId(cacid){
 	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].cacti_id == cacid) retval = deviceObjects[i];
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < deviceObjects.length)){
+		if(deviceObjects[inc].cacti_id == cacid) {
+			retval = deviceObjects[inc];
+			found = true;
+		}
+		inc++;
 	}
 	return retval;
 }
@@ -859,8 +887,14 @@ function getElementDeviceObjectsByCactiId(cacid){
 //return id of array deviceObjects
 function getIndexOfDeviceObjects(devid){
 	var retval;
-	for(var i = 0; i < deviceObjects.length; i++){
-		if(deviceObjects[i].device_id == devid) retval = i;
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < deviceObjects.length)){
+		if(deviceObjects[inc].device_id == devid) {
+			retval = inc;
+			found = true;
+		}
+		inc++;
 	}
 	return retval;
 }
@@ -868,8 +902,14 @@ function getIndexOfDeviceObjects(devid){
 //return id of array groupObjects
 function getIndexOfGroupObjects(groupid){
 	var retval;
-	for(var i = 0; i < groupObjects.length; i++){
-		if(groupObjects[i].group_id == groupid) retval = i;
+	var found = false;
+	var inc = 0;
+	while(!found && (inc < groupObjects.length)){
+		if(groupObjects[inc].group_id == groupid) {
+			retval = inc;
+			found = true;
+		}
+		inc++;
 	}
 	return retval;
 }
