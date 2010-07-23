@@ -1,16 +1,6 @@
 <?php 
 session_start(); 
 
-	function safestr($str){
-		if($str == '') $safestr = '';
-		else $safestr = mysql_real_escape_string($str);
-		return $safestr;
-	}
-	function cekint($int){
-		if($int == null) $safeint = -1;
-		else $safeint = $int;
-		return $safeint;
-	}
 ?>
 <html>
 	<head>
