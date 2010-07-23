@@ -326,10 +326,14 @@ function addElementListSearch(addedName){
 
 function editElementListSearch(initialName,editedName){
 	if(listSearch){
-		for(var i = 0; i < listSearch.length; i++){
-			if(listSearch[i] == initialName) {
-				listSearch[i] = '';
+		var found = false;
+		var inc = 0;
+		while(!found || (inc < listSearch.length)){
+			if(listSearch[inc] == initialName) {
+				listSearch[inc] = '';
+				found = true;
 			}
+			inc++;
 		}
 	}
 	addElementListSearch(editedName);
@@ -345,14 +349,6 @@ function deleteElementListSearch(deletedName){
 				found = true;
 			}
 			inc++;
-		}
-	}
-}
-
-function isElementArrayExist(notif, selectedName){
-	for(var i = 0; i < listSearch.length; i++){
-		if(listSearch[i] == selectedName) {
-			alert(notif);
 		}
 	}
 }
