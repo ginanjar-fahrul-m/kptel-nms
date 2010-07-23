@@ -95,7 +95,7 @@ if($_GET) {
 			echo device_cacti_get_monitoring_graph($data['cacti_id']);
 			break;
 		
-		case 'device_cacti_get_monitoring_graph_date':
+		case 'device_cacti_get_monitoring_graph_custom_timespan':
 			echo $config['db']['cacti']['url'].'/graph_image.php?local_graph_id='.$data['local_graph_id'].'&rra_id=0&view_type=tree&graph_start='.$data['graph_start'].'&graph_end='.$data['graph_end'];
 			break;
 		
