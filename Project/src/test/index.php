@@ -7,7 +7,7 @@ session_start();
 		return $safestr;
 	}
 	function cekint($int){
-		if($int == '') $safeint = -1;
+		if($int == null) $safeint = -1;
 		else $safeint = $int;
 		return $safeint;
 	}
@@ -140,7 +140,7 @@ session_start();
 			<li>Mengganti jenis tampilan peta</li>
 			<li>Masuk ke halaman cacti: pilih menu `Go to cacti`</li>
 			<li>Kembali ke halaman awal: pilih menu `Home`</li>
-			<li>Jika semua skenario pengujian sudah dilakukan, <a href="posttest.php">silakan klik disini</a></li>
+			<li>Jika semua skenario pengujian sudah dilakukan, <a href="posttest.php" style="color:yellow;font-size:14px;text-decoration:underline">silakan klik disini</a></li>
 		</ol>
 	<?php
 		}

@@ -7,10 +7,11 @@ session_start();
 		return $safestr;
 	}
 	function cekint($int){
-		if($int == '') $safeint = -1;
+		if($int == null) $safeint = -1;
 		else $safeint = $int;
 		return $safeint;
 	}
+	
 ?>
 <html>
 <head>
@@ -54,32 +55,58 @@ session_start();
 	<h1>MASEMON(Map-Assisted Network Element Monitoring)</h1>
 <?php
 	if(isset($_POST['posttest'])){
+	
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
 		mysql_select_db('appmonitor_test',$conn);
+	
+		
+		$skenariouji = (isset($_POST['skenariouji']) ? $_POST['skenariouji'] : -1);
+		$skenarioujifeed1 = (isset($_POST['skenarioujifeed1']) ? mysql_real_escape_string($_POST['skenarioujifeed1']) : '');
+		$errormsg = (isset($_POST['errormsg'])? $_POST['errormsg'] : -1);
+		$errormsgfeed2 = (isset($_POST['errormsgfeed2'])? mysql_real_escape_string($_POST['errormsgfeed2']) : '');
+		$errormsgfeed3 = (isset($_POST['errormsgfeed3'])? mysql_real_escape_string($_POST['errormsgfeed3']) : '');
+		$functionfeed = (isset($_POST['functionfeed'])? mysql_real_escape_string($_POST['functionfeed']) : '');
+		$looksmenu = (isset($_POST['looksmenu'])? $_POST['looksmenu'] : -1);
+		$menufeed = (isset($_POST['menufeed'])? mysql_real_escape_string($_POST['menufeed']) : '');
+		$looksform = (isset($_POST['looksform'])? $_POST['looksform'] : -1);
+		$formfeed = (isset($_POST['formfeed'])? mysql_real_escape_string($_POST['formfeed']) : '');
+		$looksall = (isset($_POST['looksall'])? $_POST['looksall'] : -1);
+		$looksallfeed = (isset($_POST['looksallfeed'])? mysql_real_escape_string($_POST['looksallfeed']) : '');
+		$color = (isset($_POST['color'])? $_POST['color'] : -1);
+		$colorfeed1 = (isset($_POST['colorfeed1'])? mysql_real_escape_string($_POST['colorfeed1']) : '');
+		$looksfeed = (isset($_POST['looksfeed'])? mysql_real_escape_string($_POST['looksfeed']) : '');
+		$easyuse = (isset($_POST['easyuse'])? $_POST['easyuse'] : -1);
+		$easyusefeed1 = (isset($_POST['easyusefeed1'])? mysql_real_escape_string($_POST['easyusefeed1']) : '');
+		$easyusefeed2 = (isset($_POST['easyusefeed2'])? mysql_real_escape_string($_POST['easyusefeed2']) : '');
+		$helpuse = (isset($_POST['helpuse'])? $_POST['helpuse'] : -1);
+		$recognize = (isset($_POST['recognize'])? $_POST['recognize'] : -1);
+		$recognizefeed1 = (isset($_POST['recognizefeed1'])? mysql_real_escape_string($_POST['recognizefeed1']) : '');
+		$easyfeed = (isset($_POST['easyfeed'])? mysql_real_escape_string($_POST['easyfeed']) : '');
+	
 		$querypre = "UPDATE result
 					SET
-						skenariouji = ".cekint($_POST['skenariouji']).",
-						skenarioujifeed1 = '".safestr($_POST['skenarioujifeed1'])."',
-						errormsg = ".cekint($_POST['errormsg']).",
-						errormsgfeed2 = '".safestr($_POST['errormsgfeed2'])."',
-						errormsgfeed3 = '".safestr($_POST['errormsgfeed3'])."',
-						functionfeed = '".safestr($_POST['functionfeed'])."',
-						looksmenu = ".cekint($_POST['looksmenu']).",
-						menufeed = ".cekint($_POST['menufeed']).",
-						looksform = ".cekint($_POST['looksform']).",
-						formfeed = '".safestr($_POST['formfeed'])."',
-						looksall = ".cekint($_POST['looksall']).",
-						looksallfeed = '".safestr($_POST['looksallfeed'])."',
-						color = ".cekint($_POST['color']).",
-						colorfeed1 = '".safestr($_POST['colorfeed1'])."',
-						looksfeed = '".safestr($_POST['looksfeed'])."',
-						easyuse = ".cekint($_POST['easyuse']).",
-						easyusefeed1 = '".safestr($_POST['easyusefeed1'])."',
-						easyusefeed2 = '".safestr($_POST['easyusefeed2'])."',
-						helpuse = ".cekint($_POST['helpuse']).",
-						recognize = ".cekint($_POST['recognize']).",
-						recognizefeed1 = '".safestr($_POST['recognizefeed1'])."',
-						easyfeed = '".safestr($_POST['easyfeed'])."'
+						skenariouji = ".$skenariouji.",
+						skenarioujifeed1 = '".$skenarioujifeed1."',
+						errormsg = ".$errormsg.",
+						errormsgfeed2 = '".$errormsgfeed2."',
+						errormsgfeed3 = '".$errormsgfeed3."',
+						functionfeed = '".$functionfeed."',
+						looksmenu = ".$looksmenu.",
+						menufeed = '".$menufeed."',
+						looksform = ".$looksform.",
+						formfeed = '".$formfeed."',
+						looksall = ".$looksall.",
+						looksallfeed = '".$looksallfeed."',
+						color = ".$color.",
+						colorfeed1 = '".$colorfeed1."',
+						looksfeed = '".$looksfeed."',
+						easyuse = ".$easyuse.",
+						easyusefeed1 = '".$easyusefeed1."',
+						easyusefeed2 = '".$easyusefeed2."',
+						helpuse = ".$helpuse.",
+						recognize = ".$recognize.",
+						recognizefeed1 = '".$recognizefeed1."',
+						easyfeed = '".$easyfeed."'
 					WHERE 
 						testername = '".$_SESSION['testkptel']."'
 					";
