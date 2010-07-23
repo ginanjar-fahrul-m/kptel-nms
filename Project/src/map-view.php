@@ -131,13 +131,13 @@ session_init();
 		<div id="panel">
 			<div class="toggler togglerleft">
 				<div id="panel-tree" class="ui-widget-content ui-corner-all togglerleft">
-					<h3 class="ui-widget-header ui-corner-all">Devices</h3>
-					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>					
+					<h3 class="ui-widget-header ui-corner-all">Devices</h3>				
 					<div class="ui-widget">
 						Find out : 
 						<input id="input-search"/>
 						<img alt="Click to Search group or device" src="images/form-location2.png" id="button-search"/>
 					</div>
+					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>	
 				</div>
 			</div>
 			<div class="toggler togglerright">
