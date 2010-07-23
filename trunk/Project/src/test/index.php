@@ -55,6 +55,11 @@ session_start();
 		$conn = mysql_connect('127.0.0.1','appmonitor','telkom',true);
 		mysql_select_db('appmonitor_test',$conn);
 		
+		$testername = (isset($_POST['testername']) ? mysql_real_escape_string($_POST['testername']) : '');
+		$appmonitor = (isset($_POST['appmonitor']) ? $_POST['appmonitor'] : -1);
+		$appmonitortext = (isset($_POST['appmonitortext']) ? mysql_real_escape_string($_POST['appmonitortext']) : '');
+		$appgoogle = (isset($_POST['appgoogle']) ? $_POST['appgoogle'] : -1);
+		$appgoogletext = (isset($_POST['appgoogletext']) ? mysql_real_escape_string($_POST['appgoogletext']) : '');
 		
 		$querypre = "INSERT INTO result(
 										testername,
@@ -64,11 +69,11 @@ session_start();
 										appgoogletext
 									)
 					VALUES (
-								'".safestr($_POST['testername'])."',
-								".cekint($_POST['appmonitor']).",
-								'".safestr($_POST['appmonitortext'])."',
-								".cekint($_POST['appgoogle']).",
-								'".safestr($_POST['appgoogletext'])."'
+								'".$testername."',
+								".$appmonitor.",
+								'".$appmonitortext."',
+								".$appgoogle.",
+								'".$appgoogletext."'
 							)";
 		$respre = mysql_query($querypre,$conn);
 		if($respre == 1){
