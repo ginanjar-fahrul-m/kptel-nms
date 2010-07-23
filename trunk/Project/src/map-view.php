@@ -134,7 +134,7 @@ session_init();
 					<h3 class="ui-widget-header ui-corner-all">Devices</h3>
 					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>					
 					<div class="ui-widget">
-						Search : 
+						Find out: 
 						<input id="input-search"/>
 						<img alt="Click to Search group or device" src="images/form-location2.png" id="button-search"/>
 					</div>
