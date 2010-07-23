@@ -1,6 +1,7 @@
 @import "map.css";
 @import "navigation.css";
 @import "class.css";
+@import "jscal2/jscal2.css";
 
 html, body, td, input, textarea {
 	font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif; 

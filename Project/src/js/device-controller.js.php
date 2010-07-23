@@ -155,3 +155,15 @@ function deleteDevice(devId) {
 		}else{openDialogBox('delete failed');}
 	});
 }
+
+function getMonitoringGraphCustomTimespan(id, start, end, callback) {
+	var getparam = {
+		action: 'device_cacti_get_monitoring_graph_custom_timespan',
+		data: {
+			local_graph_id: id,
+			graph_start: start,
+			graph_end: end
+		}
+	}
+	$.get(urlDevice, getparam, callback);
+}

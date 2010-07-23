@@ -41,7 +41,7 @@ session_init();
 		
 		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
 		<link type="text/css" href="css/style.css" media="screen" rel="stylesheet" />
-		
+		<link rel="stylesheet" type="text/css" href="css/jscal2/jscal2.css" />
 		<?php
 			/* javascript:
 			 * - Google Maps JavaScript API V3
@@ -52,6 +52,7 @@ session_init();
 			 * - Map Script
 			 * - Navigation Script
 			 * - Controller Script
+			 * - Javascript Calendar 2
 			*/
 		?>
 		
@@ -67,7 +68,8 @@ session_init();
 		<script type="text/javascript" src="js/notification-controller.js.php"></script>
 		<script type="text/javascript" src="js/navigation.js.php"></script>
 		<script type="text/javascript" src="js/map.js.php"></script>
-
+		<script type="text/javascript" src="js/jscal2.js"></script>
+		<script type="text/javascript" src="js/lang/en.js"></script>
 	</head>	
 	<body>
 		<div id="menu" class="fluid ui-widget-header">
@@ -196,6 +198,15 @@ session_init();
 				<label>Location: </label>
 				<input type="text" id="coord-lng" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
 				<input type="text" id="coord-lat" class="text ui-widget-content ui-corner-all" readonly="readonly"/>&nbsp;&deg;
+			</div>
+			<div id="form-calendar" title="select range:">
+				<label id="start-trigger">Start: </label>
+				<div id="start-info"></div>
+				<hr/>
+				<label id="end-trigger">End: </label>
+				<div id="end-info"></div>
+				<hr/>
+				<a title="Go to cacti" class="tu_iframe_800x500" id="custom-graph" href="">View</a>
 			</div>
 			<div id="dialog-confirm" title="Delete?">
 				<span class="ui-icon ui-icon-alert dialog-text"></span>

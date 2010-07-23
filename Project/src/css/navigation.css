@@ -200,7 +200,14 @@
 	overflow:auto;
 	max-height:400px;
 }
-#ctxmenu-map label, #ctxmenu-device label, #ctxmenu-group label, #panel-rrd label {
+#form-calendar {
+	font-size: 10px;
+	font-weight: normal;
+	display: block;
+	color: #eeeeee;
+	text-decoration: none;
+}
+#ctxmenu-map label, #ctxmenu-device label, #ctxmenu-group label, #panel-rrd label, #custom-graph, #form-calendar label {
 	font-size: 10px;
 	font-weight: normal;
 	margin: 0 auto;
@@ -210,7 +217,7 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-#ctxmenu-map label:hover, #ctxmenu-device label:hover, #ctxmenu-group label:hover, #panel-rrd label:hover {
+#ctxmenu-map label:hover, #ctxmenu-device label:hover, #ctxmenu-group label:hover, #panel-rrd label:hover, #custom-graph:hover, #form-calendar label:hover {
 	font-size: 10px;
 	font-weight: normal;
 	margin: 0;
@@ -221,7 +228,7 @@
 	cursor: pointer;
 	text-decoration: none;
 }
-#ctxmenu-map label:active, #ctxmenu-device label:active, #ctxmenu-group label:active, #panel-rrd label:active {
+#ctxmenu-map label:active, #ctxmenu-device label:active, #ctxmenu-group label:active, #panel-rrd label:active, #custom-graph:active, #form-calendar label:active {
 	font-size: 10px;
 	font-weight: normal;
 	margin: 0;
