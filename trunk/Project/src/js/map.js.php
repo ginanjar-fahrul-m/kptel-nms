@@ -64,7 +64,7 @@ var iconStatusDefault = 'images/menu-help.png';
 var indonesiaCenter = new google.maps.LatLng(-1, 118);
 var indonesiaBounds = null;
 var minZoom = 5;
-var maxZoom = 15;
+var maxZoom = 18;
 var centeringZoom = minZoom + 2;
 
 //INITIALIZATION FUNCTION
@@ -320,6 +320,43 @@ function searchProcessing(){
 	}
 }
 
+function addElementListSearch(addedName){
+	listSearch.push(addedName);
+}
+
+function editElementListSearch(initialName,editedName){
+	if(listSearch){
+		for(var i = 0; i < listSearch.length; i++){
+			if(listSearch[i] == initialName) {
+				listSearch[i] = '';
+			}
+		}
+	}
+	addElementListSearch(editedName);
+}
+
+function deleteElementListSearch(deletedName){
+	if(listSearch){
+		var found = false;
+		var inc = 0;
+		while(!found || (inc < listSearch.length)){
+			if(listSearch[inc] == deletedName) {
+				listSearch[inc] = '';
+				found = true;
+			}
+			inc++;
+		}
+	}
+}
+
+function isElementArrayExist(notif, selectedName){
+	for(var i = 0; i < listSearch.length; i++){
+		if(listSearch[i] == selectedName) {
+			alert(notif);
+		}
+	}
+}
+
 function treeGroupProcessing(data,x){
 	var queueid = [];
 	$.each(data, function(index,datum){
@@ -481,6 +518,7 @@ function actionAddDevice(newDeviceID,groupid,devtype,devname,devlng,devlat,cacti
 	});
 	
 	//add device to tree
+	addElementListSearch(devname);
 	var parentnode=null;
 	var devid = "device-"+newDeviceID;
 	var info = {
@@ -516,10 +554,13 @@ function actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati,
 	$('#device-'+devid+' a').html('<ins class="jstree-icon"></ins>' + named);
 	
 	//close other
+	var idxdev = getIndexOfDeviceObjects(devid);
 	closeOtherCtxMenu(null);
 	
+	//alert('awal: ' + deviceObjects[idxdev].name + '+ jadi: ' + named);
+	editElementListSearch(deviceObjects[idxdev].name,named); //edit search suggestion
+	
 	//update array deviceObjects
-	var idxdev = getIndexOfDeviceObjects(devid);
 	deviceObjects[idxdev].device_id = devid;
 	deviceObjects[idxdev].group_id = groupid;
 	deviceObjects[idxdev].device_type_id = devtypeid;
@@ -528,6 +569,7 @@ function actionUpdateDevice(devid, groupid, devtypeid, named, desc, longi, lati,
 	deviceObjects[idxdev].longitude = longi;
 	deviceObjects[idxdev].latitude = lati;
 	deviceObjects[idxdev].cacti_id = cactiid;
+	
 	
 	//update map change
 	var newlatlng = new google.maps.LatLng(lati,longi);
@@ -539,12 +581,12 @@ function actionDeleteDevice(devid) {
 	var idxdev = getIndexOfDeviceObjects(devid);
 	//update tree change
 	$("#trees").jstree("remove","#device-"+devid);
+	deleteElementListSearch(deviceObjects[idxdev].name);//delete suggestion search
 	closeOtherCtxMenu(null);
 	
 	//update map change
 	deviceMarkers[idxdev].setMap(null);
 	deviceObjects[idxdev].device_id = -999;
-	
 	
 	//update notif box
 	$("#notif-"+deviceObjects[idxdev].cacti_id).remove();
@@ -678,6 +720,8 @@ function actionAddGroup(newGroupID,parentid, grpname, grplng, grplat, grpdesc) {
 	});
 	
 	//add group to tree
+	//alert(grpname);
+	addElementListSearch(grpname);
 	var parentnode=null;
 	var groupid = "group-"+newGroupID;
 	var cgroupid = "cgroup-"+newGroupID; //id for clicked
@@ -702,6 +746,8 @@ function actionUpdateGroup(groupid, parentid, named, desc, longi, lati) {
 	
 	var idxgroup = getIndexOfGroupObjects(groupid);
 	closeOtherCtxMenu(null);
+	
+	editElementListSearch(groupObjects[idxgroup].name,named); //edit search suggestion
 	
 	//update array deviceObjects
 	groupObjects[idxgroup].group_id = groupid;
@@ -735,6 +781,7 @@ function actionDeleteGroup(groupid){
 	while(queueDelGroup.length > 0){
 		delGroup = queueDelGroup.shift();
 		idxGroup = getIndexOfGroupObjects(delGroup);
+		deleteElementListSearch(groupObjects[idxGroup].name);//delete suggestion search
 		//delete group on the map
 		groupMarkers[idxGroup].setMap(null);
 		groupObjects[idxGroup].group_id = -999;
@@ -749,6 +796,7 @@ function actionDeleteGroup(groupid){
 		{
 			if(deviceObjects[i].group_id == delGroup){
 				queueDelDevice.push(deviceObjects[i].device_id);
+				deleteElementListSearch(deviceObjects[i].name);//delete suggestion search
 			}
 		}
 	}
