@@ -477,7 +477,6 @@ $(function(){
 			$(this).dialog('option', 'position', [0,current.mouseY]);
 			viewCalendar("start");
 			viewCalendar("end");
-			//getMonitoringGraphCustomTimespan();
 		}
 	});
 	

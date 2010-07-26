@@ -52,7 +52,7 @@ session_init();
 			 * - Map Script
 			 * - Navigation Script
 			 * - Controller Script
-			 * - Javascript Calendar 2
+			 * - Javascript Calendar 2 1.8
 			*/
 		?>
 		
@@ -206,7 +206,7 @@ session_init();
 				<label id="end-trigger">End: </label>
 				<div id="end-info"></div>
 				<hr/>
-				<a title="Go to cacti" class="tu_iframe_800x500" id="custom-graph" href="">View</a>
+				<a class="tu_iframe_800x500" id="custom-graph" href="">View</a>
 			</div>
 			<div id="dialog-confirm" title="Delete?">
 				<span class="ui-icon ui-icon-alert dialog-text"></span>
