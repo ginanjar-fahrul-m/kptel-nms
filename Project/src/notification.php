@@ -73,6 +73,49 @@ function notification_get_status() {
 	$notifications = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$notifications[] = $row;
+		
+		/* Antrikan sms di tabel */
+		
+		switch($row['status']) {
+			case '1':
+				$event_type = 'DOWN';
+				$state = 'DOWN';
+				$info = $row['status_last_error'];
+				$event_date = $row['status_fail_date'];
+				break;
+			
+			case '2':
+				$event_type = 'RECOVER';
+				$state = 'UP';
+				$info = '';
+				$event_date = $row['status_rec_date'];
+				break;
+			
+			default:
+				$event_type = '';
+		}
+		
+		$message = '-MASEMON-';
+		$message .= ' Notification type:'.$event_type;
+		$message .= ',Host:'.$row['description'];
+		$message .= ',Addr:'.$row['hostname'];
+		$message .= ',State:'.$state;
+		$message .= ($row['status'] == '1' ? ',Info:'.$info : '');
+		$message .= ',Date/Time:'.$event_date;
+		
+		$sms_query = "INSERT INTO `".$config['db']['app']['database']."`.`sms`
+						(`host_id`,
+						 `event_date`,
+						 `event_type`,
+						 `message`)
+						
+					  VALUES
+						('".$row['id']."',
+						 '".$event_date."',
+						 '".$row['status']."',
+						 '".$message."')";
+		
+		$conn_app->query($sms_query);
 	}
 	
 	$conn_cacti->close();
