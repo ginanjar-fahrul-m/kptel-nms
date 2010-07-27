@@ -142,6 +142,14 @@ session_init();
 						<img alt="Click to Search group or device" src="images/form-location2.png" id="button-search"/>
 					</div>
 					<div id="trees" class="demo jstree jstree-0 jstree-default jstree-focused"></div>	
+					<div id="visibility-button">
+						<input id="group-visibility" type="checkbox" checked="checked" onchange="changeGroupVisibility()">
+						<img title="hide/show Group" src="images/form-group.png"/>
+						Show/Hide Group<br>
+						<input id="device-visibility" type="checkbox" checked="checked" onchange="changeDeviceVisibility()">
+						<img title="hide/show Device" src="images/form-device.png"/>
+						Show/Hide Device
+					</div>
 				</div>
 			</div>
 			<div class="toggler togglerright">

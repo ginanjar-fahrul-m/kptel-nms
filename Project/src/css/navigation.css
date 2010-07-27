@@ -8,6 +8,15 @@
  * CSS Style untuk navigasi pada laman utama
  * 
  */
+#visibility-button{
+	background: #555;
+	padding: 5px 10px;
+	border: 5px solid #555;
+}
+#visibility-button img{
+	width: 15px;
+	height: 15px;
+}
 #button-search{
 	margin: 5px 0px -5px 0px;
 }

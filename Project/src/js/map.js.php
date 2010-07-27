@@ -6,14 +6,18 @@
  * E-Mail : moh.rizkya@yahoo.com
  * Team   : Mahasiswa Kerja Praktek Teknik Informatika
  *          Institut Teknologi Bandung, Juni - Juli 2010
- * 
+ *
+ * File ini merupakan controller yang menghubungkan antara aplikasi
+ * dengan API google maps
+ *
  */
 ?>
 
 var map = null;
 var infoElement = null;
 var default_device = 0;
-var groupMarkers = [];<?php /* Contain Marker Google*/?>
+var groupMarkers = [];
+<?php /* Contain Marker Google*/?>
 var groupObjects = [];
 <?php 
 /*
@@ -29,7 +33,8 @@ var groupObjects = [];
 *		latitude: Float
 *	}
 */?>
-var deviceMarkers = [];<?php /* Contain Marker Google*/ ?>
+var deviceMarkers = [];
+<?php /* Contain Marker Google*/ ?>
 var deviceObjects = [];
 <?php 
 /*
@@ -277,6 +282,40 @@ function buildMapComponent(){
 			});				
 		});
 	});
+}
+
+// change visibility of icon device on map
+function changeDeviceVisibility() {
+	if($('#device-visibility').is(':checked')){
+		if (deviceMarkers) {
+		  for (i in deviceMarkers) {
+			deviceMarkers[i].setMap(map);
+		  }
+		}
+	}else{	
+		if (deviceMarkers) {
+		  for (i in deviceMarkers) {
+			deviceMarkers[i].setMap(null);
+		  }
+		}
+	}
+}
+ 
+// change visibility of icon device on map
+function changeGroupVisibility() {
+	if($('#group-visibility').is(':checked')){
+		if (groupMarkers) {
+		  for (i in groupMarkers) {
+			groupMarkers[i].setMap(map);
+		  }
+		}
+	}else{	
+		if (groupMarkers) {
+		  for (i in groupMarkers) {
+			groupMarkers[i].setMap(null);
+		  }
+		}
+	}
 }
 
 function initSearch(){
