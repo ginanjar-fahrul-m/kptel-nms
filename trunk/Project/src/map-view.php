@@ -90,6 +90,7 @@ session_init();
 			</div> 
 			<div id="menu-right"> 
 				<ul> 
+					<!-- Sudah lewat masa uji: Skenario uji dan form feedback
 					<li>
 						<a class="tu_iframe_600x560" id="menu-test" href="test/" title="Test"> 
 							<img alt="menu-cacti" src="images/form-location2.png"/> Test </a>
@@ -97,6 +98,7 @@ session_init();
 					<li>
 						<label class="ui-widget-header"> | </label> 
 					</li>
+					-->
 					<li>
 						<a class="tu_iframe_1200x560" id="menu-cacti" href="device-controller.php?action=device_jump_to_cacti" title="Go to cacti"> 
 							<img alt="menu-cacti" src="images/menu-cacti.png"/> Go to cacti </a>
