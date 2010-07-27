@@ -111,7 +111,7 @@ session_init();
 							<img alt="menu-login" src="images/menu-login.png"/> Login </a>
 					</li>
 					<li>
-						<a class="tu_iframe_800x560" id="menu-help" href="help/" title="Help and support"> 
+						<a class="tu_iframe_1250x560" id="menu-help" href="help/" title="Help and support"> 
 							<img alt="menu-help" src="images/menu-help.png"/> Help </a>
 					</li> 
 					<li>
