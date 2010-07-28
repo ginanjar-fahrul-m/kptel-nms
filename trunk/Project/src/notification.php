@@ -54,7 +54,6 @@ function notification_get_status() {
 				`id`,
 				`description`,
 				`hostname`,
-				`monitor`,
 				`status`,
 				`status_fail_date`,
 				`status_rec_date`,
@@ -65,7 +64,6 @@ function notification_get_status() {
 			WHERE
 				NOT(`status` = 3) AND
 				`disabled` = '' AND
-				`monitor` = 'on' AND
 				".$cond."
 			ORDER BY `status_fail_date` DESC, `status` ASC";
 	$result = $conn_cacti->query($sql);
