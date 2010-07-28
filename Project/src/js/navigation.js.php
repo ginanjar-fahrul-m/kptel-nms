@@ -224,7 +224,7 @@ $(function(){
 					rrdText += "<label id=\"" + data['data'][i]['local_graph_id'] + "\" onclick=\"showCalendarDialog(this);\">Custom Timespan</label>"
 					rrdText += "</div>";
 				}
-				if(data['data'].length == 0) {
+				if(data == null) {
 					rrdText += "<h3><a href='#'>" + "no RRD graph found!" + "</a></h3>";
 				}
 				rrdText += "</div>";
@@ -478,7 +478,7 @@ $(function(){
 		close: function() {
 			document.getElementById('start-info').innerHTML = "no date selected!";
 			document.getElementById('end-info').innerHTML = "no date selected!";
-			$('#custom-graph').attr("href","#").attr("toption","shaded=1, effect=clip, layout=dashboard, modal=1");
+			$('#custom-graph').attr("href","#");
 		},
 		open: function() {
 			$(this).dialog('option', 'position', [0,current.mouseY]);
