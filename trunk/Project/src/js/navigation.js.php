@@ -202,7 +202,9 @@ $(function(){
 		hide: "slide",
 		position: [0,42],
 		close: function() {
-			
+			if($('#form-calendar').dialog('isOpen')) {
+				$("#form-calendar").dialog('close');
+			}
 		},
 		open: function() {
 			closeOtherCtxMenu(null);
@@ -221,6 +223,9 @@ $(function(){
 					rrdText += "<hr/>";
 					rrdText += "<label id=\"" + data['data'][i]['local_graph_id'] + "\" onclick=\"showCalendarDialog(this);\">Custom Timespan</label>"
 					rrdText += "</div>";
+				}
+				if(data['data'].length == 0) {
+					rrdText += "<h3><a href='#'>" + "no RRD graph found!" + "</a></h3>";
 				}
 				rrdText += "</div>";
 				$('#panel-rrd').html(rrdText);
@@ -471,10 +476,14 @@ $(function(){
 		draggable: true,
 		resizable: false,
 		close: function() {
-			
+			document.getElementById('start-info').innerHTML = "no date selected!";
+			document.getElementById('end-info').innerHTML = "no date selected!";
+			$('#custom-graph').attr("href","#").attr("toption","shaded=1, effect=clip, layout=dashboard, modal=1");
 		},
 		open: function() {
 			$(this).dialog('option', 'position', [0,current.mouseY]);
+			document.getElementById('start-info').innerHTML = "no date selected!";
+			document.getElementById('end-info').innerHTML = "no date selected!";
 			viewCalendar("start");
 			viewCalendar("end");
 		}
