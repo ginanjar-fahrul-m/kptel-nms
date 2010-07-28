@@ -224,8 +224,8 @@ $(function(){
 					rrdText += "<label id=\"" + data['data'][i]['local_graph_id'] + "\" onclick=\"showCalendarDialog(this);\">Custom Timespan</label>"
 					rrdText += "</div>";
 				}
-				if(data == null) {
-					rrdText += "<h3><a href='#'>" + "no RRD graph found!" + "</a></h3>";
+				if(data['data'].length == 0) {
+					rrdText += "<h3><a href='#'>" + "No graph associated with this device." + "</a></h3>";
 				}
 				rrdText += "</div>";
 				$('#panel-rrd').html(rrdText);

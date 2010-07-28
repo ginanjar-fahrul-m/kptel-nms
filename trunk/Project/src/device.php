@@ -397,6 +397,7 @@ function device_cacti_get_graph_list($cacti_id) {
 	$result = $conn->query($sql);
 	
 	$i = 0;
+	$graph_list['data'] = array();
 	while($row = mysql_fetch_assoc($result)) {
 		$graph_list['data'][$i] = $row;		
 		$graph_list['data'][$i]['realtime_url'] = $config['db']['cacti']['url'].'/plugins/realtime/graph_popup_rt.php?local_graph_id='.$row['local_graph_id'];
